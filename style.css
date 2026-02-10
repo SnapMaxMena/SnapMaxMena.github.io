@@ -208,4 +208,25 @@ footer {
     line-height: 1.6;
 }
 
+/* Custom styles for Projects page */
+.projects-page-container {
+    max-width: 1400px; /* Max width for the projects container */
+    margin: 40px auto; /* Centered with vertical margin */
+    padding: 0 15px; /* Bootstrap's default fluid container padding, adjust if needed */
+}
 
+/* Custom text-shadow for Bootstrap cards */
+.text-shadow-1 {
+    text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25);
+}
+
+/* Card sizing adjustments */
+.card-cover {
+    min-height: 250px; /* Minimum height for cards */
+    /* max-height: 400px; */ /* Optional max-height */
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

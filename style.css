@@ -1,8 +1,8 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Prioritize Aptos, with system fallbacks */
     line-height: 1.6;
     color: #333;
-    background-color: #f4f4f4;
+    background-color: #36454F; /* Blackboard color */
     margin: 0;
     padding: 0;
 }
@@ -25,8 +25,25 @@ header {
 }
 
 h1 { margin-bottom: 5px; color: #2c3e50; }
-.subtitle { font-size: 1.2rem; color: #7f8c8d; margin-top: 0; }
-h2 { color: #2980b9; border-left: 5px solid #2980b9; padding-left: 10px; }
+/* Header Contact Line Styling */
+.header-contact-line {
+    text-align: center;
+    font-size: 15px; /* Between 14-16px */
+    color: #333; /* Black for plain text */
+    margin-top: 10px; /* 8-10px from title */
+    margin-bottom: 25px; /* 20-25px before next section */
+}
+
+.header-contact-line a {
+    color: #0066cc; /* Blue for links */
+    text-decoration: none; /* Remove default underline */
+    padding: 0 8px; /* 8px padding on each side of vertical bars */
+}
+
+.header-contact-line a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+h2 { color: #2980b9; border-left: 55px solid #2980b9; padding-left: 10px; }
 
 .job { margin-bottom: 20px; }
 .date { font-style: italic; color: #666; }
@@ -39,3 +56,156 @@ footer {
     border-top: 1px solid #eee;
     padding-top: 20px;
 }
+
+/* Profile Section Styling */
+.profile-header {
+    /* font-family will now be inherited from body */
+    font-size: 26px; /* Between 24-28px */
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50; /* Using existing h1 color for consistency */
+    text-align: left; /* Align with description */
+    margin-bottom: 20px; /* Generous spacing */
+}
+
+.profile-divider {
+    border: none;
+    border-top: 1px solid black; /* Thin horizontal black line */
+    margin-bottom: 30px; /* Generous spacing between header and body */
+    width: 100%; /* Full width */
+}
+
+.profile-body {
+    /* font-family will now be inherited from body */
+    font-size: 15px; /* Between 14-16px */
+    line-height: 1.5; /* 1.5-1.6 for readability */
+    color: #333; /* Black text */
+}
+
+/* Education Section Styling */
+.education-header {
+    /* font-family will now be inherited from body */
+    font-size: 26px; /* Between 24-28px */
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px; /* Spacing from previous section */
+}
+
+.education-divider {
+    border: none;
+    border-top: 1px solid black;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.education-entry {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Spacing between entries */
+    /* font-family will now be inherited from body */
+    font-size: 15px; /* Regular body text size */
+    line-height: 1.5;
+    color: #333;
+}
+
+.education-left {
+    text-align: left;
+}
+
+.education-right {
+    text-align: right;
+    font-style: normal; /* Override potential inherited italics */
+}
+
+.education-right em {
+    font-style: italic; /* Apply italics specifically where requested */
+}
+
+/* Tech Stack Section Styling */
+.tech-stack-header {
+    /* font-family will now be inherited from body */
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.tech-stack-divider {
+    border: none;
+    border-top: 1px solid black;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.tech-stack-list {
+    list-style-type: disc; /* Solid circle bullets */
+    padding-left: 20px; /* Indent bullets */
+    /* font-family will now be inherited from body */
+    font-size: 15px;
+    color: #333;
+}
+
+.tech-stack-list li {
+    line-height: 1.7; /* 1.6-1.8 for readability */
+    margin-bottom: 9px; /* ~8-10px spacing */
+}
+
+/* Work Experience Section Styling */
+.experience-header {
+    /* font-family will now be inherited from body */
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.experience-divider {
+    border: none;
+    border-top: 1px solid black;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.job-entry {
+    margin-bottom: 25px; /* 20-25px spacing between job entries */
+    /* font-family will now be inherited from body */
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.job-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Space between details and achievements */
+}
+
+.job-left {
+    text-align: left;
+}
+
+.job-right {
+    text-align: right;
+}
+
+.job-achievements {
+    list-style-type: disc; /* Solid circle bullets */
+    padding-left: 20px; /* Indent bullets */
+    margin-top: 5px; /* Adjust spacing above bullets */
+}
+
+.job-achievements li {
+    margin-bottom: 10px; /* Spacing between list items */
+    line-height: 1.6;
+}
+
+

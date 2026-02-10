@@ -4,49 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Max Mena | Data Engineer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😀</text></svg>">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Max Mena</h1>
-            <p class="subtitle">Data Engineer | Costa Rica</p>
-            <div class="contact-links">
-                <a href="mailto:raemxam@gmail.com">Email</a> | 
-                <a href="https://linkedin.com/in/max-mena">LinkedIn</a> | 
-                <a href="https://github.com/SnapMaxMena">GitHub</a>
-            </div>
+            <p class="header-contact-line">
+                Costa Rica | <a href="tel:+(506)88620400">(506) 88620400</a> | <a href="mailto:raemxam@gmail.com">raemxam@gmail.com</a> | <a href="https://linkedin.com/in/max-mena">linkedin/max-mena</a>
+            </p>
         </header>
 
         <section id="profile">
-            <h2>Profile</h2>
-            <p>Data Engineer with over 5 years of experience specializing in the design and optimization of cloud-based data pipelines[cite: 4]. Expert in Python, SQL, and dbt, with significant experience migrating legacy models to modern, unified data lake platforms[cite: 5].</p>
+            <h3 class="profile-header"><strong>PROFILE</strong></h3>
+            <hr class="profile-divider">
+            <p class="profile-body">
+                <strong>Data Engineer</strong> with over 5 years of experience specializing in the design and optimization of cloud-based data pipelines. Expert in <strong>Python</strong>, <strong>SQL</strong>, and <strong>dbt</strong>, with significant experience migrating legacy models to modern, unified data lake platforms using <strong>EKS and Trino</strong>. Successfully led cross-functional initiatives to standardize data transformation frameworks and automate data quality monitoring, reducing incidents by <strong>30%</strong>. With a degree in <strong>Computer Science</strong>, I focus on building scalable, secure architectures—including PII encryption and automated API integrations—that bridge the gap between complex data engineering and actionable business analytics.
+            </p>
+        </section>
+
+        <section id="education">
+            <h3 class="education-header"><strong>EDUCATION</strong></h3>
+            <hr class="education-divider">
+            <div class="education-entry">
+                <div class="education-left">
+                    <strong>University Hispanoamericana</strong><br>
+                    Bach. Computer Science
+                </div>
+                <div class="education-right">
+                    Heredia, Costa Rica<br>
+                    Graduated
+                </div>
+            </div>
+            <div class="education-entry">
+                <div class="education-left">
+                    <strong>European Business School of Barcelona</strong><br>
+                    Máster en Big Data y Business Intelligence
+                </div>
+                <div class="education-right">
+                    <em>Barcelona, Spain (Online Program)</em><br>
+                    Ongoing
+                </div>
+            </div>
         </section>
 
         <section id="experience">
-            <h2>Professional Experience</h2>
-            <div class="job">
-                <h3>Analyst Engineer @ Snap Finance</h3>
-                <p class="date">March 2025 - Present</p>
-                <ul>
-                    <li>Spearheaded migration of dbt models to unified EKS-based repository[cite: 26].</li>
-                    <li>Reduced data incidents by 30% through automated quality monitors[cite: 27].</li>
+            <h3 class="experience-header"><strong>WORK EXPERIENCE</strong></h3>
+            <hr class="experience-divider">
+
+            <div class="job-entry">
+                <div class="job-details">
+                    <div class="job-left">
+                        <strong>Snap Finance</strong><br>
+                        Analyst Engineer
+                    </div>
+                    <div class="job-right">
+                        Alajuela, Costa Rica<br>
+                        March 2025 – Present
+                    </div>
+                </div>
+                <ul class="job-achievements">
+                    <li><strong>Platform Migration:</strong> Spearheaded the migration of business-critical <strong>dbt</strong> models to a unified <strong>EKS-based</strong> repository, reducing technical debt and centralizing the company's data lake architecture.</li>
+                    <li><strong>Pipeline Reliability:</strong> Engineered automated data quality monitors and schema-change alerts, reducing data incidents by <strong>30%</strong> and improving the reliability of downstream executive dashboards.</li>
+                    <li><strong>Cross-Functional Strategy:</strong> Co-authored a technical decision framework to standardize transformation ownership between Data and Analytics Engineering, accelerating "time-to-delivery" for new data products.</li>
+                    <li><strong>Developer Experience:</strong> Championed <strong>AI-driven</strong> workflows (<strong>GitHub Copilot</strong>) and created "golden path" documentation, standardizing development templates and increasing team sprint velocity.</li>
+                    <li><strong>Infrastructure & Tools:</strong> Developed and maintained scalable data marts using <strong>dbt</strong>, <strong>SQL</strong>, and <strong>Python</strong> within a cloud-native environment (<strong>AWS</strong>, <strong>Kubernetes</strong>, <strong>Trino</strong>).</li>
                 </ul>
             </div>
-            <div class="job">
-                <h3>Data Engineer @ Intel</h3>
-                <p class="date">July 2024 - January 2025</p>
-                <ul>
-                    <li>Centralized AI demo info using Azure and Python, boosting productivity by 30%[cite: 36].</li>
-                    <li>Implemented Power BI dashboards to visualize deployment metrics[cite: 37].</li>
+
+            <div class="job-entry">
+                <div class="job-details">
+                    <div class="job-left">
+                        <strong>Intel</strong><br>
+                        Data Engineer
+                    </div>
+                    <div class="job-right">
+                        Heredia, Costa Rica<br>
+                        July 2024 – January 2025
+                    </div>
+                </div>
+                <ul class="job-achievements">
+                    <li>Developed and optimized a comprehensive database to catalog AI demos, streamlining the search process for the sales team using <strong>SQL Server</strong>, significantly boosting efficiency.</li>
+                    <li>Centralized AI demo information into an accessible, cloud-based platform using <strong>Azure</strong> and <strong>Python</strong>, enhancing team productivity by reducing search time by <strong>30%</strong>.</li>
+                    <li>Implemented <strong>Power BI</strong> dashboards to visualize demo deployment metrics, facilitating quicker decision-making for demo prioritization, reducing overall demo deployment time by <strong>15%</strong>.</li>
                 </ul>
             </div>
         </section>
 
+
         <section id="tech-stack">
-            <h2>Technical Stack</h2>
-            <p><strong>Languages:</strong> Python (Pandas, PySpark), SQL, JavaScript[cite: 17].</p>
-            <p><strong>Tools:</strong> dbt, Trino, Airflow, AWS, Docker, Kubernetes[cite: 17, 18, 19].</p>
+            <h3 class="tech-stack-header"><strong>TECHNICAL STACK</strong></h3>
+            <hr class="tech-stack-divider">
+            <ul class="tech-stack-list">
+                <li><strong>Languages:</strong> Python (Pandas, PySpark), SQL (Window functions, CTEs), JavaScript.</li>
+                <li><strong>Data Transformation & Modeling:</strong> dbt (Core/Cloud), Trino, Star Schema design.</li>
+                <li><strong>Orchestration & CI/CD:</strong> Apache Airflow (DAG development), GitHub Actions, Git/GitHub.</li>
+                <li><strong>Cloud & Infrastructure:</strong> AWS (S3, EC2, EKS-based foundations), Azure, Docker, Kubernetes.</li>
+                <li><strong>Databases:</strong> SQL Server, PostgreSQL, MySQL, Oracle.</li>
+                <li><strong>Tools & APIs:</strong> Salesforce API, Braze API, Power BI, SharePoint, Power Automate.</li>
+            </ul>
+        </section>
+
+        <section id="projects-link">
+            <h3 class="projects-link-header"><strong>PROJECTS AND OTHERS</strong></h3>
+            <hr class="projects-link-divider">
+            <p class="projects-link-content">
+                Explore my <a href="projects.html">projects and other work</a>.
+            </p>
         </section>
 
         <footer>

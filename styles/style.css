@@ -378,6 +378,9 @@ footer {
   max-width: 960px;
   margin: 20px auto;
   padding: 0 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 @media (min-width: 600px) {
@@ -389,10 +392,8 @@ footer {
 }
 
 .projects-page-header {
-  background: #fff;
-  border-radius: 8px 8px 0 0;
-  padding: 30px 30px 0;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 30px 0 0;
+  border-bottom: 2px solid #eee;
 }
 
 .projects-header-inner {
@@ -431,9 +432,7 @@ footer {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
-  background: #fff;
-  padding: 24px 30px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 24px 0;
 }
 
 @media (min-width: 600px) {
@@ -504,14 +503,11 @@ footer {
 }
 
 .projects-page-footer {
-  background: #fff;
-  border-radius: 0 0 8px 8px;
   text-align: center;
   font-size: 0.8rem;
   color: #999;
-  padding: 16px 30px 20px;
+  padding: 16px 0 20px;
   border-top: 1px solid #eee;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 /* ─── Post Detail Page ────────────────────────────────────────────────────── */
@@ -520,10 +516,13 @@ footer {
   max-width: 760px;
   margin: 20px auto;
   padding: 0 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 @media (min-width: 600px) {
-  .post-container { padding: 0; margin: 30px auto; }
+  .post-container { padding: 0 40px; margin: 30px auto; }
 }
 
 @media (min-width: 900px) {
@@ -531,11 +530,8 @@ footer {
 }
 
 .post-nav-header {
-  background: #fff;
-  border-radius: 8px 8px 0 0;
-  padding: 16px 30px;
-  border-bottom: 1px solid #eee;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 16px 0;
+  border-bottom: 2px solid #eee;
 }
 
 .post-nav-header nav a {
@@ -548,9 +544,7 @@ footer {
 
 /* Article prose */
 .post-article {
-  background: #fff;
-  padding: 36px 40px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 36px 0;
   font-family: 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 15px;
   line-height: 1.75;
@@ -661,12 +655,9 @@ footer {
 .post-article tr:hover td { background: #f0f7ff; }
 
 .post-footer {
-  background: #fff;
-  border-radius: 0 0 8px 8px;
   text-align: center;
-  padding: 16px 30px 24px;
+  padding: 16px 0 24px;
   border-top: 1px solid #eee;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .post-footer a {

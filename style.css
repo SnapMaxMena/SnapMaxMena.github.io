@@ -150,6 +150,11 @@ footer {
 }
 
 /* Tech Stack Section Styling */
+#tech-stack:hover {
+    background-color: #e8f4fd;
+}
+
+
 .tech-stack-header {
     /* font-family will now be inherited from body */
     font-size: 26px;

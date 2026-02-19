@@ -29,18 +29,20 @@ projects.forEach(project => {
   // Inject content into the template
   const pageHtml = detailTemplate
     .replace('{{TITLE}}', project.title)
+    .replace('{{DESCRIPTION}}', `An article about ${project.tags.join(', ')} by Max Mena.`)
     .replace('{{CONTENT}}', htmlContent);
 
   const outFileName = `${project.id}.html`;
   fs.writeFileSync(path.join(postsOutDir, outFileName), pageHtml);
   
   // 3. Build the Tile string
+  const tagsHtml = project.tags.map(t => `<span class="tile-tag">${t}</span>`).join('');
   tilesHtml += `
-    <div class="project-tile">
-      <h2><a href="posts/${outFileName}">${project.title}</a></h2>
-      <p><strong>Date:</strong> ${project.date}</p>
-      <p><strong>Tags:</strong> ${project.tags.join(', ')}</p>
-    </div>
+    <article class="project-tile">
+      <h2 class="tile-title"><a href="posts/${outFileName}">${project.title}</a></h2>
+      <p class="tile-date">${project.date}</p>
+      <div class="tile-tags">${tagsHtml}</div>
+    </article>
   `;
 });
 

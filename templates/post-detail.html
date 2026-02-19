@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{{TITLE}}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{DESCRIPTION}}">
+  <title>{{TITLE}} | Max Mena</title>
   <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
-  <main>
-    {{CONTENT}}
-  </main>
-  <footer><a href="../projects.html">← Back to Projects</a></footer>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <article class="post-article">
+        {{CONTENT}}
+      </article>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
 </body>
 </html>

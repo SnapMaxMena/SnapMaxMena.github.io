@@ -1,0 +1,24 @@
+{
+  "name": "snapmaxmena.github.io",
+  "version": "1.0.0",
+  "description": "This repository hosts the personal portfolio website for Data Engineer Max Mena. It is a static website built with HTML, CSS, and vanilla JavaScript, designed to showcase professional experience and technical skills.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SnapMaxMena/SnapMaxMena.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SnapMaxMena/SnapMaxMena.github.io/issues"
+  },
+  "homepage": "https://github.com/SnapMaxMena/SnapMaxMena.github.io#readme",
+  "dependencies": {
+    "marked": "^17.0.3"
+  }
+}

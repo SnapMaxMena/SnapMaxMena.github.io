@@ -26,4 +26,5 @@ All pages MUST use a central `.container` class wrapper with these rules:
 2. **Footer (`<footer>`)**: Gets `border-top: 1px solid #eee`. Margin-top 50px, text `0.8rem` `#999`, centered.
 3. **Section Headers (`<h3>`)**: Size 26px, bold, uppercase, color `#2c3e50`, left-aligned, `margin-top: 50px`.
 4. **Separators (`<hr>`)**: 1px solid black, no border on other sides (clean underline).
-5. **Body Text**: Size 15px, line-height 1.5–1.7.
+5. **Secondary Headers (`<h2>`)**: Should be simple text without decorative borders or shapes. Use color `#2980b9`.
+6. **Body Text**: Size 15px, line-height 1.5–1.7.

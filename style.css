@@ -8,13 +8,28 @@ body {
 }
 
 .container {
-    /* Standard 8-column feel: centered and restricted width */
-    max-width: 800px; 
-    margin: 40px auto;
+    /* Mobile-first: full-width with comfortable padding on small screens */
+    max-width: 100%;
+    margin: 20px auto;
     background: #fff;
-    padding: 40px;
+    padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     border-radius: 8px;
+}
+
+@media (min-width: 600px) {
+    .container {
+        padding: 30px;
+        margin: 30px auto;
+    }
+}
+
+@media (min-width: 900px) {
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 40px;
+    }
 }
 
 header {
@@ -103,7 +118,7 @@ footer {
 
 .education-entry {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* stack on mobile */
     margin-bottom: 20px; /* Spacing between entries */
     /* font-family will now be inherited from body */
     font-size: 15px; /* Regular body text size */
@@ -116,8 +131,18 @@ footer {
 }
 
 .education-right {
-    text-align: right;
+    text-align: left; /* left-aligned on mobile */
     font-style: normal; /* Override potential inherited italics */
+}
+
+@media (min-width: 600px) {
+    .education-entry {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .education-right {
+        text-align: right;
+    }
 }
 
 .education-right em {
@@ -185,7 +210,7 @@ footer {
 
 .job-details {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* stack on mobile */
     margin-bottom: 10px; /* Space between details and achievements */
 }
 
@@ -194,7 +219,17 @@ footer {
 }
 
 .job-right {
-    text-align: right;
+    text-align: left; /* left-aligned on mobile */
+}
+
+@media (min-width: 600px) {
+    .job-details {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .job-right {
+        text-align: right;
+    }
 }
 
 .job-achievements {
@@ -208,25 +243,127 @@ footer {
     line-height: 1.6;
 }
 
-/* Custom styles for Projects page */
+/* Projects page container */
 .projects-page-container {
-    max-width: 1400px; /* Max width for the projects container */
-    margin: 40px auto; /* Centered with vertical margin */
-    padding: 0 15px; /* Bootstrap's default fluid container padding, adjust if needed */
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* Custom text-shadow for Bootstrap cards */
-.text-shadow-1 {
-    text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25);
+@media (min-width: 900px) {
+    .projects-page-container {
+        margin: 40px auto;
+        padding: 0 30px;
+    }
 }
 
-/* Card sizing adjustments */
+/* Projects section header */
+.projects-header {
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.projects-divider {
+    border: none;
+    border-top: 1px solid black;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* Projects card grid — mobile-first */
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+}
+
+@media (min-width: 600px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Vanilla card styles */
+.card {
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
 .card-cover {
-    min-height: 250px; /* Minimum height for cards */
-    /* max-height: 400px; */ /* Optional max-height */
+    min-height: 250px;
     background-position: center;
     background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-top: auto;
+    padding-top: 4rem;
+    margin-bottom: 0.75rem;
+    color: white;
+}
+
+.card-meta {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+}
+
+.card-meta-avatar img {
+    border-radius: 50%;
+    border: 2px solid white;
+    display: block;
+}
+
+.card-meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+/* Back link on projects page */
+.index-link-content {
+    margin-top: 1rem;
+    font-size: 15px;
+    color: #333;
+    padding-bottom: 20px;
+}
+
+/* Custom text-shadow for cards */
+.text-shadow-1 {
+    text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25);
 }

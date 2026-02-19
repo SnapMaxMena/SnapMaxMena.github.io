@@ -1,5 +1,0 @@
-standards:
-  - name: GitHub CI/CD Standard
-    path: github-cicd-standard.md
-    description: Guidelines for implementing Continuous Integration and Continuous Delivery/Deployment pipelines using GitHub Actions.
-

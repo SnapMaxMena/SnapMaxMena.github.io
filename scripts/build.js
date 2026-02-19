@@ -7,6 +7,17 @@ const templateDir = path.join(__dirname, '../templates');
 const outDir = path.join(__dirname, '../'); 
 const postsOutDir = path.join(outDir, 'posts');
 
+// Icon + gradient mapping by first tag
+const tagThemes = {
+  'AI':           { icon: '🤖', gradient: 'linear-gradient(135deg, #667eea, #764ba2)' },
+  'Quantum':      { icon: '⚛️',  gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
+  'DevOps':       { icon: '⚙️',  gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
+  'IoT':          { icon: '📡', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
+  'Security':     { icon: '🔐', gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+  'Blockchain':   { icon: '🔗', gradient: 'linear-gradient(135deg, #f6d365, #fda085)' },
+};
+const defaultTheme = { icon: '📄', gradient: 'linear-gradient(135deg, #e0e0e0, #bdbdbd)' };
+
 // 1. Read Data and Templates
 const projects = JSON.parse(fs.readFileSync(path.join(dataDir, 'projects.json'), 'utf-8'));
 const listTemplate = fs.readFileSync(path.join(templateDir, 'project-list.html'), 'utf-8');
@@ -36,9 +47,13 @@ projects.forEach(project => {
   fs.writeFileSync(path.join(postsOutDir, outFileName), pageHtml);
   
   // 3. Build the Tile string
+  const theme = tagThemes[project.tags[0]] || defaultTheme;
   const tagsHtml = project.tags.map(t => `<span class="tile-tag">${t}</span>`).join('');
   tilesHtml += `
     <article class="project-tile">
+      <div class="tile-icon-wrapper" style="background: ${theme.gradient}">
+        <span class="tile-icon">${theme.icon}</span>
+      </div>
       <h2 class="tile-title"><a href="posts/${outFileName}">${project.title}</a></h2>
       <p class="tile-date">${project.date}</p>
       <div class="tile-tags">${tagsHtml}</div>

@@ -1,88 +1,88 @@
-# Ingeniería AI Nativa
+# AI Native Engineering
 
 ## Brief Overview
-Esta nota cubre Ingeniería de IA y fue creada a partir del video de YouTube: **From Writing Code to Managing Agents. Most Engineers Aren't Ready | Stanford University, Mihail Eric**.
+This note covers AI Engineering and was created from the YouTube video: **From Writing Code to Managing Agents. Most Engineers Aren't Ready | Stanford University, Mihail Eric**.
 
-Aborda la transición de programar a gestionar agentes, la brecha de habilidades para ingenieros junior, estrategias de orquestación incremental, y la visión de organizaciones AI-nativas.
+It addresses the transition from programming to managing agents, the skills gap for junior engineers, incremental orchestration strategies, and the vision of AI-native organizations.
 
 ### Key Points
-* Definición y competencias clave de un Ingeniero AI nativo.
-* Situación actual y retos de los ingenieros junior ante la adopción masiva de IA.
-* Enfoques paso a paso para orquestar agentes y manejar el contexto entre ellos.
-* Perspectiva de las organizaciones AI-nativas y la colaboración entre agentes.
+* Definition and key competencies of an AI native engineer.
+* Current situation and challenges for junior engineers facing massive AI adoption.
+* Step-by-step approaches to orchestrate agents and manage context between them.
+* Perspective of AI-native organizations and agent collaboration.
 
 ---
 
-## Ingeniero AI nativo
+## AI Native Engineer
 
-**Definición:** Un Ingeniero AI nativo es aquel que combina una sólida base en programación tradicional, diseño de sistemas y pensamiento algorítmico con la competencia para crear y gestionar flujos de trabajo basados en agentes de IA.
+**Definition:** An AI native engineer is one who combines a solid foundation in traditional programming, systems design, and algorithmic thinking with the competence to create and manage AI agent-based workflows.
 
-* Domina lenguajes y herramientas convencionales.
-* Maneja agentes como una "nueva lengua" del desarrollo.
-* Puede actuar como gestor de múltiples agentes, no solo como desarrollador individual.
-
----
-
-## Situación actual de los ingenieros junior
-
-**Problema:** La combinación de sobreoferta de graduados en CS, recortes masivos de personal y la adopción acelerada de IA ha reducido notablemente las oportunidades para ingenieros recién graduados.
-
-* **2021:** Gran oleada de contrataciones seguida de un despido del 20-30% de la fuerza laboral.
-* **Crecimiento de graduados:** El número de titulados en CS se ha duplicado o triplicado en la última década.
-* **Impacto de la IA:** Las empresas prefieren contratar pocos talentos AI-nativos que cubran más funciones, desplazando a candidatos con solo conocimientos tradicionales.
+* Masters conventional languages and tools.
+* Handles agents as a "new language" of development.
+* Can act as a manager of multiple agents, not just an individual developer.
 
 ---
 
-## Orquestación de agentes por ingenieros top 1%
+## Current situation of junior engineers
 
-### 1. Enfoque incremental
-* Comenzar con un agente que realice una tarea completa y fiable.
-* Añadir agentes secundarios solo cuando el primero esté estable y la nueva tarea sea aislada (p. ej., actualizar un logo, modificar el copy del encabezado).
-* Progresar paso a paso: $1 \rightarrow 2 \rightarrow 3$ agentes, verificando la calidad en cada fase.
+**Problem:** The combination of oversupply of CS graduates, massive workforce layoffs, and accelerated AI adoption has notably reduced opportunities for newly graduated engineers.
 
-### 2. Cambio de contexto
-* **Habilidad clave:** *Switching* de contexto entre varios agentes, manteniendo la memoria de la tarea previa y la dirección clara para avanzar.
-* Monitorear la salida de cada agente en la terminal o IDE.
-* Documentar cuál agente está trabajando en qué sub-tarea.
-* Aplicar técnicas de gestión humana al manejo de agentes.
+* **2021:** Major wave of hiring followed by 20-30% workforce layoffs.
+* **Graduate growth:** The number of CS graduates has doubled or tripled in the last decade.
+* **AI impact:** Companies prefer to hire few AI-native talents who cover more functions, displacing candidates with only traditional knowledge.
 
-### 3. Código amigable a agentes
+---
 
-| Característica | Descripción |
+## Agent orchestration by top 1% engineers
+
+### 1. Incremental approach
+* Start with one agent that performs a complete and reliable task.
+* Add secondary agents only when the first is stable and the new task is isolated (e.g., updating a logo, modifying header copy).
+* Progress step by step: $1 \rightarrow 2 \rightarrow 3$ agents, verifying quality at each phase.
+
+### 2. Context switching
+* **Key skill:** *Switching* context between multiple agents, maintaining memory of the previous task and clear direction to move forward.
+* Monitor output from each agent in the terminal or IDE.
+* Document which agent is working on which sub-task.
+* Apply human management techniques to agent handling.
+
+### 3. Agent-friendly code
+
+| Feature | Description |
 | :--- | :--- |
-| **Contratos de prueba** | Tests que actúan como contratos de corretitud; los agentes solo operan sobre código con cobertura suficiente. |
-| **Coherencia README-código** | Evitar desalineaciones entre documentación y código; los agentes deben recibir una única fuente de verdad. |
-| **Patrones de diseño uniformes** | Uso consistente de APIs y patrones evita confusión al agente sobre qué implementación elegir. |
-| **Linting y formato** | Garantiza estilo y estructura uniformes, facilitando la interpretación del agente. |
+| **Test contracts** | Tests that act as correctness contracts; agents only operate on code with sufficient coverage. |
+| **README-code coherence** | Avoid misalignments between documentation and code; agents should receive a single source of truth. |
+| **Uniform design patterns** | Consistent use of APIs and patterns avoids agent confusion about which implementation to choose. |
+| **Linting and formatting** | Guarantees uniform style and structure, facilitating agent interpretation. |
 
-* **Prevención de errores compuestos:** Un malentendido en la primera iteración puede multiplicarse; por eso el primer vistazo del agente debe ser a un código robusto y bien testeado.
+* **Prevention of compound errors:** A misunderstanding in the first iteration can multiply; that's why the agent's first look should be at robust, well-tested code.
 
 ---
 
-## Software funcional vs. software "increíble"
+## Functional software vs. "incredible" software
 
-| Aspecto | Software funcional | Software "increíble" |
+| Aspect | Functional software | "Incredible" software |
 | :--- | :--- | :--- |
-| **Enfoque** | Cumple los requisitos definidos y pasa los tests. | Busca excelencia estética y de experiencia más allá del requerimiento básico. |
-| **Motivación** | Satisfacer la especificación mínima. | Ir más allá por sabor, extra credit, o visión de producto propio. |
-| **Resultado típico** | Producto estable y utilizable. | Producto con features adicionales, a menudo usado como base para startups o proyectos personales. |
-| **Ejemplo de estudiante** | Completar cinco flujos obligatorios. | Añadir flujos extra, refactorizar, lanzar una versión comercial. |
+| **Approach** | Meets defined requirements and passes tests. | Seeks aesthetic and experiential excellence beyond basic requirement. |
+| **Motivation** | Satisfy the minimum specification. | Go beyond for taste, extra credit, or own product vision. |
+| **Typical result** | Stable and usable product. | Product with additional features, often used as basis for startups or personal projects. |
+| **Student example** | Complete five mandatory flows. | Add extra flows, refactor, launch a commercial version. |
 
-* **Taste (gusto) del software:** Se desarrolla con práctica y la voluntad de ir más allá del puntaje máximo.
-* **Experimentación:** Crucial para pasar de "funcional" a "increíble"; implica iterar, recibir feedback y rehacer.
-
----
-
-## Por qué sigue siendo necesario contar con ingenieros junior
-* **Actitud de esponja:** Los recién llegados no están "marcados" por experiencias negativas y están dispuestos a intentar soluciones nuevas.
-* **Adaptabilidad:** Aprenden rápidamente herramientas AI y pueden aplicar habilidades emergentes con mayor agilidad que seniores reacios al cambio.
-* **Pensamiento de ruptura:** Su *naïveté* les permite abordar problemas complejos sin preconcepciones.
-* **Base conceptual:** La educación CS provee la mentalidad de descomposición y solución algorítmica.
+* **Software taste:** Develops with practice and willingness to go beyond perfect score.
+* **Experimentation:** Crucial to move from "functional" to "incredible"; involves iteration, feedback, and reworking.
 
 ---
 
-## Visión de organizaciones AI-nativas
-**Concepto:** Una organización AI-nativa integra la IA directamente en el producto, eliminando al humano de la mayoría de los bucles de interacción con el cliente.
+## Why junior engineers are still necessary
+* **Sponge mentality:** Newcomers aren't "marked" by negative experiences and are willing to try new solutions.
+* **Adaptability:** Learn AI tools quickly and can apply emerging skills with greater agility than seniors resistant to change.
+* **Breakthrough thinking:** Their *naïveté* allows them to tackle complex problems without preconceptions.
+* **Conceptual foundation:** CS education provides decomposition and algorithmic problem-solving mindset.
 
-* **Asignación de inteligencia:** No solo usar IA como herramienta, sino embeberla para que realice el trabajo con el usuario.
-* **Colaboración entre IAs:** Preguntas abiertas sobre cómo los agentes pueden comunicarse y cooperar, potencialmente creando empresas de valor trillón al responder ese desafío.
+---
+
+## Vision of AI-native organizations
+**Concept:** An AI-native organization integrates AI directly into the product, removing humans from most customer interaction loops.
+
+* **Intelligence allocation:** Not just use AI as a tool, but embed it to do the work with the user.
+* **Collaboration between AIs:** Open questions about how agents can communicate and cooperate, potentially creating trillion-dollar companies by answering that challenge.

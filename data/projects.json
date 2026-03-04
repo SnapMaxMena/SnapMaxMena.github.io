@@ -14,16 +14,16 @@
     "content_file": "ai-coding-augmentation.md"
   },
   {
-    "id": "automated-ci-cd-pipelines",
-    "title": "Automating CI/CD with GitHub Actions",
-    "date": "2025-10-20",
-    "tags": ["DevOps", "Automation", "JavaScript"],
-    "content_file": "automated-ci-cd-pipelines.md"
+    "id": "ai-native-engineering",
+    "title": "How AI change the landscape for junior developers",
+    "date": "2026-02-03",
+    "tags": ["AI", "Software Development", "Career"],
+    "content_file": "ai-native-engineering.md"
   },
   {
     "id": "guia-agentes",
     "title": "Guia básica para crear agentes autónomos.",
-    "date": "2026-02-03",
+    "date": "2026-01-15",
     "tags": ["agents", "Vibe Coding", "Architecture"],
     "content_file": "guia-agentes.md"
   },

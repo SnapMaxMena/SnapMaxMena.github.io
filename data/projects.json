@@ -21,11 +21,11 @@
     "content_file": "automated-ci-cd-pipelines.md"
   },
   {
-    "id": "edge-computing-iot",
-    "title": "Edge Computing in IoT Devices",
-    "date": "2025-11-02",
-    "tags": ["IoT", "Edge", "Architecture"],
-    "content_file": "edge-computing-iot.md"
+    "id": "guia-agentes",
+    "title": "Guia básica para crear agentes autónomos.",
+    "date": "2026-02-03",
+    "tags": ["agents", "Vibe Coding", "Architecture"],
+    "content_file": "guia-agentes.md"
   },
   {
     "id": "cybersecurity-best-practices",

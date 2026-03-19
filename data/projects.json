@@ -35,10 +35,10 @@
     "content_file": "paradoja-de-jevons.md"
   },
   {
-    "id": "block-chain-scalability",
-    "title": "Solving Blockchain Scalability Issues",
-    "date": "2025-12-15",
-    "tags": ["Blockchain", "FinTech"],
-    "content_file": "block-chain-scalability.md"
+    "id": "pydantic-vs-pandas",
+    "title": "Pydantic vs Pandas",
+    "date": "2026-03-23",
+    "tags": ["Python", "Data Engineering"],
+    "content_file": "pydantic-vs-pandas.md"
   }
 ]

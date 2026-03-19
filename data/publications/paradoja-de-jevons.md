@@ -14,7 +14,7 @@ Al generar soluciones sin parar, la IA puede llegar a crear más productos en me
 
 **Ley de Wirth**
 
-La **Ley de Wirth** establece que el desarrollo del software es más lento que el desarrollo del hardware.
+La **Ley de Wirth** establece que el desarrollo del software se ralentiza más rápido que lo que el hardware avanza.
 
 Esto ocurre porque los desarrolladores, al tener procesadores más rápidos y memorias más grandes, dejan de preocuparse por la eficiencia del código. Esto genera software innecesariamente pesado y lento, lo que a su vez obliga a los consumidores a comprar hardware más potente para que el software funcione con la misma fluidez que antes.
 

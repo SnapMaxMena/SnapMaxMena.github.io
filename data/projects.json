@@ -28,11 +28,11 @@
     "content_file": "edge-computing-iot.md"
   },
   {
-    "id": "cybersecurity-best-practices",
-    "title": "Securing Modern Web Applications",
-    "date": "2025-11-28",
-    "tags": ["Security", "Web Dev"],
-    "content_file": "cybersecurity-best-practices.md"
+    "id": "paradoja-de-jevons",
+    "title": "Paradoja de Jevons",
+    "date": "2026-03-19",
+    "tags": ["Economics", "Sustainability"],
+    "content_file": "paradoja-de-jevons.md"
   },
   {
     "id": "block-chain-scalability",

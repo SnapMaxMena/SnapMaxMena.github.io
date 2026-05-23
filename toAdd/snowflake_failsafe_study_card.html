@@ -1,0 +1,216 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1rem 0; font-family: var(--font-sans); }
+.timeline { display: flex; align-items: stretch; gap: 0; margin-bottom: 1.5rem; border-radius: var(--border-radius-lg); overflow: hidden; border: 0.5px solid var(--color-border-tertiary); }
+.tl-seg { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tl-seg.active { background: var(--color-background-primary); }
+.tl-seg.inactive { background: var(--color-background-secondary); }
+.tl-divider { width: 2px; background: var(--color-border-secondary); }
+.tl-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+.tl-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.tl-sub { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.tl-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 20px; margin-top: 4px; width: fit-content; }
+.badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+.badge-amber { background: #FAEEDA; color: #854F0B; }
+.badge-red { background: #FCEBEB; color: #A32D2D; }
+.badge-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); }
+
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+.card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; background: var(--color-background-primary); }
+.card h4 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+.card p, .card li { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.card ul { padding-left: 1rem; }
+.full { grid-column: 1 / -1; }
+
+.trap-box { border-left: 3px solid #E24B4A; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: #FCEBEB; padding: 10px 14px; margin-bottom: 1rem; }
+.trap-box .t-label { font-size: 11px; font-weight: 500; color: #A32D2D; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.trap-box p { font-size: 13px; color: #501313; line-height: 1.5; }
+
+.quiz-q { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; background: var(--color-background-primary); }
+.quiz-q .question { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 7px; }
+.opt { padding: 8px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 13px; cursor: pointer; transition: all .15s; color: var(--color-text-primary); background: transparent; text-align: left; }
+.opt:hover:not([disabled]) { background: var(--color-background-secondary); }
+.opt.correct { background: #EAF3DE; border-color: #3B6D11; color: #173404; }
+.opt.wrong { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+.opt.reveal-correct { background: #EAF3DE; border-color: #3B6D11; color: #173404; }
+.explanation { margin-top: 10px; font-size: 13px; color: var(--color-text-secondary); padding: 8px 12px; border-left: 3px solid var(--color-border-info); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: var(--color-background-secondary); display: none; line-height: 1.5; }
+.explanation.show { display: block; }
+.section-title { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: var(--color-text-secondary); margin: 1.25rem 0 .75rem; }
+.score-bar { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); margin-bottom: 1rem; font-size: 13px; color: var(--color-text-secondary); }
+.score-val { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Snowflake Fail-safe Study Card for SnowPro Core</h2>
+
+  <!-- TIMELINE -->
+  <div class="section-title">Continuous data protection lifecycle</div>
+  <div class="timeline">
+    <div class="tl-seg active">
+      <span class="tl-label" style="color:var(--color-text-info)">Phase 1</span>
+      <span class="tl-title">Active data</span>
+      <span class="tl-sub">Normal operations. Data is live and queryable.</span>
+      <span class="tl-badge badge-blue">No fixed duration</span>
+    </div>
+    <div class="tl-divider"></div>
+    <div class="tl-seg active">
+      <span class="tl-label" style="color:#0F6E56">Phase 2</span>
+      <span class="tl-title">Time Travel</span>
+      <span class="tl-sub">User-controlled. Self-service recovery. Query historical data.</span>
+      <span class="tl-badge badge-blue">0–90 days (configurable)</span>
+    </div>
+    <div class="tl-divider"></div>
+    <div class="tl-seg active">
+      <span class="tl-label" style="color:#854F0B">Phase 3 — Fail-safe</span>
+      <span class="tl-title">Fail-safe</span>
+      <span class="tl-sub">Snowflake-only recovery. Last resort. Starts when Time Travel ends.</span>
+      <span class="tl-badge badge-amber">7 days — non-configurable</span>
+    </div>
+    <div class="tl-divider"></div>
+    <div class="tl-seg inactive">
+      <span class="tl-label" style="color:var(--color-text-secondary)">Phase 4</span>
+      <span class="tl-title" style="color:var(--color-text-secondary)">Purged</span>
+      <span class="tl-sub">Data permanently deleted. No recovery possible.</span>
+      <span class="tl-badge badge-gray">Gone forever</span>
+    </div>
+  </div>
+
+  <!-- KEY FACTS -->
+  <div class="section-title">Key facts</div>
+  <div class="cards">
+    <div class="card">
+      <h4>Duration & configurability</h4>
+      <ul>
+        <li>Always <strong>7 days</strong></li>
+        <li><strong>Non-configurable</strong> — you cannot change it</li>
+        <li>Starts immediately after Time Travel ends</li>
+        <li>A long-running Time Travel query <strong>delays</strong> data entering Fail-safe</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Who can recover data?</h4>
+      <ul>
+        <li><strong>Only Snowflake</strong> — not the customer</li>
+        <li>Used only for extreme operational failures</li>
+        <li>Best-effort basis — not guaranteed</li>
+        <li>Recovery can take <strong>hours to days</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>What it covers</h4>
+      <ul>
+        <li>Tables, schemas, databases</li>
+        <li>Permanent tables only</li>
+        <li><strong>Transient & temporary tables: 0 days</strong> — no Fail-safe</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Billing & storage</h4>
+      <ul>
+        <li>Fail-safe data counts toward <strong>storage costs</strong></li>
+        <li>Recovery uses serverless compute (billed)</li>
+        <li>View usage via ACCOUNTADMIN in Snowsight → Admin → Cost Management</li>
+      </ul>
+    </div>
+    <div class="card full">
+      <h4>Limitation — Snowpipe Streaming Classic</h4>
+      <p>Fail-safe does <strong>not</strong> support tables with data ingested by Snowpipe Streaming Classic. Recovery operations on those tables will fail completely.</p>
+    </div>
+  </div>
+
+  <!-- EXAM TRAPS -->
+  <div class="section-title">Exam traps</div>
+  <div class="trap-box">
+    <div class="t-label">Trap 1 — configurable?</div>
+    <p>Fail-safe is <strong>always 7 days</strong>. You cannot set it to 0, 3, or 14. Time Travel is configurable (0–90 days). Fail-safe is not.</p>
+  </div>
+  <div class="trap-box">
+    <div class="t-label">Trap 2 — who controls recovery?</div>
+    <p>You <strong>cannot</strong> query or restore from Fail-safe yourself. Only Snowflake support can. It is not a self-service feature like Time Travel.</p>
+  </div>
+  <div class="trap-box">
+    <div class="t-label">Trap 3 — transient & temporary tables</div>
+    <p>Transient and temporary tables have <strong>no Fail-safe period (0 days)</strong>. This is often why they're cheaper — less storage overhead. Permanent tables = 7 days Fail-safe.</p>
+  </div>
+  <div class="trap-box">
+    <div class="t-label">Trap 4 — purpose</div>
+    <p>Fail-safe is <strong>not</strong> for accessing historical data after Time Travel expires. It exists only for Snowflake to recover from catastrophic system failures or security breaches.</p>
+  </div>
+
+  <!-- QUICK QUIZ -->
+  <div class="section-title">Practice questions</div>
+  <div class="score-bar">
+    <span>Score:</span><span class="score-val" id="score">0 / 0</span>
+    <span style="flex:1"></span>
+    <button onclick="resetQuiz()" style="font-size:12px;padding:4px 12px">Reset</button>
+  </div>
+
+  <div class="quiz-q" id="q1">
+    <div class="question">1. How long is the Fail-safe retention period, and can it be configured?</div>
+    <div class="options">
+      <button class="opt" onclick="ans(this,'q1',false)">A. 7 days, configurable per table</button>
+      <button class="opt" onclick="ans(this,'q1',false)">B. 0–7 days, configurable via DATA_RETENTION_TIME_IN_DAYS</button>
+      <button class="opt" onclick="ans(this,'q1',true)">C. 7 days, non-configurable</button>
+      <button class="opt" onclick="ans(this,'q1',false)">D. 14 days for Enterprise, 7 days for Standard</button>
+    </div>
+    <div class="explanation" id="exp-q1">Fail-safe is always exactly 7 days and cannot be changed by users. DATA_RETENTION_TIME_IN_DAYS controls Time Travel, not Fail-safe.</div>
+  </div>
+
+  <div class="quiz-q" id="q2">
+    <div class="question">2. A user's Time Travel period has expired. They contact Snowflake support to recover deleted data. What is TRUE?</div>
+    <div class="options">
+      <button class="opt" onclick="ans(this,'q2',false)">A. Recovery is instant via UNDROP command</button>
+      <button class="opt" onclick="ans(this,'q2',true)">B. Snowflake may recover it on a best-effort basis; recovery can take hours to days</button>
+      <button class="opt" onclick="ans(this,'q2',false)">C. The user can query Fail-safe directly using ACCOUNTADMIN role</button>
+      <button class="opt" onclick="ans(this,'q2',false)">D. Data is permanently gone once Time Travel expires</button>
+    </div>
+    <div class="explanation" id="exp-q2">Fail-safe is managed exclusively by Snowflake, on a best-effort basis. Users cannot access or query it. Recovery is not guaranteed and takes hours to days.</div>
+  </div>
+
+  <div class="quiz-q" id="q3">
+    <div class="question">3. Which table type has ZERO days of Fail-safe protection?</div>
+    <div class="options">
+      <button class="opt" onclick="ans(this,'q3',false)">A. Permanent tables</button>
+      <button class="opt" onclick="ans(this,'q3',true)">B. Transient and temporary tables</button>
+      <button class="opt" onclick="ans(this,'q3',false)">C. External tables</button>
+      <button class="opt" onclick="ans(this,'q3',false)">D. Hybrid tables</button>
+    </div>
+    <div class="explanation" id="exp-q3">Transient and temporary tables have 0 days of Fail-safe (and max 1 day Time Travel). This reduces storage costs — a common reason to choose transient tables for staging/ETL data.</div>
+  </div>
+
+  <div class="quiz-q" id="q4">
+    <div class="question">4. When does the Fail-safe period begin?</div>
+    <div class="options">
+      <button class="opt" onclick="ans(this,'q4',false)">A. Immediately when a table is dropped</button>
+      <button class="opt" onclick="ans(this,'q4',false)">B. 7 days after data is modified</button>
+      <button class="opt" onclick="ans(this,'q4',true)">C. Immediately after the Time Travel retention period ends</button>
+      <button class="opt" onclick="ans(this,'q4',false)">D. When Snowflake detects a system failure</button>
+    </div>
+    <div class="explanation" id="exp-q4">Fail-safe starts right when Time Travel ends. If Time Travel is 1 day, Fail-safe starts on day 2. If Time Travel is 90 days, Fail-safe starts on day 91. Note: a long-running Time Travel query can delay data entering Fail-safe.</div>
+  </div>
+</div>
+
+<script>
+let answered=0,correct=0;
+function ans(btn,qid,ok){
+  const q=document.getElementById(qid);
+  if(q.dataset.done)return;
+  q.dataset.done='1';answered++;
+  q.querySelectorAll('.opt').forEach(o=>{o.disabled=true;o.classList.add('revealed');});
+  if(ok){btn.classList.add('correct');correct++;}
+  else{btn.classList.add('wrong');q.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('onclick').includes('true'))o.classList.add('reveal-correct');});}
+  document.getElementById('exp-'+qid).classList.add('show');
+  document.getElementById('score').textContent=correct+' / '+answered;
+}
+function resetQuiz(){
+  answered=0;correct=0;
+  document.getElementById('score').textContent='0 / 0';
+  document.querySelectorAll('.quiz-q').forEach(q=>{
+    delete q.dataset.done;
+    q.querySelectorAll('.opt').forEach(o=>{o.className='opt';o.disabled=false;});
+    const e=q.querySelector('.explanation');if(e)e.classList.remove('show');
+  });
+}
+</script>

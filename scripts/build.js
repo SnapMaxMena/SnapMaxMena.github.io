@@ -15,6 +15,7 @@ const tagThemes = {
   'IoT':          { icon: '📡', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
   'Security':     { icon: '🔐', gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
   'Blockchain':   { icon: '🔗', gradient: 'linear-gradient(135deg, #f6d365, #fda085)' },
+  'Snowflake':    { icon: '❄️',  gradient: 'linear-gradient(135deg, #29B5E8, #042C53)' },
 };
 const defaultTheme = { icon: '📄', gradient: 'linear-gradient(135deg, #e0e0e0, #bdbdbd)' };
 
@@ -22,6 +23,7 @@ const defaultTheme = { icon: '📄', gradient: 'linear-gradient(135deg, #e0e0e0,
 const projects = JSON.parse(fs.readFileSync(path.join(dataDir, 'projects.json'), 'utf-8'));
 const listTemplate = fs.readFileSync(path.join(templateDir, 'project-list.html'), 'utf-8');
 const detailTemplate = fs.readFileSync(path.join(templateDir, 'post-detail.html'), 'utf-8');
+const cardTemplate = fs.readFileSync(path.join(templateDir, 'post-detail-card.html'), 'utf-8');
 
 let tilesHtml = '';
 
@@ -31,14 +33,23 @@ if (!fs.existsSync(postsOutDir)) {
 
 // 2. Generate Individual Pages
 projects.forEach(project => {
-  const mdPath = path.join(dataDir, 'publications', project.content_file);
-  if (!fs.existsSync(mdPath)) return; // Fail-safe for missing files
+  let htmlContent;
+  let template;
 
-  const mdContent = fs.readFileSync(mdPath, 'utf-8');
-  const htmlContent = marked.parse(mdContent);
+  if (project.content_html) {
+    const htmlPath = path.join(dataDir, 'publications', project.content_html);
+    if (!fs.existsSync(htmlPath)) return;
+    htmlContent = fs.readFileSync(htmlPath, 'utf-8');
+    template = cardTemplate;
+  } else {
+    const mdPath = path.join(dataDir, 'publications', project.content_file);
+    if (!fs.existsSync(mdPath)) return;
+    htmlContent = marked.parse(fs.readFileSync(mdPath, 'utf-8'));
+    template = detailTemplate;
+  }
 
   // Inject content into the template
-  const pageHtml = detailTemplate
+  const pageHtml = template
     .replace('{{TITLE}}', project.title)
     .replace('{{DESCRIPTION}}', `An article about ${project.tags.join(', ')} by Max Mena.`)
     .replace('{{CONTENT}}', htmlContent);

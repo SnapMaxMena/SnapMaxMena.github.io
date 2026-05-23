@@ -1,0 +1,42 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1rem 0; font-family: var(--font-sans); }
+.level { border-radius: var(--border-radius-lg); padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; border: 0.5px solid var(--color-border-tertiary); }
+.icon { font-size: 18px; width: 28px; text-align: center; }
+.name { font-size: 14px; font-weight: 500; }
+.desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.url-box { background: #042C53; border-radius: var(--border-radius-md); padding: 8px 14px; font-family: var(--font-mono); font-size: 12px; color: #85B7EB; margin-top: 6px; }
+.arrow { text-align: center; font-size: 16px; color: var(--color-text-secondary); margin: -2px 0; }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Snowflake container hierarchy with Account at top</h2>
+
+  <div class="level" style="background:#E6F1FB; border-color:#185FA5; margin-left:0px">
+    <span class="icon">🌐</span>
+    <div>
+      <div class="name" style="color:#042C53">Account — the URL IS the account</div>
+      <div class="url-box">https://AB12345.snowflakecomputing.com</div>
+    </div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="level" style="margin-left:20px">
+    <span class="icon">🗄️</span>
+    <div><div class="name">Database</div><div class="desc">logical grouping of schemas</div></div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="level" style="margin-left:40px">
+    <span class="icon">📁</span>
+    <div><div class="name">Schema</div><div class="desc">groups tables, views, stages</div></div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="level" style="margin-left:60px">
+    <span class="icon">📋</span>
+    <div><div class="name">Table / View / Stage…</div><div class="desc">actual objects</div></div>
+  </div>
+
+  <div style="border-left:3px solid #29B5E8; border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; background:var(--color-background-secondary); padding:10px 14px; font-size:13px; margin-top:12px; line-height:1.6;">
+    <strong>Hook:</strong> The URL is your <em>address</em> — your address identifies the <em>building</em> (account), not the room (DB) or the shelf (schema).
+  </div>
+</div>

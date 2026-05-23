@@ -40,5 +40,75 @@
     "date": "2026-03-23",
     "tags": ["Python", "Data Engineering"],
     "content_file": "pydantic-vs-pandas.md"
+  },
+  {
+    "id": "snowflake-key-concepts-study-guide",
+    "title": "Snowflake Key Concepts Study Guide",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowflake_key_concepts_study_guide.html"
+  },
+  {
+    "id": "clustering-keys-study-card",
+    "title": "Clustering Keys & Clustered Tables",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "clustering_keys_study_card.html"
+  },
+  {
+    "id": "micropartitions-clustering-study",
+    "title": "Micro-partitions & Clustering in Snowflake",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "micropartitions_clustering_study.html"
+  },
+  {
+    "id": "variant-semistructured-study-card",
+    "title": "VARIANT & Semi-structured Data in Snowflake",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "variant_semistructured_study_card.html"
+  },
+  {
+    "id": "snowflake-failsafe-study-card",
+    "title": "Snowflake Fail-safe",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowflake_failsafe_study_card.html"
+  },
+  {
+    "id": "snowflake-shares-study-card",
+    "title": "Snowflake Secure Data Sharing",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowflake_shares_study_card.html"
+  },
+  {
+    "id": "internal-stages-study-card",
+    "title": "Snowflake Internal Stages",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "internal_stages_study_card.html"
+  },
+  {
+    "id": "copy-into-metadata-tracking",
+    "title": "COPY INTO Metadata Tracking",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "copy_into_metadata_tracking.html"
+  },
+  {
+    "id": "storage-compute-independence",
+    "title": "Storage & Compute Independence in Snowflake",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "storage_compute_independence.html"
+  },
+  {
+    "id": "snowflake-container-hierarchy",
+    "title": "Snowflake Container Hierarchy",
+    "date": "2026-05-22",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowflake_container_hierarchy.html"
   }
 ]

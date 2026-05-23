@@ -1,5 +1,33 @@
+:root {
+  --font-sans: 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --color-text-primary: #1a202c;
+  --color-text-secondary: #718096;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f7f9fb;
+  --color-border-tertiary: #e2e8f0;
+  --color-border-secondary: #cbd5e0;
+  --border-radius-md: 6px;
+  --border-radius-lg: 10px;
+  --color-text-info: #185FA5;
+  --color-background-info: #E6F1FB;
+  --color-border-info: #185FA5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 body {
-    font-family: 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Prioritize Aptos, with system fallbacks */
+    font-family: 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
     background-color: #36454F; /* Blackboard color */
@@ -682,3 +710,18 @@ footer {
 }
 
 .post-footer a:hover { text-decoration: underline; }
+
+/* ─── Snowflake Study Cards ───────────────────────────────────────────────── */
+
+.post-card-content {
+  padding: 24px 0 36px;
+}
+
+/* SVG diagram styles used by architecture diagrams in study cards */
+svg .c-purple { fill: #EEEDFE; stroke: #534AB7; }
+svg .c-blue   { fill: #E6F1FB; stroke: #185FA5; }
+svg .c-teal   { fill: #E1F5EE; stroke: #0F6E56; }
+svg .c-amber  { fill: #FAEEDA; stroke: #854F0B; }
+svg .th { font-family: 'Aptos', 'Segoe UI', sans-serif; font-size: 14px; font-weight: 500; fill: #1a202c; }
+svg .ts { font-family: 'Aptos', 'Segoe UI', sans-serif; font-size: 11px; fill: #718096; }
+svg .arr { stroke: #718096; stroke-width: 1.5; fill: none; }

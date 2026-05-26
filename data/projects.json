@@ -110,5 +110,12 @@
     "date": "2026-05-22",
     "tags": ["Snowflake", "Data Engineering"],
     "content_html": "snowflake_container_hierarchy.html"
+  },
+  {
+    "id": "mcw_snowpro_study_guide",
+    "title": "Multicluster Warehouse",
+    "date": "2026-05-26",
+    "tags": ["Snowflake", "Multicluster", "Data Engineering"],
+    "content_html": "mcw_snowpro_study_guide.html"
   }
 ]

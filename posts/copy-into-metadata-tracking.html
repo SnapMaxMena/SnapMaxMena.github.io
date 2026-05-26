@@ -30,7 +30,7 @@ code { font-family: var(--font-mono); font-size: 12px; background: var(--color-b
 </style>
 
 <div class="wrap">
-  <h2 class="sr-only">COPY INTO metadata tracking explanation</h2>
+  <h1>COPY INTO metadata tracking explanation</h1>
 
   <div class="highlight">
     <strong>Why COPY INTO loads 0 rows on re-run:</strong> Snowflake stores metadata about every file it has loaded. When you run COPY INTO again on the same file, Snowflake sees it in the metadata, skips it silently, and returns success with 0 rows loaded. The command doesn't fail — it just does nothing.

@@ -10,11 +10,11 @@ const postsOutDir = path.join(outDir, 'posts');
 // Icon + gradient mapping by first tag
 const tagThemes = {
   'AI':           { icon: '🤖', gradient: 'linear-gradient(135deg, #667eea, #764ba2)' },
-  'Quantum':      { icon: '⚛️',  gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
-  'DevOps':       { icon: '⚙️',  gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-  'IoT':          { icon: '📡', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
-  'Security':     { icon: '🔐', gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
-  'Blockchain':   { icon: '🔗', gradient: 'linear-gradient(135deg, #f6d365, #fda085)' },
+  'DBT':          {icon: '🧱', gradient: 'linear-gradient(135deg, #eae866, #a2674b)'},
+  'Python':       { icon: '🐍', gradient: 'linear-gradient(135deg, #3776ab, #ffd343)' },
+  'Economics':    { icon: '📈', gradient: 'linear-gradient(135deg, #56ab2f, #a8e063)' },
+  'agents':       { icon: '🦾', gradient: 'linear-gradient(135deg, #8e44ad, #3498db)' },
+  'Vibe Coding':  { icon: '🎵', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
   'Snowflake':    { icon: '❄️',  gradient: 'linear-gradient(135deg, #29B5E8, #042C53)' },
 };
 const defaultTheme = { icon: '📄', gradient: 'linear-gradient(135deg, #e0e0e0, #bdbdbd)' };

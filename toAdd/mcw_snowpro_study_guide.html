@@ -1,0 +1,254 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,sans-serif)}
+.wrap{padding:1.25rem 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);font-weight:500}
+.panel{display:none}.panel.active{display:block}
+
+.sec{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin:1rem 0 .5rem}
+
+/* MATRIX TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:9px 12px;font-weight:500;font-size:12px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.tbl td{padding:9px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top;font-size:13px;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .row-head{font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px}
+.check{color:var(--color-text-success)}.cross{color:var(--color-text-danger)}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.p-blue{background:var(--color-background-info);color:var(--color-text-info)}
+.p-teal{background:#E1F5EE;color:#085041}
+.p-amber{background:#FAEEDA;color:#633806}
+.p-red{background:#FCEBEB;color:#A32D2D}
+@media(prefers-color-scheme:dark){
+  .p-teal{background:#085041;color:#9FE1CB}
+  .p-amber{background:#633806;color:#FAC775}
+  .p-red{background:#501313;color:#F7C1C1}
+}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.875rem 1rem;background:var(--color-background-primary);font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:8px}
+.card strong{color:var(--color-text-primary)}
+.card code{font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px}
+
+/* FLASHCARDS */
+.fc-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.fc{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;background:var(--color-background-primary)}
+.fc-front{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fc-q{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.fc-hint{font-size:12px;color:var(--color-text-tertiary);white-space:nowrap}
+.fc-back{display:none;padding:.875rem 1.25rem;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.fc-back strong{color:var(--color-text-primary)}
+.fc.open .fc-back{display:block}
+.fc.open .fc-hint{color:var(--color-text-info)}
+
+/* CLUSTER LIMIT TABLE inline */
+.lim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin:.5rem 0 1rem}
+.lim-cell{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.5rem .6rem;text-align:center}
+.lim-size{font-size:11px;color:var(--color-text-tertiary);margin-bottom:2px}
+.lim-val{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+
+/* SVG flowchart nodes */
+.c-gray rect{fill:var(--color-background-secondary);stroke:var(--color-border-secondary)}
+.c-blue rect{fill:var(--color-background-info);stroke:var(--color-border-info)}
+.c-teal rect{fill:#E1F5EE;stroke:#9FE1CB}
+.c-amber rect{fill:#FAEEDA;stroke:#F5C47E}
+@media(prefers-color-scheme:dark){
+  .c-teal rect{fill:#085041;stroke:#1D9E75}
+  .c-amber rect{fill:#633806;stroke:#F5C47E}
+}
+/* SVG text */
+.th{font-size:13px;font-weight:500;fill:var(--color-text-primary);font-family:var(--font-sans,sans-serif)}
+.ts{font-size:11px;fill:var(--color-text-secondary);font-family:var(--font-sans,sans-serif)}
+/* SVG arrows */
+.arr{fill:none}
+</style>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="show('matrix',this)">Comparison matrix</button>
+    <button class="tab" onclick="show('flow',this)">Auto-scale flowchart</button>
+    <button class="tab" onclick="show('flash',this)">Flashcards</button>
+  </div>
+
+  <!-- MATRIX -->
+  <div id="matrix" class="panel active">
+
+    <div class="sec">Mode comparison</div>
+    <table class="tbl" style="margin-bottom:1rem">
+      <thead>
+        <tr>
+          <th style="width:28%"></th>
+          <th><span class="pill p-blue">Maximized</span></th>
+          <th><span class="pill p-teal">Auto-scale</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="row-head">How to set</td><td>MAX = MIN (both &gt;1)</td><td>MAX &gt; MIN</td></tr>
+        <tr><td class="row-head">Cluster behavior</td><td>All clusters start immediately, run concurrently</td><td>Clusters start/stop automatically based on load</td></tr>
+        <tr><td class="row-head">Best for</td><td>Stable, high concurrency — predictable load</td><td>Fluctuating workloads, variable concurrency</td></tr>
+        <tr><td class="row-head">Credits</td><td>MAX × size × hours (always)</td><td>Only running clusters × size × seconds</td></tr>
+        <tr><td class="row-head">SCALING_POLICY applies?</td><td><span class="cross">✗ No</span></td><td><span class="check">✓ Yes</span></td></tr>
+        <tr><td class="row-head">Manual intervention needed?</td><td><span class="cross">✗ No</span></td><td><span class="cross">✗ No</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec">Scaling policy comparison (Auto-scale only)</div>
+    <table class="tbl" style="margin-bottom:1rem">
+      <thead>
+        <tr>
+          <th style="width:28%"></th>
+          <th><span class="pill p-blue">Standard (default)</span></th>
+          <th><span class="pill p-amber">Economy</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="row-head">Priority</td><td>Minimize queuing</td><td>Minimize credits</td></tr>
+        <tr><td class="row-head">New cluster starts when…</td><td>Query is queued OR Snowflake estimates insufficient resources</td><td>Estimated load can keep cluster busy &ge;6 min</td></tr>
+        <tr><td class="row-head">Cluster shuts down when…</td><td>Sustained low load, queries finish</td><td>Estimated &lt;6 min of work left on that cluster</td></tr>
+        <tr><td class="row-head">Risk</td><td>Higher credit usage</td><td>Queries may queue longer</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec">Max clusters by warehouse size</div>
+    <div class="lim-grid">
+      <div class="lim-cell"><div class="lim-size">XS / S / M</div><div class="lim-val">300</div></div>
+      <div class="lim-cell"><div class="lim-size">LARGE</div><div class="lim-val">160</div></div>
+      <div class="lim-cell"><div class="lim-size">XLARGE</div><div class="lim-val">80</div></div>
+      <div class="lim-cell"><div class="lim-size">2XL</div><div class="lim-val">40</div></div>
+      <div class="lim-cell"><div class="lim-size">3XL</div><div class="lim-val">20</div></div>
+      <div class="lim-cell"><div class="lim-size">4XL–6XL</div><div class="lim-val">10</div></div>
+    </div>
+    <div class="card"><strong>Credit formula:</strong> warehouse size credits/hr × number of running clusters × hours running.<br>
+    Example: Medium (4 cr/hr) × 3 clusters × 1 hr = <strong>12 credits</strong>.</div>
+    <div class="card"><strong>Edition:</strong> Multi-cluster is <span class="pill p-red">Enterprise or higher only</span>.</div>
+    <div class="card"><strong>QAS:</strong> Enabled by default on new multi-cluster warehouses (scale factor = 2). Converting single→multi does NOT auto-enable QAS.</div>
+  </div>
+
+  <!-- FLOWCHART -->
+  <div id="flow" class="panel">
+    <div class="sec">Auto-scale decision logic</div>
+    <svg width="100%" viewBox="0 0 680 560" role="img">
+      <title>Auto-scale flowchart</title>
+      <desc>Decision flowchart showing how Snowflake decides to start or shut down clusters in auto-scale mode.</desc>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Query arrives -->
+      <g class="c-gray">
+        <rect x="240" y="30" width="200" height="44" rx="22" stroke-width="0.5"/>
+        <text class="th" x="340" y="52" text-anchor="middle" dominant-baseline="central">Query submitted</text>
+      </g>
+
+      <!-- Running clusters have capacity? -->
+      <g class="c-blue">
+        <rect x="185" y="120" width="310" height="56" rx="8" stroke-width="0.5"/>
+        <text class="th" x="340" y="141" text-anchor="middle" dominant-baseline="central">Running clusters have capacity?</text>
+        <text class="ts" x="340" y="161" text-anchor="middle" dominant-baseline="central">or enough estimated resources?</text>
+      </g>
+
+      <!-- YES branch: execute -->
+      <g class="c-teal">
+        <rect x="460" y="240" width="170" height="44" rx="8" stroke-width="0.5"/>
+        <text class="th" x="545" y="262" text-anchor="middle" dominant-baseline="central">Execute query</text>
+      </g>
+
+      <!-- NO branch: at max? -->
+      <g class="c-blue">
+        <rect x="185" y="240" width="230" height="56" rx="8" stroke-width="0.5"/>
+        <text class="th" x="300" y="261" text-anchor="middle" dominant-baseline="central">Already at MAX clusters?</text>
+        <text class="ts" x="300" y="281" text-anchor="middle" dominant-baseline="central">no room to scale out</text>
+      </g>
+
+      <!-- Start new cluster -->
+      <g class="c-teal">
+        <rect x="70" y="360" width="200" height="44" rx="8" stroke-width="0.5"/>
+        <text class="th" x="170" y="382" text-anchor="middle" dominant-baseline="central">Start new cluster</text>
+      </g>
+
+      <!-- Queue query -->
+      <g class="c-amber">
+        <rect x="320" y="360" width="180" height="44" rx="8" stroke-width="0.5"/>
+        <text class="th" x="410" y="382" text-anchor="middle" dominant-baseline="central">Queue the query</text>
+      </g>
+
+      <!-- Load drops? -->
+      <g class="c-blue">
+        <rect x="185" y="460" width="310" height="56" rx="8" stroke-width="0.5"/>
+        <text class="th" x="340" y="480" text-anchor="middle" dominant-baseline="central">Load drops / cluster idle?</text>
+        <text class="ts" x="340" y="500" text-anchor="middle" dominant-baseline="central">scaling policy conditions met</text>
+      </g>
+
+      <!-- Arrows -->
+      <!-- query → capacity check -->
+      <line x1="340" y1="74" x2="340" y2="118" class="arr" marker-end="url(#arr)" stroke="#888780" stroke-width="1"/>
+
+      <!-- capacity yes → execute -->
+      <line x1="495" y1="148" x2="545" y2="238" class="arr" marker-end="url(#arr)" stroke="#1D9E75" stroke-width="1"/>
+      <text class="ts" x="530" y="200" fill="#085041" text-anchor="middle">YES</text>
+
+      <!-- capacity no → at max? -->
+      <line x1="340" y1="176" x2="300" y2="238" class="arr" marker-end="url(#arr)" stroke="#E24B4A" stroke-width="1"/>
+      <text class="ts" x="312" y="216" fill="#A32D2D" text-anchor="middle">NO</text>
+
+      <!-- at max? no → start cluster -->
+      <line x1="255" y1="268" x2="200" y2="358" class="arr" marker-end="url(#arr)" stroke="#1D9E75" stroke-width="1"/>
+      <text class="ts" x="208" y="320" fill="#085041" text-anchor="start">NO → scale out</text>
+
+      <!-- at max? yes → queue -->
+      <line x1="355" y1="296" x2="410" y2="358" class="arr" marker-end="url(#arr)" stroke="#E24B4A" stroke-width="1"/>
+      <text class="ts" x="415" y="330" fill="#A32D2D" text-anchor="start">YES → queue</text>
+
+      <!-- start cluster → load drops? -->
+      <path d="M170 404 L170 440 L340 440 L340 458" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- load drops? → shutdown annotation -->
+      <line x1="495" y1="488" x2="600" y2="488" class="arr" marker-end="url(#arr)" stroke="#888780" stroke-width="1"/>
+      <text class="ts" x="606" y="492" fill="var(--color-text-secondary)" text-anchor="start">Shut down cluster</text>
+    </svg>
+
+    <div class="card" style="margin-top:.5rem"><strong>Remember:</strong> auto-suspend applies to the <em>entire</em> multi-cluster warehouse — not individual clusters. Individual cluster shutdown is governed by scaling policy.</div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flash" class="panel">
+    <div class="sec">Tap a card to reveal the answer</div>
+    <div class="fc-grid" id="fc-list"></div>
+  </div>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+const cards = [
+  { q: "What edition is required for multi-cluster warehouses?", a: "<strong>Enterprise Edition or higher.</strong> Not available on Standard edition." },
+  { q: "How do you enable Maximized mode?", a: "Set <code>MAX_CLUSTER_COUNT = MIN_CLUSTER_COUNT</code> (both must be &gt;1)." },
+  { q: "How do you enable Auto-scale mode?", a: "Set <code>MAX_CLUSTER_COUNT &gt; MIN_CLUSTER_COUNT</code>." },
+  { q: "Does SCALING_POLICY apply in Maximized mode?", a: "<strong>No.</strong> All clusters run concurrently in Maximized — there's nothing to scale." },
+  { q: "Standard vs Economy scaling policy: what's the key difference?", a: "<strong>Standard</strong> = minimize queuing (starts cluster when query queues).<br><strong>Economy</strong> = minimize credits (starts cluster only if load lasts ≥6 min)." },
+  { q: "When does Economy policy shut down a cluster?", a: "When Snowflake estimates <strong>&lt;6 minutes of work</strong> remain on that cluster." },
+  { q: "Credits formula for a multi-cluster warehouse?", a: "<strong>Size credits/hr × running clusters × hours.</strong><br>Example: Medium (4 cr/hr) × 3 clusters × 1 hr = 12 credits." },
+  { q: "Max clusters for a MEDIUM warehouse?", a: "<strong>300 clusters</strong> (applies to XS, S, M). Larger sizes have lower limits (e.g., 4XL–6XL = 10)." },
+  { q: "Does resizing a running MCW affect all clusters?", a: "<strong>Yes.</strong> New size applies immediately to all running clusters AND any clusters started afterward." },
+  { q: "Is QAS enabled by default on a new multi-cluster warehouse?", a: "<strong>Yes,</strong> with scale factor = 2. But converting an existing single-cluster → multi-cluster does NOT auto-enable QAS." },
+  { q: "MCW is best for improving what?", a: "<strong>Concurrency</strong> (more users/queries running simultaneously). Not ideal for slow query performance or data loading — resize instead." },
+  { q: "Auto-suspend on MCW: does it suspend individual clusters or the whole warehouse?", a: "The <strong>entire warehouse</strong>. Individual cluster shutdown is handled by the scaling policy." },
+];
+
+const list = document.getElementById('fc-list');
+cards.forEach((c, i) => {
+  const el = document.createElement('div');
+  el.className = 'fc';
+  el.innerHTML = `<div class="fc-front"><span class="fc-q">${c.q}</span><span class="fc-hint">tap to reveal</span></div><div class="fc-back">${c.a}</div>`;
+  el.onclick = () => { el.classList.toggle('open'); el.querySelector('.fc-hint').textContent = el.classList.contains('open') ? 'tap to hide' : 'tap to reveal'; };
+  list.appendChild(el);
+});
+</script>

@@ -117,5 +117,124 @@
     "date": "2026-05-26",
     "tags": ["Snowflake", "Multicluster", "Data Engineering"],
     "content_html": "mcw_snowpro_study_guide.html"
+  },
+  {
+    "id": "snowpro_account_usage_vs_info_schema",
+    "title": "Account Usage VS Info Schema",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_account_usage_vs_info_schema.html"
+  },
+  {
+    "id": "snowpro_architecture_key_concepts",
+    "title": "Snowflake Architecture Key Concepts",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_architecture_key_concepts.html"
+  },
+  {
+    "id": "snowpro_clustering_keys",
+    "title": "Clustering Keys",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_clustering_keys.html"
+  },
+  {
+    "id": "snowpro_data_share_consumers",
+    "title": "Data Share Consumers",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_data_share_consumers.html"
+  },
+  {
+    "id": "snowpro_e2ee_and_key_management_deep",
+    "title": "E2EE & Key Management Deep",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_e2ee_and_key_management_deep.html"
+  },
+  {
+    "id": "snowpro_e2ee_client_side_encryption",
+    "title": "E2EE client side encrypt",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_e2ee_client_side_encryption.html"
+  },
+  {
+    "id": "snowpro_encryption_key_management",
+    "title": "Encryption Key Management",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_encryption_key_management.html"
+  },
+  {
+    "id": "snowpro_mfa_security",
+    "title": "Multi Factor Autentication (MFA)",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_mfa_security.html"
+  },
+  {
+    "id": "snowpro_organizations_orgadmin",
+    "title": "ORGADMIN Role",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_organizations_orgadmin.html"
+  },
+  {
+    "id": "snowpro_secure_data_sharing_intro",
+    "title": "Secure Data Sharing",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_secure_data_sharing_intro.html"
+  },
+  {
+    "id": "snowpro_security_compliance_certifications",
+    "title": "Security Compliance Certs",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_security_compliance_certifications.html"
+  },
+  {
+    "id": "snowpro_semistructured_data",
+    "title": "Semistructured Data",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_semistructured_data.html"
+  },
+  {
+    "id": "snowpro_snowsight_user_profile",
+    "title": "Snowsight User Profile",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_snowsight_user_profile.html"
+  },
+  {
+    "id": "snowpro_time_travel",
+    "title": "Time Travel",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_time_travel.html"
+  },
+  {
+    "id": "snowpro_transactions_deep",
+    "title": "Transactions Deep",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_transactions_deep.html"
+  },
+  {
+    "id": "snowpro_unstructured_data_urls",
+    "title": "Unstructured Data URLs",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering"],
+    "content_html": "snowpro_unstructured_data_urls.html"
+  },
+  {
+    "id": "snowpro_warehouse_considerations",
+    "title": "Warehouse Considerations",
+    "date": "2026-05-25",
+    "tags": ["Snowflake", "Data Engineering", "Warehouse"],
+    "content_html": "snowpro_warehouse_considerations.html"
   }
 ]

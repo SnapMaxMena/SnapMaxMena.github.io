@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+h1{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.sub{font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.sec-title{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.card .lbl{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.card .val{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bent{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bbc{background:var(--color-background-danger);color:var(--color-text-danger)}
+.binfo{background:var(--color-background-info);color:var(--color-text-info)}
+.bok{background:var(--color-background-success);color:var(--color-text-success)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wnote{border-left-color:var(--color-text-warning)}
+.dnote{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:13px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+
+/* Q&A */
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* Key lifecycle flowchart */
+.lifecycle{display:flex;flex-direction:column;gap:0;position:relative}
+.lc-row{display:flex;align-items:stretch;gap:0;min-height:44px}
+.lc-month{width:52px;font-size:11px;font-weight:600;color:var(--color-text-tertiary);display:flex;align-items:center;flex-shrink:0;padding-right:8px}
+.lc-keys{display:flex;flex:1;gap:6px}
+.lc-key{flex:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:10px;font-weight:600;text-align:center;padding:5px 4px;line-height:1.3;min-height:36px;border:0.5px solid transparent}
+.key-active{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-text-success)}
+.key-retired{background:var(--color-background-secondary);color:var(--color-text-tertiary);border-color:var(--color-border-secondary)}
+.key-new{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-text-info)}
+.key-destroyed{background:var(--color-background-danger);color:var(--color-text-danger);border-color:var(--color-text-danger);text-decoration:line-through}
+.key-empty{background:transparent;border:none}
+.lc-divider{border-top:0.5px dashed var(--color-border-tertiary);margin:2px 0 2px 52px}
+.lc-header{display:flex;gap:6px;margin-bottom:6px;padding-left:52px}
+.lc-hdr{flex:1;font-size:10px;font-weight:600;color:var(--color-text-tertiary);text-align:center}
+
+/* E2EE Stage matrix */
+.stg-table{width:100%;border-collapse:collapse;font-size:11px}
+.stg-table th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.stg-table td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle;color:var(--color-text-primary)}
+.stg-table tr:last-child td{border-bottom:none}
+.stg-table tr:hover td{background:var(--color-background-primary)}
+.auto{color:var(--color-text-success);font-weight:600}
+.opt{color:var(--color-text-warning);font-weight:500}
+.rec{color:var(--color-text-info);font-weight:500}
+
+/* HSM diagram */
+.hsm-wrap{display:flex;flex-direction:column;align-items:center;gap:0}
+.hsm-box{border-radius:8px;padding:7px 14px;text-align:center;font-size:11px;font-weight:600;border:0.5px solid var(--color-border-secondary)}
+.hsm-line{width:1px;height:12px;background:var(--color-border-secondary)}
+.hsm-row{display:flex;justify-content:center;gap:8px;width:100%}
+.hsm-note{font-size:10px;font-weight:400;margin-top:2px}
+.cloud-row{display:flex;justify-content:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.cloud-pill{font-size:10px;padding:3px 8px;border-radius:12px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+
+/* CMK requirements */
+.req-row{display:flex;gap:8px;margin-bottom:8px}
+.req-card{flex:1;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px;text-align:center}
+.req-icon{font-size:18px;margin-bottom:4px}
+.req-title{font-size:11px;font-weight:600;color:var(--color-text-primary);margin-bottom:3px}
+.req-body{font-size:10px;color:var(--color-text-secondary);line-height:1.4}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--color-text-secondary)}
+.leg-box{width:14px;height:14px;border-radius:3px}
+</style>
+
+<div class="page">
+<h1>E2EE & Encryption Key Management</h1>
+<div class="sub">SnowPro Core — deep-dive card &nbsp;·&nbsp; covers E2EE flow, key hierarchy, rotation, rekeying, HSM, CMK</div>
+
+<!-- FAST NUMBERS -->
+<div class="sec">
+  <div class="sec-title">The 6 numbers you must know</div>
+  <div class="grid3">
+    <div class="card"><div class="lbl">Algorithm</div><div class="val">AES-256 at rest · TLS in transit</div></div>
+    <div class="card"><div class="lbl">Key hierarchy layers</div><div class="val">4 (Root → AMK → TMK → File)</div></div>
+    <div class="card"><div class="lbl">Rotation cadence</div><div class="val">Every <b>30 days</b> (automatic)</div></div>
+    <div class="card"><div class="lbl">Rekeying trigger</div><div class="val">Retired key &gt; <b>1 year</b> old <span class="badge bent">Enterprise+</span></div></div>
+    <div class="card"><div class="lbl">CMK outage tolerance</div><div class="val"><b>10 min</b> → all ops stop</div></div>
+    <div class="card"><div class="lbl">MASTER_KEY param</div><div class="val">128-bit or 256-bit AES, Base64</div></div>
+  </div>
+</div>
+
+<!-- E2EE STAGE MATRIX -->
+<div class="sec">
+  <div class="sec-title">E2EE encryption — internal vs external stage matrix</div>
+  <table class="stg-table">
+    <thead><tr><th>Event</th><th>Internal stage</th><th>External stage</th></tr></thead>
+    <tbody>
+      <tr><td><b>On upload (PUT)</b></td><td><span class="auto">✓ Auto</span> — client encrypts before transmit</td><td><span class="opt">Optional</span> client-side encryption (<span class="rec">recommended</span>)</td></tr>
+      <tr><td><b>After upload</b></td><td><span class="auto">✓ Auto</span> — encrypted again in stage</td><td>If not encrypted → Snowflake encrypts on ingest</td></tr>
+      <tr><td><b>Load into table</b></td><td><span class="auto">✓ Auto</span> AES-256</td><td><span class="auto">✓ Auto</span> AES-256</td></tr>
+      <tr><td><b>During query</b></td><td colspan="2">Decrypts → processes → re-encrypts on completion</td></tr>
+      <tr><td><b>Unload results</b></td><td><span class="auto">✓ Auto</span> encrypted</td><td><span class="opt">Optional</span> client-side encryption</td></tr>
+      <tr><td><b>Download</b></td><td>Decrypted by Snowflake client</td><td>Decrypted by customer client (client-side)</td></tr>
+    </tbody>
+  </table>
+  <div class="note">Client-side encryption flow: Master key → wraps random file key → random key encrypts file → both uploaded together. Decryption reverses on client only. No 3rd party ever sees plaintext.</div>
+</div>
+
+<!-- KEY HIERARCHY VISUAL -->
+<div class="sec">
+  <div class="sec-title">Hierarchical key model — parent wraps child</div>
+  <div class="hsm-wrap">
+    <div class="hsm-box" style="background:var(--color-background-danger);color:var(--color-text-danger)">
+      🔐 HSM (Hardware Security Module)
+      <div class="hsm-note">AWS CloudHSM · Azure HSM · GCP KMS multi-tenant partitions</div>
+      <div class="hsm-note" style="margin-top:2px;color:var(--color-text-tertiary)">Stores & creates Root Key. All unwrapping happens inside HSM.</div>
+    </div>
+    <div class="hsm-line"></div>
+    <div class="hsm-row">
+      <div class="hsm-box" style="background:var(--color-background-warning);color:var(--color-text-warning)">
+        Account Master Key (AMK)
+        <div class="hsm-note">1 per account · isolates tenants</div>
+      </div>
+    </div>
+    <div class="hsm-line"></div>
+    <div class="hsm-row" style="gap:6px">
+      <div class="hsm-box" style="background:var(--color-background-info);color:var(--color-text-info);flex:1">
+        Table Master Key (TMK)
+        <div class="hsm-note">1 per table · rotated every 30 days</div>
+      </div>
+      <div class="hsm-box" style="background:var(--color-background-info);color:var(--color-text-info);flex:1">
+        Table Master Key (TMK)
+        <div class="hsm-note">1 per table</div>
+      </div>
+    </div>
+    <div class="hsm-line"></div>
+    <div class="hsm-row" style="gap:6px">
+      <div class="hsm-box" style="background:var(--color-background-success);color:var(--color-text-success);flex:1">File Key<div class="hsm-note">1 per micropartition file</div></div>
+      <div class="hsm-box" style="background:var(--color-background-success);color:var(--color-text-success);flex:1">File Key<div class="hsm-note">1 per micropartition file</div></div>
+      <div class="hsm-box" style="background:var(--color-background-success);color:var(--color-text-success);flex:1">File Key<div class="hsm-note">1 per micropartition file</div></div>
+    </div>
+    <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:6px;text-align:center">File keys encrypt raw data. Higher layers only wrap the layer below — never touch raw data directly.</div>
+  </div>
+</div>
+
+<!-- KEY LIFECYCLE TIMELINE -->
+<div class="sec">
+  <div class="sec-title">TMK full lifecycle — rotation (30 days) + rekeying (1 year)</div>
+  <div class="lifecycle">
+    <div class="lc-header">
+      <div class="lc-hdr">TMK v1</div>
+      <div class="lc-hdr">TMK v2</div>
+      <div class="lc-hdr">TMK v3</div>
+    </div>
+    <div class="lc-row">
+      <div class="lc-month">Apr</div>
+      <div class="lc-keys">
+        <div class="lc-key key-active">ACTIVE<br>encrypts</div>
+        <div class="lc-key key-empty"></div>
+        <div class="lc-key key-empty"></div>
+      </div>
+    </div>
+    <div class="lc-divider"></div>
+    <div class="lc-row">
+      <div class="lc-month">May<br><span style="font-size:9px;font-weight:400;color:var(--color-text-tertiary)">rotate</span></div>
+      <div class="lc-keys">
+        <div class="lc-key key-retired">RETIRED<br>decrypt only</div>
+        <div class="lc-key key-new">ACTIVE<br>new key</div>
+        <div class="lc-key key-empty"></div>
+      </div>
+    </div>
+    <div class="lc-divider"></div>
+    <div class="lc-row">
+      <div class="lc-month">Jun<br><span style="font-size:9px;font-weight:400;color:var(--color-text-tertiary)">rotate</span></div>
+      <div class="lc-keys">
+        <div class="lc-key key-retired">RETIRED</div>
+        <div class="lc-key key-retired">RETIRED</div>
+        <div class="lc-key key-new">ACTIVE<br>new key</div>
+      </div>
+    </div>
+    <div class="lc-divider"></div>
+    <div class="lc-row">
+      <div class="lc-month">Apr+1yr<br><span style="font-size:9px;font-weight:400;color:var(--color-text-tertiary)">rekey</span></div>
+      <div class="lc-keys">
+        <div class="lc-key key-destroyed">DESTROYED<br>v1 gen1</div>
+        <div class="lc-key key-retired">RETIRED</div>
+        <div class="lc-key key-retired">RETIRED</div>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-box" style="background:var(--color-background-success);border:0.5px solid var(--color-text-success)"></div>Active — encrypts new data</div>
+    <div class="leg-item"><div class="leg-box" style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary)"></div>Retired — decrypt old data only</div>
+    <div class="leg-item"><div class="leg-box" style="background:var(--color-background-danger);border:0.5px solid var(--color-text-danger)"></div>Destroyed — after rekeying</div>
+  </div>
+  <div class="note wnote" style="margin-top:8px">Rekeying re-encrypts old data with a new key gen. Old retired key → destroyed. Runs <b>online, background, zero downtime</b>. Storage side effect: +7 days Fail-safe charge on rekeyed files.</div>
+</div>
+
+<!-- ROTATION vs REKEYING COMPARISON -->
+<div class="sec">
+  <div class="sec-title">Rotation vs rekeying — the exam trap</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="lbl">🔄 Key Rotation</div>
+      <div class="val" style="font-size:12px;margin-top:4px">
+        Active → Retired<br>New key created<br><b>Every 30 days</b><br>All editions, automatic<br>No config needed
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">🔁 Periodic Rekeying <span class="badge bent">Enterprise+</span></div>
+      <div class="val" style="font-size:12px;margin-top:4px">
+        Retired → Destroyed<br>Old data re-encrypted<br><b>After 1 year retired</b><br>Must be enabled by ACCOUNTADMIN<br><code style="font-size:10px">ALTER ACCOUNT SET PERIODIC_DATA_REKEYING = TRUE</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CMK SECTION -->
+<div class="sec">
+  <div class="sec-title">Customer-managed keys (CMK) + Tri-Secret Secure <span class="badge bbc">Business Critical+</span></div>
+  <div class="row"><div class="dot db"></div><div>CMK lives in cloud KMS: <b>AWS KMS</b> · <b>Azure Key Vault</b> · <b>GCP Cloud KMS</b></div></div>
+  <div class="row"><div class="dot db"></div><div><b>Composite master key</b> = Snowflake AMK + CMK → Tri-Secret Secure</div></div>
+  <div class="row"><div class="dot dy"></div><div>CMK rotation in cloud → Snowflake picks up new version at next AMK rotation (<b>~30 days</b>, not immediately)</div></div>
+  <div class="row"><div class="dot dr"></div><div>CMK unavailable &gt; <b>10 minutes</b> → all Snowflake data ops halt completely</div></div>
+  <div class="row"><div class="dot dr"></div><div><b>Never delete old CMK versions</b> — Snowflake still needs them to decrypt older files. Deletion = permanent data loss.</div></div>
+
+  <div style="margin-top:10px">
+    <div style="font-size:10px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase">CMK requirements — CIA triad</div>
+    <div class="req-row">
+      <div class="req-card">
+        <div class="req-icon">🔒</div>
+        <div class="req-title">Confidentiality</div>
+        <div class="req-body">Keep key secure & secret at all times</div>
+      </div>
+      <div class="req-card">
+        <div class="req-icon">🛡️</div>
+        <div class="req-title">Integrity</div>
+        <div class="req-body">Protect against modification or deletion</div>
+      </div>
+      <div class="req-card">
+        <div class="req-icon">⚡</div>
+        <div class="req-title">Availability</div>
+        <div class="req-body">Must be continuously available to Snowflake. &gt;10 min outage = all ops stop</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:10px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase;margin-top:2px">CMK system functions by cloud</div>
+  <div class="grid3">
+    <div class="card"><div class="lbl">AWS</div><div class="val" style="font-size:10px">SYSTEM$GET_CMK_KMS_KEY_POLICY</div></div>
+    <div class="card"><div class="lbl">Azure</div><div class="val" style="font-size:10px">SYSTEM$GET_CMK_AKV_CONSENT_URL</div></div>
+    <div class="card"><div class="lbl">GCP</div><div class="val" style="font-size:10px">SYSTEM$GET_GCP_KMS_CMK_GRANT_ACCESS_CMD</div></div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="sec-title">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["How many layers does the Snowflake key hierarchy have? Name them.","4 layers: Root Key → Account Master Key (AMK) → Table Master Key (TMK) → File Key. Parent wraps (encrypts) child."],
+  ["What does 'wrapping' mean in the key hierarchy?","A parent key encrypts (wraps) a child key. The HSM unwraps the AMK; software then unwraps the TMK using the AMK."],
+  ["Where is the Root Key stored?","In a cloud-hosted HSM: AWS CloudHSM, Azure HSM, or GCP KMS (multi-tenant HSM partitions). All key unwrapping happens inside the HSM."],
+  ["How often are Snowflake-managed keys rotated?","Automatically every 30 days. No configuration needed. All editions."],
+  ["What is the state of a retired key? What can it do?","Retired = can decrypt old data only. Cannot encrypt new data. Only the current active key encrypts."],
+  ["What triggers periodic rekeying?","A retired key being older than 1 year. Enterprise Edition+ only. Must be enabled with ALTER ACCOUNT SET PERIODIC_DATA_REKEYING = TRUE by ACCOUNTADMIN."],
+  ["What is the difference between key rotation and rekeying?","Rotation: active → retired (new key created). Rekeying: old data re-encrypted; retired key → destroyed."],
+  ["Does rekeying cause downtime or performance impact?","No. It runs fully online, in the background, with zero downtime and no performance impact."],
+  ["What extra cost does rekeying add?","7 additional days of Fail-safe storage charged for rekeyed files (temporary double-storage during transition)."],
+  ["Does rekeying affect Time Travel or Fail-safe retention periods?","No — retention periods are unaffected. Only the storage charge side effect exists."],
+  ["Is an internal stage upload encrypted automatically?","Yes — twice: Snowflake client encrypts before transmit, then again after it lands in the stage."],
+  ["Is client-side encryption required for external stages?","No — optional but recommended. If not encrypted, Snowflake encrypts on ingest into a table."],
+  ["What is the MASTER_KEY parameter and what does it accept?","Used in CREATE STAGE for client-side encryption. Accepts a 128-bit or 256-bit AES key encoded in Base64."],
+  ["What is Tri-Secret Secure and which edition needs it?","TSS = Snowflake AMK + customer CMK = composite master key. Requires Business Critical edition or higher."],
+  ["If a CMK is unavailable for 12 minutes, what happens?","All data operations in the Snowflake account halt completely. Snowflake tolerates only up to 10 minutes of CMK unavailability."],
+  ["When does Snowflake start using a newly rotated CMK version?","At the next internal AMK rotation (~30 days later), NOT immediately when the cloud CMK is rotated."],
+  ["Can you delete old rotated CMK versions?","Never. Snowflake needs old versions to decrypt files encrypted under them. Deletion = permanent, unrecoverable data loss."],
+  ["What are the three CMK requirements? (CIA)","Confidentiality (keep it secret), Integrity (protect against modification/deletion), Availability (must be continuously available to Snowflake)."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>document.getElementById('qa'+i).classList.toggle('open'));
+});
+</script>

@@ -1,0 +1,261 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.card .l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.card .v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:3px;color:var(--color-text-info)}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+.yes{color:var(--color-text-success);font-weight:600}
+.no{color:var(--color-text-danger);font-weight:600}
+/* timeline */
+.tl{display:flex;align-items:stretch;gap:0;width:100%;margin:8px 0}
+.tl-seg{display:flex;flex-direction:column;align-items:center;position:relative}
+.tl-bar{height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;border-radius:0}
+.tl-bar:first-child{border-radius:8px 0 0 8px}
+.tl-bar:last-child{border-radius:0 8px 8px 0}
+.tl-label{font-size:9px;color:var(--color-text-tertiary);margin-top:4px;text-align:center;white-space:nowrap}
+/* table */
+.lt{width:100%;border-collapse:collapse;font-size:11px}
+.lt th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.lt td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.lt tr:last-child td{border-bottom:none}
+.lt tr:hover td{background:var(--color-background-primary)}
+/* tabs */
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.tab.on{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
+.panel{display:none}.panel.on{display:block}
+/* retention matrix */
+.rm{width:100%;border-collapse:collapse;font-size:11px}
+.rm th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.rm td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+.rm tr:last-child td{border-bottom:none}
+.rm .hl{background:var(--color-background-info);color:var(--color-text-info);font-weight:600;border-radius:3px;padding:1px 5px}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Time Travel</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- CDP LIFECYCLE TIMELINE -->
+<div class="sec">
+  <div class="st">Continuous data protection lifecycle</div>
+  <div style="display:flex;width:100%;border-radius:8px;overflow:hidden;margin-bottom:6px">
+    <div style="flex:2;background:var(--color-background-success);padding:8px 10px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-success)">⬛ Active storage</div>
+      <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">Current data — live queries</div>
+    </div>
+    <div style="flex:2;background:var(--color-background-info);padding:8px 10px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--color-background-primary)">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-info)">⏱ Time Travel</div>
+      <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">Standard 1 day · Enterprise up to 90 days</div>
+      <div style="font-size:10px;color:var(--color-text-secondary)">Query · Clone · UNDROP</div>
+    </div>
+    <div style="flex:1;background:var(--color-background-warning);padding:8px 10px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--color-background-primary)">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-warning)">🛡 Fail-safe</div>
+      <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">7 days · Snowflake only · no user access</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:4px;font-size:10px;color:var(--color-text-tertiary)">
+    <span style="flex:2;padding-left:4px">← Data modified/dropped</span>
+    <span style="flex:2;padding-left:4px">← TT retention ends</span>
+    <span style="flex:1;padding-left:4px">← 7 days → gone</span>
+  </div>
+  <div class="note wn" style="margin-top:8px">A long-running Time Travel query delays moving data into Fail-safe until the query completes.</div>
+</div>
+
+<!-- RETENTION MATRIX -->
+<div class="sec">
+  <div class="st">Retention period by edition & table type — the exam matrix</div>
+  <table class="rm">
+    <thead><tr><th>Edition</th><th>Object type</th><th>Min days</th><th>Max days</th><th>Default</th></tr></thead>
+    <tbody>
+      <tr><td>All</td><td>All objects</td><td>0</td><td>—</td><td><span class="hl">1 day</span></td></tr>
+      <tr><td><span class="badge bi">Standard</span></td><td>Permanent tables</td><td>0</td><td><span class="hl">1 day</span></td><td>1 day</td></tr>
+      <tr><td><span class="badge bi">Standard</span></td><td>Transient / Temporary</td><td>0</td><td>1 day</td><td>1 day</td></tr>
+      <tr><td><span class="badge bw">Enterprise+</span></td><td>Permanent DB/Schema/Table</td><td>0</td><td><span class="hl">90 days</span></td><td>1 day</td></tr>
+      <tr><td><span class="badge bw">Enterprise+</span></td><td>Transient / Temporary</td><td>0</td><td><span class="hl">1 day</span></td><td>1 day</td></tr>
+    </tbody>
+  </table>
+  <div class="note dn" style="margin-top:8px">Setting retention = 0 deactivates Time Travel for that object. Dropped with 0 retention = <b>unrecoverable</b>.</div>
+</div>
+
+<!-- KEY PARAMETERS -->
+<div class="sec">
+  <div class="st">Key parameters (set by ACCOUNTADMIN)</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Set / override retention</div>
+      <div class="v"><code>DATA_RETENTION_TIME_IN_DAYS</code><br>Account → DB → Schema → Table (inherits down)</div>
+    </div>
+    <div class="card">
+      <div class="l">Enforce minimum retention</div>
+      <div class="v"><code>MIN_DATA_RETENTION_TIME_IN_DAYS</code><br>Effective = <b>MAX(DATA_RETENTION…, MIN_DATA_RETENTION…)</b></div>
+    </div>
+  </div>
+  <div class="note">Inheritance: lower objects inherit unless explicitly set. <b>Dropped containers override child retention</b> — child keeps parent's retention at drop time.</div>
+</div>
+
+<!-- SQL EXTENSIONS -->
+<div class="sec">
+  <div class="st">Time Travel SQL — 3 ways to specify a point in time</div>
+  <table class="lt">
+    <thead><tr><th>Method</th><th>Syntax</th><th>Use when</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge bi">TIMESTAMP</span></td><td><code>AT(TIMESTAMP => '...'::timestamp_tz)</code></td><td>You know the exact date/time</td></tr>
+      <tr><td><span class="badge bo">OFFSET</span></td><td><code>AT(OFFSET => -60*5)</code> (seconds from now)</td><td>Relative time (e.g. "5 min ago")</td></tr>
+      <tr><td><span class="badge bw">STATEMENT</span></td><td><code>BEFORE(STATEMENT => 'query_id')</code></td><td>Undo a specific query by ID</td></tr>
+    </tbody>
+  </table>
+  <div class="note">AT = at or after that point. BEFORE = immediately before that statement's changes.</div>
+</div>
+
+<!-- WHAT YOU CAN DO -->
+<div class="sec">
+  <div class="st">What Time Travel enables — 3 operations</div>
+  <div class="g3">
+    <div class="card">
+      <div class="l">📖 Query historical data</div>
+      <div class="v" style="font-size:11px"><code>SELECT * FROM t<br>AT(OFFSET => -300)</code><br><br>Uses <b>current schema</b> even for historical data</div>
+    </div>
+    <div class="card">
+      <div class="l">📋 Clone at a point in time</div>
+      <div class="v" style="font-size:11px"><code>CREATE TABLE t2<br>CLONE t1 AT(TIMESTAMP=>...)</code><br><br>Works for Table / Schema / DB<br>Use <code>IGNORE TABLES WITH INSUFFICIENT DATA RETENTION</code> for mixed retention</div>
+    </div>
+    <div class="card">
+      <div class="l">♻️ Undrop objects</div>
+      <div class="v" style="font-size:11px"><code>UNDROP TABLE t</code><br><br>Restores most recent dropped version. If name conflict → rename existing first.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT CANNOT BE CLONED -->
+<div class="sec">
+  <div class="st">Clone limitations — what Time Travel cannot clone</div>
+  <div class="g2">
+    <div class="card"><div class="l"><span class="no">✗</span> External tables</div><div class="v" style="font-size:11px">Not clonable via Time Travel</div></div>
+    <div class="card"><div class="l"><span class="no">✗</span> Internal (Snowflake) stages</div><div class="v" style="font-size:11px">Not clonable</div></div>
+    <div class="card"><div class="l"><span class="no">✗</span> User tasks (with timestamp)</div><div class="v" style="font-size:11px"><code>CREATE SCHEMA … CLONE s1 AT(TIMESTAMP=>...)</code> does NOT clone tasks</div></div>
+    <div class="card"><div class="l">⚠ Hybrid tables in schemas</div><div class="v" style="font-size:11px">Can clone for databases but NOT for schemas</div></div>
+  </div>
+</div>
+
+<!-- CHANGING RETENTION TABS -->
+<div class="sec">
+  <div class="st">Changing retention — effects on existing data</div>
+  <div class="tabs">
+    <button class="tab on" onclick="tab('r1',this)">Increase</button>
+    <button class="tab" onclick="tab('r2',this)">Decrease</button>
+    <button class="tab" onclick="tab('r3',this)">Drop container</button>
+  </div>
+  <div id="r1" class="panel on">
+    <div class="row"><div class="dot dg"></div><div>Data already in Time Travel is retained for the <b>longer</b> new period.</div></div>
+    <div class="row"><div class="dot dg"></div><div>Data already in Fail-safe is <b>not</b> brought back — increase only helps future/current TT data.</div></div>
+    <div class="note">Example: 10-day → 20-day. Data that would've left after day 10 stays 10 more days.</div>
+  </div>
+  <div id="r2" class="panel">
+    <div class="row"><div class="dot dy"></div><div>Data still within the new shorter period → <b>stays in Time Travel</b>.</div></div>
+    <div class="row"><div class="dot dr"></div><div>Data outside the new period → <b>moves to Fail-safe</b> (background process — not immediate).</div></div>
+    <div class="row"><div class="dot dy"></div><div>Applies to active objects only. <b>Already-dropped child objects retain their period at drop time</b>.</div></div>
+    <div class="note wn">Example: 10-day → 1-day. Days 2–10 move to Fail-safe. Only day 1 remains in TT.</div>
+  </div>
+  <div id="r3" class="panel">
+    <div class="row"><div class="dot dr"></div><div>Dropping a <b>DB</b>: child schemas/tables use the <b>DB's</b> retention, ignoring their own explicit settings.</div></div>
+    <div class="row"><div class="dot dr"></div><div>Dropping a <b>Schema</b>: child tables use the <b>schema's</b> retention, ignoring their own.</div></div>
+    <div class="row"><div class="dot dy"></div><div>Fix: <b>drop child objects explicitly first</b> to honor their individual retention periods.</div></div>
+    <div class="note dn">⚠ Exam trap: child table has 90-day retention but parent schema has 1-day → drop schema → table gets 1 day, NOT 90.</div>
+  </div>
+</div>
+
+<!-- UNDROP RULES -->
+<div class="sec">
+  <div class="st">UNDROP rules & access control</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">What can be UNDROPped</div>
+      <div class="v" style="font-size:11px">TABLE · SCHEMA · DATABASE · NOTEBOOK · ICEBERG TABLE · DYNAMIC TABLE · EXTERNAL VOLUME · TAG · ACCOUNT</div>
+    </div>
+    <div class="card">
+      <div class="l">Privileges required</div>
+      <div class="v" style="font-size:11px"><b>OWNERSHIP</b> on dropped object<br>+ <b>CREATE</b> privilege on the object type in the target DB/Schema</div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:8px"><div class="dot dr"></div><div>If same name exists → UNDROP <b>fails</b>. Rename existing object first, then UNDROP.</div></div>
+  <div class="row"><div class="dot db"></div><div>UNDROP restores to <b>most recent</b> dropped version. Creating a new object with same name does NOT restore old one.</div></div>
+  <div class="row"><div class="dot db"></div><div>List dropped objects: <code>SHOW TABLES HISTORY</code> / <code>SHOW SCHEMAS HISTORY</code> / <code>SHOW DATABASES HISTORY</code></div></div>
+  <div class="note">Restoring only works in the current DB/Schema context, even with fully-qualified names.</div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+function tab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+const qas=[
+  ["What is the default Time Travel retention period for all Snowflake accounts?","1 day (24 hours). Automatically enabled — no configuration needed."],
+  ["What is the maximum Time Travel retention for Enterprise Edition permanent tables?","90 days."],
+  ["What is the maximum Time Travel retention for transient or temporary tables on Enterprise Edition?","1 day — same as Standard Edition. Transient/temporary tables cannot exceed 1 day regardless of edition."],
+  ["What does setting DATA_RETENTION_TIME_IN_DAYS = 0 do?","Deactivates Time Travel for that object. If dropped with 0 retention, the object cannot be recovered."],
+  ["What is the formula for effective retention when MIN_DATA_RETENTION_TIME_IN_DAYS is set?","MAX(DATA_RETENTION_TIME_IN_DAYS, MIN_DATA_RETENTION_TIME_IN_DAYS)"],
+  ["What are the 3 AT|BEFORE parameters for Time Travel queries?","TIMESTAMP (exact datetime), OFFSET (seconds from now, e.g. -300), STATEMENT (query ID)."],
+  ["What 3 operations does Time Travel enable?","1. Query historical data (SELECT…AT|BEFORE). 2. Clone objects at a point in time (CREATE…CLONE AT|BEFORE). 3. Restore dropped objects (UNDROP)."],
+  ["What objects cannot be cloned using Time Travel?","External tables, internal (Snowflake) stages. Hybrid tables cannot be cloned at schema level. User tasks not cloned with timestamp clone."],
+  ["You increase retention from 10 to 20 days. What happens to data already in Fail-safe?","Nothing — data already in Fail-safe is NOT brought back. The increase only affects data still in Time Travel."],
+  ["You decrease retention from 10 to 1 day. What happens to data from days 2-10?","It moves to Fail-safe via a background process (not immediate). Only day 1 data remains in Time Travel."],
+  ["A table has 90-day retention, but its parent schema has 1-day retention. You drop the schema. How long is the table retained?","1 day — the schema's retention overrides. The child table's explicit setting is ignored when the container is dropped."],
+  ["How do you honor a child table's retention when dropping its parent schema?","Drop the child table explicitly BEFORE dropping the schema."],
+  ["You UNDROP a table but a table with the same name already exists. What happens?","UNDROP fails. You must rename the existing table first, then UNDROP."],
+  ["What is the schema used when querying historical data with AT|BEFORE?","The current (present) schema — not the historical schema at that point in time."],
+  ["What privileges are required to UNDROP an object?","OWNERSHIP on the dropped object + CREATE privilege on the object type in the target database/schema."],
+  ["What command lists all dropped tables including those in Time Travel?","SHOW TABLES HISTORY (also SHOW SCHEMAS HISTORY, SHOW DATABASES HISTORY)"],
+  ["How do you clone a DB from 4 days ago, skipping tables with insufficient retention?","CREATE DATABASE … CLONE my_db AT(TIMESTAMP => DATEADD(days,-4,current_timestamp)::timestamp_tz) IGNORE TABLES WITH INSUFFICIENT DATA RETENTION"],
+  ["Can Time Travel be deactivated for an entire account?","Not directly. You can set DATA_RETENTION_TIME_IN_DAYS = 0 at the account level (all new objects default to 0), but individual objects can override it. The feature itself cannot be turned off."],
+  ["What happens to Time Travel data after the retention period ends?","It moves to Fail-safe (7 days, managed by Snowflake only). No querying, cloning, or UNDROP is possible."],
+  ["Does extended Time Travel storage cost extra?","Yes — additional storage charges apply for historical data stored beyond the standard 1 day."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

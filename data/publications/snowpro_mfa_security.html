@@ -1,0 +1,239 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* MFA method cards */
+.method-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.method-card{border-radius:8px;padding:10px 12px;border:0.5px solid var(--color-border-secondary)}
+.m-pass{background:var(--color-background-success)}
+.m-totp{background:var(--color-background-info)}
+.m-duo{background:var(--color-background-warning)}
+.m-otp{background:var(--color-background-secondary)}
+.m-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.m-pass .m-title{color:var(--color-text-success)}
+.m-totp .m-title{color:var(--color-text-info)}
+.m-duo .m-title{color:var(--color-text-warning)}
+.m-otp .m-title{color:var(--color-text-secondary)}
+.m-body{font-size:11px;color:var(--color-text-secondary)}
+
+/* admin SQL table */
+.at{width:100%;border-collapse:collapse;font-size:11px}
+.at th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.at td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.at tr:last-child td{border-bottom:none}
+.at tr:hover td{background:var(--color-background-primary)}
+
+/* user type strip */
+.ustrip{display:flex;gap:10px;margin-bottom:6px}
+.ubox{flex:1;border-radius:8px;padding:10px;border:0.5px solid var(--color-border-secondary);text-align:center}
+.u-human{background:var(--color-background-success)}
+.u-service{background:var(--color-background-danger)}
+.u-title{font-size:12px;font-weight:700;margin-bottom:3px}
+.u-human .u-title{color:var(--color-text-success)}
+.u-service .u-title{color:var(--color-text-danger)}
+.u-body{font-size:11px;color:var(--color-text-secondary)}
+
+/* token cache validity */
+.cache-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.cache-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:6px 8px;font-size:11px;color:var(--color-text-secondary)}
+.cache-item::before{content:"✗ ";color:var(--color-text-danger);font-weight:600}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Multi-factor authentication (MFA)</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- HUMAN vs SERVICE USER -->
+<div class="sec">
+  <div class="st">MFA applies to — user type matters</div>
+  <div class="ustrip">
+    <div class="ubox u-human">
+      <div class="u-title">👤 Human users</div>
+      <div class="u-body">Authenticate with password.<br><b>MFA required</b> (or becoming required).<br>Must enroll in MFA.</div>
+    </div>
+    <div class="ubox u-service">
+      <div class="u-title">🤖 Service users</div>
+      <div class="u-body">Programmatic access.<br><b>MFA NOT required.</b><br>Must use other auth methods (key pair, OAuth, etc.)</div>
+    </div>
+  </div>
+  <div class="note wn">⚠ Snowflake is rolling out <b>mandatory MFA for all password sign-ins</b>. Opt-out is temporary. Accounts created after 2024_08 bundle: MFA required by default.</div>
+</div>
+
+<!-- 4 MFA METHODS -->
+<div class="sec">
+  <div class="st">MFA methods — 4 types</div>
+  <div class="method-grid">
+    <div class="method-card m-pass">
+      <div class="m-title">🔑 Passkey</div>
+      <div class="m-body"><b>Recommended.</b> Stored in device/hardware. Most secure + usable. Can be replicated.</div>
+    </div>
+    <div class="method-card m-totp">
+      <div class="m-title">📱 TOTP</div>
+      <div class="m-body">Authenticator app (e.g. Google Authenticator). Time-based one-time passcode. Can be replicated.</div>
+    </div>
+    <div class="method-card m-duo">
+      <div class="m-title">📲 Duo</div>
+      <div class="m-body">Push notification or Duo passcode. <b>NOT replicated</b> like other methods. Default for CLI/SnowSQL/JDBC/ODBC/Python.</div>
+    </div>
+  </div>
+  <div class="method-grid" style="grid-template-columns:1fr">
+    <div class="method-card m-otp" style="grid-column:span 1">
+      <div class="m-title">🔢 OTP (One-time passcode)</div>
+      <div class="m-body">Generated for <b>break glass access</b> only. Single-use — invalidated after use. <b>NOT replicated</b> across accounts. Generate with <code>ALTER USER … ADD MFA METHOD OTP COUNT = N</code></div>
+    </div>
+  </div>
+  <div class="note">Restrict methods via authentication policy: <code>MFA_POLICY = (ALLOWED_METHODS = ('PASSKEY', 'TOTP'))</code></div>
+</div>
+
+<!-- ADMIN SQL REFERENCE -->
+<div class="sec">
+  <div class="st">Admin SQL operations — quick reference</div>
+  <table class="at">
+    <thead><tr><th>Action</th><th>SQL</th><th>Who</th></tr></thead>
+    <tbody>
+      <tr><td>Require MFA enrollment</td><td><code>CREATE AUTHENTICATION POLICY … MFA_ENROLLMENT = 'REQUIRED'</code></td><td>ACCOUNTADMIN</td></tr>
+      <tr><td>Make MFA optional</td><td><code>MFA_ENROLLMENT = 'OPTIONAL'</code> in auth policy</td><td>ACCOUNTADMIN</td></tr>
+      <tr><td>View a user's MFA methods</td><td><code>SHOW MFA METHODS FOR USER joe;</code></td><td>Admin</td></tr>
+      <tr><td>Remove a user's MFA method</td><td><code>ALTER USER joe REMOVE MFA METHOD TOTP-48A7;</code></td><td>Admin</td></tr>
+      <tr><td>Prompt user to add new MFA method</td><td><code>ALTER USER joe ENROLL MFA;</code></td><td>Admin</td></tr>
+      <tr><td>Temporarily bypass MFA</td><td><code>ALTER USER joe SET MINS_TO_BYPASS_MFA = 30;</code></td><td>Admin</td></tr>
+      <tr><td>Generate break-glass OTPs</td><td><code>ALTER USER bg_user ADD MFA METHOD OTP COUNT = 5;</code></td><td>Admin</td></tr>
+      <tr><td>Enable MFA token caching</td><td><code>ALTER ACCOUNT SET ALLOW_CLIENT_MFA_CACHING = TRUE;</code></td><td>ACCOUNTADMIN</td></tr>
+      <tr><td>Find users using MFA token cache</td><td><code>SELECT … FROM LOGIN_HISTORY WHERE SECOND_AUTHENTICATION_FACTOR = 'MFA_TOKEN';</code></td><td>ACCOUNTADMIN</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- MFA TOKEN CACHING -->
+<div class="sec">
+  <div class="st">MFA token caching — reduce prompts</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">What it does</div>
+      <div class="v">Caches the MFA token so users aren't re-prompted for multiple connections within a short period. Valid up to <b>4 hours</b>.</div>
+    </div>
+    <div class="card">
+      <div class="l">Enable</div>
+      <div class="v"><code>ALTER ACCOUNT SET ALLOW_CLIENT_MFA_CACHING = TRUE</code><br>Authenticator string: <code>username_password_mfa</code><br>Role: ACCOUNTADMIN</div>
+    </div>
+  </div>
+  <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);margin:10px 0 6px">Token invalidated when any of these occur:</div>
+  <div class="cache-list">
+    <div class="cache-item">ALLOW_CLIENT_MFA_CACHING set to FALSE</div>
+    <div class="cache-item">Authentication method changes</div>
+    <div class="cache-item">Username or password changes</div>
+    <div class="cache-item">Credentials invalid</div>
+    <div class="cache-item">Token expires or fails cryptographic check</div>
+    <div class="cache-item">Account name changes</div>
+  </div>
+  <div class="note">Token stored in client OS keystore. Consult security/compliance team before enabling.</div>
+</div>
+
+<!-- LOCKOUT RECOVERY -->
+<div class="sec">
+  <div class="st">Lockout recovery — 2 admin options</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-info)">
+      <div class="l">Option A — Add new MFA method</div>
+      <div class="v" style="font-size:11px"><code>ALTER USER joe ENROLL MFA;</code><br>If verified email → Snowflake emails a link.<br>If no email → Snowflake returns a URL the admin sends to user.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-warning)">
+      <div class="l">Option B — Temp bypass</div>
+      <div class="v" style="font-size:11px"><code>ALTER USER joe SET MINS_TO_BYPASS_MFA = 30;</code><br>Grants single-factor login for N minutes. Admin resets afterward.</div>
+    </div>
+  </div>
+</div>
+
+<!-- BREAK GLASS -->
+<div class="sec">
+  <div class="st">Break glass access — emergency admin login</div>
+  <div class="row"><div class="dot db"></div><div>Create a dedicated break-glass user. Store password + OTPs in a key vault.</div></div>
+  <div class="row"><div class="dot dr"></div><div>OTP is <b>single-use</b> — invalidated immediately after authentication.</div></div>
+  <div class="row"><div class="dot dr"></div><div>OTPs <b>cannot be replicated</b> across accounts. For target accounts: generate new OTPs there, or use TOTP/passkey instead.</div></div>
+  <div class="row"><div class="dot dy"></div><div>Always have a backup MFA method — if OTPs are exhausted and no other method exists, user is locked out.</div></div>
+</div>
+
+<!-- CONNECTOR SUPPORT -->
+<div class="sec">
+  <div class="st">MFA connector support at a glance</div>
+  <div class="g3">
+    <div class="card"><div class="l">Fully supported</div><div class="v" style="font-size:11px">Snowsight · SnowSQL · Snowflake CLI · JDBC · ODBC · Python · Node.js · .NET</div></div>
+    <div class="card"><div class="l">Default behavior</div><div class="v" style="font-size:11px">Duo Push used by default in SnowSQL, CLI, JDBC, ODBC, Python. No config change needed.</div></div>
+    <div class="card"><div class="l">Passcode instead of Push</div><div class="v" style="font-size:11px"><code>--mfa-passcode &lt;code&gt;</code> or <code>passcodeInPassword=true</code> (appends code to password string)</div></div>
+  </div>
+  <div class="note dn">⚠ MFA with landline/phone callbacks does NOT work with drivers (ODBC, JDBC, etc.).</div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["MFA is required for which type of Snowflake users?","Human users who authenticate with a password. Service users must use other authentication methods (key pair, OAuth, etc.) and do not use MFA."],
+  ["What are the 3 main MFA methods in Snowflake?","Passkey (recommended), TOTP (authenticator app), and Duo (push or passcode)."],
+  ["Which MFA method is recommended and why?","Passkey — most secure and usable. Also replicable, unlike Duo."],
+  ["Which MFA method is NOT replicated?","Duo is not replicated like other methods. OTPs for break glass are also not replicated."],
+  ["How does an admin temporarily disable MFA for a locked-out user?","ALTER USER joe SET MINS_TO_BYPASS_MFA = 30; — allows single-factor login for 30 minutes."],
+  ["How does an admin prompt a locked-out user to set up a new MFA method?","ALTER USER joe ENROLL MFA; — Snowflake emails a link (verified email) or returns a URL the admin sends to the user."],
+  ["What is MFA token caching and how long is the cache valid?","Reduces re-prompts for multiple connections. Cached token is valid up to 4 hours. Enabled with ALLOW_CLIENT_MFA_CACHING = TRUE by ACCOUNTADMIN."],
+  ["What authenticator string is needed for MFA token caching?","authenticator = username_password_mfa in the client connection string."],
+  ["What is break glass access?","Emergency login capability for when normal auth (e.g. IdP) is unavailable. Uses a dedicated user with password + OTPs stored in a key vault."],
+  ["What happens to a break glass OTP after it is used?","It is immediately invalidated — each OTP is single-use only."],
+  ["How do you generate break glass OTPs?","ALTER USER bg_user ADD MFA METHOD OTP COUNT = 5;"],
+  ["Can OTPs be replicated to another Snowflake account?","No — OTPs cannot be replicated. For break glass in target accounts, generate new OTPs there or use TOTP/passkey instead."],
+  ["How do you view a user's current MFA methods?","SHOW MFA METHODS FOR USER joe;"],
+  ["How do you remove a specific MFA method from a user?","ALTER USER joe REMOVE MFA METHOD TOTP-48A7; (use the name from SHOW MFA METHODS output)"],
+  ["Does Snowflake require MFA for SSO users by default?","No — Snowflake relies on the IdP to enforce strong auth. You can optionally require Snowflake MFA after SSO via an authentication policy."],
+  ["How do you restrict which MFA methods users can choose?","Use an authentication policy with MFA_POLICY = (ALLOWED_METHODS = ('PASSKEY', 'TOTP'))."],
+  ["MFA with landline/phone callback — does it work with JDBC/ODBC drivers?","No — landline/phone callback MFA is not supported with drivers."],
+  ["How do you find all users using MFA token caching to log in?","Query LOGIN_HISTORY WHERE SECOND_AUTHENTICATION_FACTOR = 'MFA_TOKEN' in SNOWFLAKE.ACCOUNT_USAGE."],
+  ["What happens if you want to use a Duo passcode (not push) in SnowSQL?","Use --mfa-passcode <code> or --mfa-passcode-in-password (appends passcode to password string)."],
+  ["What happens when the MFA token cache is invalidated?","User must complete full MFA prompt again on next connection. Cache is invalidated if: account set to false, auth method changes, credentials change, token expires, or account name changes."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

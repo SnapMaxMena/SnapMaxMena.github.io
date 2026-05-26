@@ -1,0 +1,328 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.c{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.c .l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.c .v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+code{font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:3px;color:var(--color-text-info)}
+
+/* State machine */
+.sm{display:flex;flex-direction:column;gap:4px}
+.sm-row{display:flex;align-items:center;gap:6px}
+.sm-box{border-radius:7px;padding:7px 12px;font-size:11px;font-weight:600;text-align:center;white-space:nowrap;min-width:80px}
+.sm-arrow{font-size:16px;color:var(--color-text-tertiary);flex-shrink:0}
+.sm-label{font-size:10px;color:var(--color-text-tertiary)}
+.state-active{background:var(--color-background-success);color:var(--color-text-success);border:0.5px solid var(--color-text-success)}
+.state-committed{background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-text-info)}
+.state-rolled{background:var(--color-background-danger);color:var(--color-text-danger);border:0.5px solid var(--color-text-danger)}
+.state-idle{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+
+/* Lock table */
+.lt{width:100%;border-collapse:collapse;font-size:11px}
+.lt th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.lt td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.lt tr:last-child td{border-bottom:none}
+.lt tr:hover td{background:var(--color-background-primary)}
+.yes{color:var(--color-text-success);font-weight:600}
+.no{color:var(--color-text-danger);font-weight:600}
+.some{color:var(--color-text-warning);font-weight:600}
+
+/* Abort timer */
+.abort-grid{display:flex;flex-direction:column;gap:6px}
+.abort-row{display:flex;align-items:center;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:8px 12px}
+.abort-time{font-size:14px;font-weight:700;color:var(--color-text-warning);min-width:60px;flex-shrink:0}
+.abort-cond{font-size:11px;color:var(--color-text-primary);line-height:1.4}
+
+/* Autocommit grid */
+.ac-col{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.ac-head{font-size:11px;font-weight:600;margin-bottom:6px}
+.ac-on{color:var(--color-text-success)}
+.ac-off{color:var(--color-text-danger)}
+.ac-row{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;display:flex;gap:6px}
+.ac-row::before{content:"→";color:var(--color-text-tertiary);flex-shrink:0}
+
+/* Tab */
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.tab.on{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
+.panel{display:none}.panel.on{display:block}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Snowflake transactions</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- CORE FACTS -->
+<div class="sec">
+  <div class="st">Core facts</div>
+  <div class="g3">
+    <div class="c"><div class="l">Guarantee</div><div class="v">ACID properties</div></div>
+    <div class="c"><div class="l">Isolation level</div><div class="v">READ COMMITTED only</div></div>
+    <div class="c"><div class="l">AUTOCOMMIT default</div><div class="v">TRUE (enabled)</div></div>
+    <div class="c"><div class="l">Nested transactions?</div><div class="v">❌ Never. Scoped = separate, autonomous txns</div></div>
+    <div class="c"><div class="l">Sessions sharing a txn?</div><div class="v">❌ 1 txn = 1 session only</div></div>
+    <div class="c"><div class="l">DDL in explicit txn?</div><div class="v">⚠ Implicitly commits active txn first</div></div>
+  </div>
+</div>
+
+<!-- TRANSACTION STATE MACHINE -->
+<div class="sec">
+  <div class="st">Transaction lifecycle — state machine</div>
+  <div class="sm">
+    <div class="sm-row">
+      <div class="sm-box state-idle">No txn</div>
+      <div class="sm-arrow">→</div>
+      <div class="sm-box state-active">ACTIVE</div>
+      <div class="sm-label" style="margin-left:4px">via: <code>BEGIN TRANSACTION</code> (explicit) or DML when AUTOCOMMIT=OFF (implicit)</div>
+    </div>
+    <div class="sm-row" style="padding-left:88px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="sm-row">
+          <div class="sm-arrow">→</div>
+          <div class="sm-box state-committed">COMMITTED</div>
+          <div class="sm-label">via: <code>COMMIT</code> / DDL / <code>ALTER SESSION SET AUTOCOMMIT</code></div>
+        </div>
+        <div class="sm-row">
+          <div class="sm-arrow">→</div>
+          <div class="sm-box state-rolled">ROLLED BACK</div>
+          <div class="sm-label">via: <code>ROLLBACK</code> / session end / SP end (if active) / auto-abort</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note wn" style="margin-top:10px">DDL always auto-commits any active txn before running. You CANNOT roll back a DDL statement.</div>
+</div>
+
+<!-- AUTOCOMMIT BEHAVIOR -->
+<div class="sec">
+  <div class="st">AUTOCOMMIT = TRUE vs FALSE</div>
+  <div class="g2">
+    <div class="ac-col">
+      <div class="ac-head ac-on">✓ AUTOCOMMIT = TRUE (default)</div>
+      <div class="ac-row">Each standalone DML = its own txn (auto-commits on success, auto-rolls on fail)</div>
+      <div class="ac-row">Statements inside BEGIN…COMMIT are NOT affected</div>
+      <div class="ac-row">Recommended setting — keep it ON</div>
+    </div>
+    <div class="ac-col">
+      <div class="ac-head ac-off">✗ AUTOCOMMIT = FALSE</div>
+      <div class="ac-row">Implicit BEGIN at first DML after txn ends</div>
+      <div class="ac-row">Implicit COMMIT on DDL or ALTER SESSION SET AUTOCOMMIT</div>
+      <div class="ac-row">Implicit ROLLBACK at session end or SP end (if txn still open)</div>
+      <div class="ac-row">⚠ Do NOT change inside stored procedures → error</div>
+    </div>
+  </div>
+</div>
+
+<!-- DDL / DML / QUERY CHEAT SHEET -->
+<div class="sec">
+  <div class="st">DDL vs DML vs Query — transaction behaviour</div>
+  <table class="lt">
+    <thead><tr><th>Type</th><th>Examples</th><th>Rolls back?</th><th>Auto-commits active txn?</th><th>Starts implicit txn?</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge bi">DDL</span></td><td>CREATE, DROP, ALTER, CTAS</td><td class="no">❌ Never</td><td class="yes">✓ Always</td><td class="yes">✓ Runs as its own txn</td></tr>
+      <tr><td><span class="badge bo">DML</span></td><td>INSERT, UPDATE, DELETE, MERGE, TRUNCATE</td><td class="yes">✓ Yes</td><td class="no">❌</td><td class="yes">✓ (when AUTOCOMMIT=OFF)</td></tr>
+      <tr><td><span class="badge bw">Query</span></td><td>SELECT, CALL</td><td class="yes">✓ Yes (if fails)</td><td class="no">❌</td><td class="some">⚠ CALL can contain DML</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LOCKING -->
+<div class="sec">
+  <div class="st">Resource locking — who blocks whom</div>
+  <table class="lt">
+    <thead><tr><th>Statement</th><th>Blocks INSERT?</th><th>Blocks UPDATE/DELETE/MERGE?</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>INSERT / COPY</td><td class="no">❌ (usually)</td><td class="some">⚠ Sometimes</td><td>Write new partitions only; often parallel</td></tr>
+      <tr><td>UPDATE / DELETE / MERGE</td><td class="no">❌</td><td class="yes">✓ Yes</td><td>Hold locks; prevent parallel UDM on same table</td></tr>
+      <tr><td>COMMIT (any)</td><td class="no">❌</td><td class="no">❌</td><td>Locks held briefly only</td></tr>
+      <tr><td>DDL w/ CHANGE_TRACKING</td><td class="no">❌</td><td class="yes">✓ Briefly</td><td>CREATE TABLE, CREATE STREAM, ALTER TABLE</td></tr>
+    </tbody>
+  </table>
+  <div class="g2" style="margin-top:8px">
+    <div class="c"><div class="l">LOCK_TIMEOUT default</div><div class="v">43,200 sec (12 hrs). Set to 0 = must acquire immediately or abort.</div></div>
+    <div class="c"><div class="l">Hybrid table locks</div><div class="v">Row-level only. Different rows = no block. Default timeout 3,600 sec (1 hr).</div></div>
+  </div>
+  <div class="note">Locks released on COMMIT or ROLLBACK only.</div>
+</div>
+
+<!-- AUTO-ABORT TIMERS -->
+<div class="sec">
+  <div class="st">Auto-abort timers — detached / idle transactions</div>
+  <div class="abort-grid">
+    <div class="abort-row">
+      <div class="abort-time">5 min</div>
+      <div class="abort-cond">Txn is <b>idle</b> AND <b>blocking</b> another txn from acquiring a lock → auto-aborted & rolled back</div>
+    </div>
+    <div class="abort-row">
+      <div class="abort-time">4 hrs</div>
+      <div class="abort-cond">Txn is <b>NOT blocking</b> others AND is older than 4 hours → auto-aborted & rolled back</div>
+    </div>
+    <div class="abort-row">
+      <div class="abort-time">5 min</div>
+      <div class="abort-cond">Txn <b>reads/writes hybrid tables</b> and is idle → auto-aborted regardless of blocking</div>
+    </div>
+  </div>
+  <div class="note wn">Manual abort: <code>SYSTEM$ABORT_TRANSACTION(txn_id)</code> — callable by txn owner or ACCOUNTADMIN.<br>
+  To auto-abort on any statement error: <code>TRANSACTION_ABORT_ON_ERROR = TRUE</code></div>
+</div>
+
+<!-- SCOPED TXNS + STORED PROCS TABS -->
+<div class="sec">
+  <div class="st">Stored procedures & scoped transactions</div>
+  <div class="tabs">
+    <button class="tab on" onclick="tab('t1',this)">Key Rules</button>
+    <button class="tab" onclick="tab('t2',this)">SP inside Txn</button>
+    <button class="tab" onclick="tab('t3',this)">Txn inside SP</button>
+    <button class="tab" onclick="tab('t4',this)">Scoped Txns</button>
+    <button class="tab" onclick="tab('t5',this)">Gotchas</button>
+  </div>
+  <div id="t1" class="panel on">
+    <div class="row"><div class="dot dr"></div><div>Transactions are <b>never nested</b>. Each BEGIN/COMMIT pair is an <b>independent scoped transaction</b>.</div></div>
+    <div class="row"><div class="dot dr"></div><div>A transaction <b>cannot span stored procedure boundaries</b>. BEGIN must pair with COMMIT/ROLLBACK in the SAME procedure scope.</div></div>
+    <div class="row"><div class="dot dy"></div><div>A transaction open at the <b>end of a stored procedure → implicitly rolled back</b> with an error.</div></div>
+    <div class="row"><div class="dot dy"></div><div>DDL in inner SP while outer txn is active → <code>Modifying a transaction that has started at a different scope is not allowed</code></div></div>
+    <div class="row"><div class="dot db"></div><div>Each transaction ID is a <b>unique signed 64-bit integer</b>.</div></div>
+  </div>
+  <div id="t2" class="panel">
+    <div class="note" style="margin-bottom:8px">Pattern: BEGIN before CALL, COMMIT after CALL, SP body has NO BEGIN/COMMIT.</div>
+    <div class="row"><div class="dot dg"></div><div>SP statements follow enclosing txn rules: all commit or all roll back together.</div></div>
+    <div class="row"><div class="dot dg"></div><div>Effectively: the SP's statements are inlined into the enclosing transaction.</div></div>
+  </div>
+  <div id="t3" class="panel">
+    <div class="note" style="margin-bottom:8px">Pattern: SP body has its own BEGIN/COMMIT. Called with no enclosing txn.</div>
+    <div class="row"><div class="dot dg"></div><div>Zero, one, or more transactions can exist inside one SP.</div></div>
+    <div class="row"><div class="dot dg"></div><div>Each txn in SP starts and ends inside the SP — no crossing the SP boundary.</div></div>
+  </div>
+  <div id="t4" class="panel">
+    <div class="note" style="margin-bottom:8px">Scoped txn = autonomous. An inner ROLLBACK does NOT affect an outer COMMIT and vice versa.</div>
+    <div class="row"><div class="dot dy"></div><div>p1 calls p2; p2 has its own txn → that txn commits/rolls back independently of p1's txn.</div></div>
+    <div class="row"><div class="dot dr"></div><div>Overlapping scoped txns on same table → <b>deadlock risk</b>. Use only when necessary.</div></div>
+    <div class="row"><div class="dot db"></div><div>Useful pattern: log_table SP commits independently even if outer txn rolls back.</div></div>
+  </div>
+  <div id="t5" class="panel">
+    <div class="row"><div class="dot dr"></div><div><b>Missing COMMIT in inner SP</b> → inner SP implicitly rolls back → outer SP also fails → outer txn statements rolled back.</div></div>
+    <div class="row"><div class="dot dr"></div><div><b>AUTOCOMMIT=FALSE + SP with DML but no BEGIN/COMMIT</b> → txn opens implicitly inside SP, rolls back at SP end.</div></div>
+    <div class="row"><div class="dot dy"></div><div>Fix: either start txn BEFORE calling SP, or put BEGIN/COMMIT INSIDE the SP — never split across boundary.</div></div>
+    <div class="row"><div class="dot dy"></div><div><b>Multi-threading</b>: threads sharing one connection share the same txn. COMMIT by one thread affects all. Use separate connections per thread.</div></div>
+  </div>
+</div>
+
+<!-- FAILED STATEMENTS -->
+<div class="sec">
+  <div class="st">Failed statements within a transaction — the trap</div>
+  <div class="row"><div class="dot dy"></div><div>A failed DML rolls back <b>only that statement's changes</b> — the <b>transaction stays open</b>.</div></div>
+  <div class="row"><div class="dot dy"></div><div>If you COMMIT after a failed statement, successful statements before and after the failure are committed.</div></div>
+  <div class="row"><div class="dot db"></div><div><b>Snowsight</b>: halts at first error. <b>SnowSQL -f</b>: continues past errors. Behavior varies by client.</div></div>
+  <div class="note wn">To make any error abort the whole txn: <code>ALTER SESSION SET TRANSACTION_ABORT_ON_ERROR = TRUE</code></div>
+</div>
+
+<!-- READ COMMITTED -->
+<div class="sec">
+  <div class="st">READ COMMITTED isolation — exam rules</div>
+  <div class="row"><div class="dot db"></div><div>Only isolation level in Snowflake. A statement sees only data committed <b>before the statement began</b>.</div></div>
+  <div class="row"><div class="dot db"></div><div>Two statements in the same txn <b>can see different data</b> if another txn commits between them.</div></div>
+  <div class="row"><div class="dot dg"></div><div>A statement <b>does</b> see changes made by prior statements <b>in the same txn</b>, even if not yet committed.</div></div>
+  <div class="row"><div class="dot dy"></div><div>Cross-session read consistency: set <code>READ_CONSISTENCY_MODE = 'GLOBAL'</code> (ACCOUNTADMIN only) for near-concurrent consistency.</div></div>
+</div>
+
+<!-- DEADLOCKS -->
+<div class="sec">
+  <div class="st">Deadlocks</div>
+  <div class="g3">
+    <div class="c"><div class="l">Autocommit SELECT concurrently</div><div class="v" style="color:var(--color-text-success)">❌ Cannot deadlock (read-only)</div></div>
+    <div class="c"><div class="l">Autocommit DML — standard tables</div><div class="v" style="color:var(--color-text-success)">❌ Cannot deadlock</div></div>
+    <div class="c"><div class="l">Autocommit DML — hybrid tables</div><div class="v" style="color:var(--color-text-danger)">✓ Can deadlock</div></div>
+    <div class="c" style="grid-column:span 3"><div class="l">Explicit multi-statement txns</div><div class="v" style="color:var(--color-text-danger)">✓ Can deadlock. Snowflake auto-detects: rolls back the MOST RECENT deadlocked statement. Txn stays active — must still be committed or rolled back.</div></div>
+  </div>
+</div>
+
+<!-- MONITORING COMMANDS -->
+<div class="sec">
+  <div class="st">Monitoring & management commands</div>
+  <div class="g2">
+    <div class="c"><div class="l">List txns</div><div class="v"><code>SHOW TRANSACTIONS</code></div></div>
+    <div class="c"><div class="l">Inspect a txn</div><div class="v"><code>DESCRIBE TRANSACTION &lt;id&gt;</code></div></div>
+    <div class="c"><div class="l">Current txn ID</div><div class="v"><code>SELECT CURRENT_TRANSACTION()</code></div></div>
+    <div class="c"><div class="l">Abort a txn</div><div class="v"><code>SYSTEM$ABORT_TRANSACTION(&lt;id&gt;)</code></div></div>
+    <div class="c"><div class="l">Show locks</div><div class="v"><code>SHOW LOCKS</code></div></div>
+    <div class="c"><div class="l">Lock history view</div><div class="v"><code>SNOWFLAKE.ACCOUNT_USAGE.LOCK_WAIT_HISTORY</code></div></div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+function tab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+const qas=[
+  ["What ACID isolation level does Snowflake support?","READ COMMITTED only. A statement sees only data committed before the statement began."],
+  ["Can two sessions share the same transaction?","No. One transaction = one session. Multiple threads sharing one connection share one session (and txn)."],
+  ["Are transactions nested in Snowflake?","Never. Even when SP calls SP, each transaction is an independent scoped (autonomous) transaction."],
+  ["What happens when a DDL runs inside an active transaction?","DDL implicitly commits the active transaction, then runs as its own separate transaction. You cannot roll back DDL."],
+  ["What is the default value of AUTOCOMMIT?","TRUE. Each standalone DML auto-commits on success and auto-rolls-back on failure."],
+  ["When does an implicit ROLLBACK occur with AUTOCOMMIT=FALSE?","At session end, at stored procedure end (if a txn is still open), or when a scoped txn has an unpaired BEGIN."],
+  ["A DML fails inside a BEGIN…COMMIT block. What happens?","Only that statement's changes are rolled back. The transaction stays open. If you then COMMIT, all successful statements are applied."],
+  ["How do you make any statement error abort the entire transaction?","ALTER SESSION SET TRANSACTION_ABORT_ON_ERROR = TRUE"],
+  ["A transaction is idle and blocking another — when is it auto-aborted?","After 5 minutes of idleness while blocking another transaction."],
+  ["A transaction is not blocking anyone — when is it auto-aborted?","After 4 hours (older than 4 hours old)."],
+  ["Who can manually abort a transaction?","The user who started it, or an ACCOUNTADMIN, using SYSTEM$ABORT_TRANSACTION(txn_id)."],
+  ["Can a transaction span stored procedure boundaries?","No. BEGIN must pair with COMMIT/ROLLBACK in the same procedure scope. Crossing boundaries causes errors."],
+  ["What happens if a transaction is still open at the end of a stored procedure?","It is implicitly rolled back and an error is returned."],
+  ["What error appears when an inner SP's DDL tries to commit an outer SP's transaction?","'Modifying a transaction that has started at a different scope is not allowed.'"],
+  ["In a deadlock, which statement does Snowflake roll back?","The most recent statement that is part of the deadlock (the 'victim'). The transaction itself remains open."],
+  ["Can autocommit SELECT statements cause deadlocks?","No. SELECT is read-only, so it cannot cause deadlocks regardless of concurrency."],
+  ["Two statements in the same transaction — can they see different data?","Yes, if another transaction commits data between the two statements (READ COMMITTED per-statement snapshot)."],
+  ["What does SYSTEM$ABORT_TRANSACTION do?","Aborts and rolls back a running transaction by its transaction ID."],
+  ["What view logs blocked transaction history?","SNOWFLAKE.ACCOUNT_USAGE.LOCK_WAIT_HISTORY"],
+  ["INSERT and UPDATE on the same table — do they block each other?","Usually no for INSERT (writes new partitions). UPDATE/DELETE/MERGE block each other on the same table."],
+  ["What does TRANSACTION_ABORT_ON_ERROR do?","Makes a statement error inside a transaction immediately abort and roll back the entire transaction."],
+  ["Scoped transactions: if the inner SP rolls back, does the outer SP also roll back?","No. Each scoped transaction is autonomous. Inner ROLLBACK only affects the inner transaction."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>document.getElementById('qa${i}').classList.toggle('open'));
+  d.querySelector('.q').addEventListener('click',(()=>{
+    const el=document.getElementById('qa'+i);
+    el.classList.toggle('open');
+  }));
+});
+</script>

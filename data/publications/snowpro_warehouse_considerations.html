@@ -1,0 +1,190 @@
+
+<style>
+*{box-sizing:border-box}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:12px}
+.sec-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.mc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px}
+.mc .lbl{font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px}
+.mc .val{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.b-ent{background:var(--color-background-warning);color:var(--color-text-warning)}
+.b-info{background:var(--color-background-info);color:var(--color-text-info)}
+.b-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.b-red{background:var(--color-background-danger);color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:13px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2px solid var(--color-text-info);padding:7px 10px;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;margin-top:8px}
+.warn-note{border-left-color:var(--color-text-warning)}
+.danger-note{border-left-color:var(--color-text-danger)}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+.qa-item{margin-bottom:4px}
+
+/* Decision matrix */
+.dm{width:100%;border-collapse:collapse;font-size:12px}
+.dm th{font-size:11px;font-weight:500;color:var(--color-text-tertiary);padding:5px 10px;text-align:left;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.dm td{padding:5px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top}
+.dm tr:last-child td{border-bottom:none}
+.dm tr:hover td{background:var(--color-background-primary)}
+.chk{color:var(--color-text-success);font-weight:700}
+.cross{color:var(--color-text-danger);font-weight:700}
+
+/* billing visual */
+.bil-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px}
+.bil-bar{height:16px;border-radius:3px;background:var(--color-background-info);display:flex;align-items:center;padding:0 6px;color:var(--color-text-info);font-size:10px;font-weight:500;white-space:nowrap;min-width:10px}
+.bil-label{color:var(--color-text-secondary);width:200px;flex-shrink:0}
+
+/* scale diagram */
+.scale-wrap{display:flex;gap:10px;margin-top:4px}
+.scale-box{flex:1;border-radius:var(--border-radius-md);padding:10px 12px;border:0.5px solid var(--color-border-secondary);text-align:center}
+.scale-up{background:var(--color-background-info)}
+.scale-out{background:var(--color-background-success)}
+.scale-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.scale-up .scale-title{color:var(--color-text-info)}
+.scale-out .scale-title{color:var(--color-text-success)}
+.scale-body{font-size:11px;color:var(--color-text-secondary)}
+.scale-icon{font-size:22px;margin-bottom:4px}
+</style>
+
+<div style="padding:.5rem 0 0">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Warehouse considerations</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- BILLING RULES -->
+<div class="sec">
+  <div class="sec-title">Credit billing rules — exam numbers</div>
+  <div class="grid3">
+    <div class="mc"><div class="lbl">Minimum charge per start</div><div class="val">60 seconds — always</div></div>
+    <div class="mc"><div class="lbl">After 60s</div><div class="val">Per-second billing</div></div>
+    <div class="mc"><div class="lbl">Credits = </div><div class="val">Size × clusters × runtime</div></div>
+  </div>
+  <div style="margin-top:10px">
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px">BILLING EXAMPLES</div>
+    <div class="bil-row"><div class="bil-label">Runs 30–60s</div><div class="bil-bar" style="width:120px">billed 60s</div></div>
+    <div class="bil-row"><div class="bil-label">Runs 61s</div><div class="bil-bar" style="width:65px">billed 61s</div></div>
+    <div class="bil-row"><div class="bil-label">Runs 61s → stops → restarts &lt;60s</div><div class="bil-bar" style="width:180px">billed 121s (60+1+60)</div></div>
+  </div>
+  <div class="note warn-note">⚠ Downsizing 5XL/6XL → 4XL or smaller: brief period billed for BOTH old and new warehouse.</div>
+</div>
+
+<!-- SCALE UP VS OUT -->
+<div class="sec">
+  <div class="sec-title">The golden rule — scale up vs scale out</div>
+  <div class="scale-wrap">
+    <div class="scale-box scale-up">
+      <div class="scale-icon">↑</div>
+      <div class="scale-title">Scale UP (resize)</div>
+      <div class="scale-body">Fixes <b>slow queries</b> &amp; performance<br><br>Available all editions<br><br>Bigger WH ≠ always faster for simple queries<br><br>New resources only help <b>queued/new</b> queries, not running ones</div>
+    </div>
+    <div class="scale-box scale-out">
+      <div class="scale-icon">→</div>
+      <div class="scale-title">Scale OUT (multi-cluster)</div>
+      <div class="scale-body">Fixes <b>concurrency</b> &amp; queuing<br><br><span class="badge b-ent">Enterprise+ only</span><br><br>Use Auto-scale mode by default<br><br>Set min=1, max as large as practical</div>
+    </div>
+  </div>
+</div>
+
+<!-- DECISION MATRIX -->
+<div class="sec">
+  <div class="sec-title">Decision matrix — what solves what?</div>
+  <table class="dm">
+    <thead><tr><th>Problem</th><th>Resize (scale up)</th><th>Multi-cluster (scale out)</th></tr></thead>
+    <tbody>
+      <tr><td>Slow complex queries</td><td class="chk">✓ Yes</td><td class="cross">✗ Not intended for this</td></tr>
+      <tr><td>Many concurrent users queuing</td><td class="cross">✗ Not intended for this</td><td class="chk">✓ Yes</td></tr>
+      <tr><td>Fluctuating user load</td><td class="cross">✗ Manual effort</td><td class="chk">✓ Auto-scale automates it</td></tr>
+      <tr><td>Consistent high concurrency</td><td class="cross">✗ Doesn't scale users</td><td class="chk">✓ Use Maximized mode</td></tr>
+      <tr><td>Small/simple queries running slow</td><td class="cross">✗ Larger ≠ faster here</td><td class="cross">✗ Not the issue</td></tr>
+      <tr><td>Data loading speed</td><td><span style="color:var(--color-text-tertiary)">Match file count/size</span></td><td class="cross">✗ Not intended for this</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CACHING -->
+<div class="sec">
+  <div class="sec-title">Warehouse cache — the hidden gotcha</div>
+  <div class="row"><div class="dot db"></div><div>Each running WH maintains a <b>local data cache</b>. Larger WH = bigger cache.</div></div>
+  <div class="row"><div class="dot dr"></div><div>Cache is <b>dropped on suspend</b>. First queries after resume will be slower until cache rebuilds.</div></div>
+  <div class="row"><div class="dot dy"></div><div>Trade-off: <b>suspend to save credits</b> vs <b>keep running to preserve cache</b>.</div></div>
+  <div class="row"><div class="dot dr"></div><div>Downsizing a running WH also <b>drops the cache</b> for removed compute resources — same performance hit as suspend.</div></div>
+</div>
+
+<!-- AUTO-SUSPEND / RESUME BEST PRACTICES -->
+<div class="sec">
+  <div class="sec-title">Auto-suspend &amp; auto-resume — best practices</div>
+  <table class="dm">
+    <thead><tr><th>Setting</th><th>Recommendation</th><th>When to change</th></tr></thead>
+    <tbody>
+      <tr><td>Auto-suspend value</td><td>Set <b>low</b> (5–10 min or less)</td><td>If queries arrive every 2–3 min → set higher to avoid constant suspend/resume cycles eating 60-sec minimums</td></tr>
+      <tr><td>Disable auto-suspend</td><td>Generally avoid</td><td>Only if heavy steady workload OR zero-latency startup required</td></tr>
+      <tr><td>Auto-resume</td><td>Enable if cost/access not a concern</td><td>Disable for cost control or access restriction — resume manually instead</td></tr>
+    </tbody>
+  </table>
+  <div class="note danger-note">⚠ To disable auto-suspend: set <b>Never</b> in UI or <b>0 / NULL</b> in SQL. Running 24/7 on a 2XL+ = very significant cost.</div>
+</div>
+
+<!-- SIZING GUIDANCE -->
+<div class="sec">
+  <div class="sec-title">Size selection cheat sheet</div>
+  <div class="grid2">
+    <div class="mc"><div class="lbl">Dev / testing</div><div class="val">X-Small, Small, Medium</div></div>
+    <div class="mc"><div class="lbl">Production large-scale</div><div class="val">Large, XL, 2XL+ (per-sec billing makes it OK)</div></div>
+    <div class="mc"><div class="lbl">Snowsight UI queries</div><div class="val">Dedicated X-Small (recommended)</div></div>
+    <div class="mc"><div class="lbl">Notebook Python code</div><div class="val">SYSTEM$STREAMLIT_NOTEBOOK_WH (auto-provisioned multi-cluster XS)</div></div>
+  </div>
+  <div class="note">Tip: run same queries on XL → L → M and compare. Aim for queries finishing in 5–10 min. Match size to query complexity, not just data volume.</div>
+</div>
+
+<!-- MULTI-CLUSTER BEST PRACTICES -->
+<div class="sec">
+  <div class="sec-title">Multi-cluster warehouse configuration rules <span class="badge b-ent">Enterprise+</span></div>
+  <div class="row"><div class="dot dg"></div><div>If on Enterprise Edition → <b>all warehouses should be MCW</b>.</div></div>
+  <div class="row"><div class="dot dg"></div><div>Default to <b>Auto-scale mode</b> unless you specifically need Maximized.</div></div>
+  <div class="row"><div class="dot db"></div><div><b>Min = 1</b> (default) — extra clusters only start when needed. Set higher if HA is critical (protects against cluster failure).</div></div>
+  <div class="row"><div class="dot db"></div><div><b>Max = as large as practical</b> — but watch credits. Example: XL × 10 clusters = 160 credits/hr if all run.</div></div>
+  <div class="note">SHOW TABLES / DDL metadata commands do NOT require a warehouse → no credits charged.</div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="sec-title">Tap to reveal — exam Q&amp;A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["A warehouse runs for 45 seconds. How many seconds is it billed?","60 seconds — the minimum charge per warehouse start."],
+  ["A warehouse runs 61s, stops, then restarts and runs 40s. Total billed?","121 seconds (60 + 1 + 61-second restart's minimum of 60 = 60+1+60)."],
+  ["Resize improves performance for already-running queries — true or false?","False. Additional resources only apply to queued and new queries; already-running queries are unaffected."],
+  ["What is the correct solution for high user concurrency and queuing?","Multi-cluster warehouses (Enterprise+) — not resizing. Resizing = performance; MCW = concurrency."],
+  ["What happens to the warehouse cache when you suspend it?","Cache is dropped. First queries after resume are slower until the cache rebuilds."],
+  ["Does downsizing a running warehouse affect its cache?","Yes — removing compute resources drops the cache for those resources, same performance impact as suspending."],
+  ["What is the recommended auto-suspend value and why?","Low (5–10 min or less) because per-second billing makes it cost-effective. Avoid setting it lower than your typical query gap to prevent constant 60-sec restart charges."],
+  ["How do you disable auto-suspend in SQL?","SET AUTO_SUSPEND = 0 or NULL. In UI: select 'Never'."],
+  ["What is the recommended MCW min cluster setting and why?","Keep min=1 (default) so extra clusters only start when needed. Set higher only for high-availability requirements."],
+  ["An X-Large MCW with 10 max clusters runs all clusters for 1 hour. Credits used?","160 credits (XL = 16 cr/hr × 10 clusters × 1 hr)."],
+  ["Which edition should configure ALL warehouses as multi-cluster?","Enterprise Edition (or higher)."],
+  ["Larger warehouse = always faster queries — true or false?","False. Larger is not faster for small/simple queries. Match warehouse size to query complexity."],
+  ["What table size factor matters more — row count or overall data size?","Overall data size (table size) has more impact than number of rows."],
+  ["What is SYSTEM$STREAMLIT_NOTEBOOK_WH?","An auto-provisioned multi-cluster X-Small warehouse dedicated to running Notebook Python code. Reduces cluster fragmentation and optimizes costs."],
+  ["Does SHOW TABLES require a warehouse?","No. Metadata commands like SHOW TABLES don't require a warehouse — no credits charged."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="a${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>document.getElementById('a'+i).classList.toggle('open'));
+});
+</script>

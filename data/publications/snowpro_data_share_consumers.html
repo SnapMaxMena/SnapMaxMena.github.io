@@ -1,0 +1,221 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.card .l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.card .v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+/* flow diagram */
+.flow{display:flex;align-items:stretch;gap:0;width:100%;margin:8px 0}
+.flow-step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.flow-box{background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:8px 6px;text-align:center;font-size:11px;font-weight:600;width:100%;line-height:1.3}
+.flow-sub{font-size:9px;font-weight:400;color:var(--color-text-secondary);margin-top:3px;text-align:center}
+.flow-code{font-size:9px;font-family:monospace;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:2px 4px;border-radius:3px;color:var(--color-text-info);margin-top:3px;text-align:center;line-height:1.4}
+.flow-arr{display:flex;align-items:center;font-size:18px;color:var(--color-text-tertiary);padding:0 4px;flex-shrink:0}
+/* limits table */
+.lt{width:100%;border-collapse:collapse;font-size:11px}
+.lt th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.lt td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.lt tr:last-child td{border-bottom:none}
+.lt tr:hover td{background:var(--color-background-primary)}
+/* privilege path */
+.pp{display:flex;flex-direction:column;gap:8px}
+.pp-row{display:flex;align-items:center;gap:8px}
+.pp-box{font-size:11px;font-weight:500;padding:6px 10px;border-radius:6px;white-space:nowrap}
+.pp-box.role{background:var(--color-background-warning);color:var(--color-text-warning)}
+.pp-box.priv{background:var(--color-background-info);color:var(--color-text-info)}
+.pp-box.db{background:var(--color-background-success);color:var(--color-text-success)}
+.pp-arr{color:var(--color-text-tertiary);font-size:14px;flex-shrink:0}
+.pp-note{font-size:10px;color:var(--color-text-tertiary);margin-left:4px}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Consuming shared data (Consumer side)</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card · Secure Data Sharing consumer workflow</div>
+
+<!-- CONSUMER WORKFLOW FLOW DIAGRAM -->
+<div class="sec">
+  <div class="st">Consumer workflow — 4 steps</div>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-box">① View<br>available shares</div>
+      <div class="flow-code">SHOW SHARES;</div>
+      <div class="flow-sub">INBOUND = shared to you</div>
+    </div>
+    <div class="flow-arr">→</div>
+    <div class="flow-step">
+      <div class="flow-box">② Inspect<br>share contents</div>
+      <div class="flow-code">DESC SHARE<br>provider.share;</div>
+      <div class="flow-sub">See tables/views before creating DB</div>
+    </div>
+    <div class="flow-arr">→</div>
+    <div class="flow-step">
+      <div class="flow-box">③ Create DB<br>from share</div>
+      <div class="flow-code">CREATE DATABASE db<br>FROM SHARE prov.share;</div>
+      <div class="flow-sub">ACCOUNTADMIN or IMPORT SHARE priv</div>
+    </div>
+    <div class="flow-arr">→</div>
+    <div class="flow-step">
+      <div class="flow-box">④ Grant<br>access to roles</div>
+      <div class="flow-code">GRANT IMPORTED<br>PRIVILEGES ON DB…</div>
+      <div class="flow-sub">Or grant DB roles if provider used them</div>
+    </div>
+  </div>
+  <div class="note">Only ACCOUNTADMIN (or role with IMPORT SHARE global privilege) can perform steps ①–③.</div>
+</div>
+
+<!-- REQUIRED PRIVILEGES -->
+<div class="sec">
+  <div class="st">Required privileges — who does what</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">To import a share / create DB from share</div>
+      <div class="v"><span class="badge bw">ACCOUNTADMIN</span> or role with<br><code>IMPORT SHARE</code> global privilege<br>+ <code>CREATE DATABASE</code> global privilege</div>
+    </div>
+    <div class="card">
+      <div class="l">To grant IMPORTED PRIVILEGES on the DB</div>
+      <div class="v">Role that <b>owns the DB</b> (has OWNERSHIP)<br>OR role with <code>MANAGE GRANTS</code> global privilege</div>
+    </div>
+  </div>
+  <div class="note wn">Only the role that creates the database can access it by default. You must explicitly grant access to other roles.</div>
+</div>
+
+<!-- 2-PATH PRIVILEGE GRANT -->
+<div class="sec">
+  <div class="st">Two paths to grant access — depends on provider setup</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-info)">
+      <div class="l">Path A — No DB roles (standard)</div>
+      <div class="v" style="font-size:11px">
+        <code>GRANT IMPORTED PRIVILEGES ON DATABASE snow_sales TO ROLE analyst;</code><br><br>
+        Grants broad access to all shared objects.
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-success)">
+      <div class="l">Path B — Provider used DB roles</div>
+      <div class="v" style="font-size:11px">
+        <code>SHOW DATABASE ROLES IN DATABASE c1;</code><br>
+        <code>GRANT DATABASE ROLE c1.r1 TO ROLE analyst;</code><br><br>
+        Finer-grained: each DB role controls subset of objects.
+      </div>
+    </div>
+  </div>
+  <div class="note">A single share can include both DB-role-associated and non-associated objects simultaneously.</div>
+</div>
+
+<!-- IMPORTED DB LIMITATIONS — THE EXAM CORE -->
+<div class="sec">
+  <div class="st">Imported database — what you CANNOT do</div>
+  <table class="lt">
+    <thead><tr><th>Action</th><th>Allowed?</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Query / SELECT data</td><td><span class="yes">✓ Yes</span></td><td>Full read access</td></tr>
+      <tr><td>INSERT / UPDATE / DELETE data</td><td><span class="no">✗ No</span></td><td>Read-only database</td></tr>
+      <tr><td>Create objects in the imported DB</td><td><span class="no">✗ No</span></td><td>Read-only</td></tr>
+      <tr><td>Clone imported DB / schemas / tables</td><td><span class="no">✗ No</span></td><td>Not supported</td></tr>
+      <tr><td>Time Travel on imported objects</td><td><span class="no">✗ No</span></td><td>Not supported</td></tr>
+      <tr><td>Re-share imported DB to another account</td><td><span class="no">✗ No</span></td><td>Cannot re-share or import by others</td></tr>
+      <tr><td>Replicate imported DB</td><td><span class="no">✗ No</span></td><td>Not supported</td></tr>
+      <tr><td>Edit comments on imported DB</td><td><span class="no">✗ No</span></td><td>Not supported</td></tr>
+      <tr><td>Attach storage lifecycle policies</td><td><span class="no">✗ No</span></td><td>Not supported on shared tables</td></tr>
+      <tr><td>Create streams on shared views/tables</td><td><span class="yes">✓ Yes</span></td><td>Provider must enable change tracking first</td></tr>
+      <tr><td>Consume share more than once per account</td><td><span class="no">✗ No</span></td><td>1 DB per share per account</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SHOW SHARES OUTPUT -->
+<div class="sec">
+  <div class="st">SHOW SHARES — reading the output</div>
+  <div class="g2">
+    <div class="card"><div class="l">kind = INBOUND</div><div class="v" style="font-size:11px">Someone shared this TO you. You are the consumer.</div></div>
+    <div class="card"><div class="l">kind = OUTBOUND</div><div class="v" style="font-size:11px">You shared this to others. You are the provider.</div></div>
+    <div class="card"><div class="l">database_name = empty</div><div class="v" style="font-size:11px">Share received but no DB created yet from it.</div></div>
+    <div class="card"><div class="l">owner_account</div><div class="v" style="font-size:11px">Format: <code>orgname.account_name</code> — the provider's account.</div></div>
+  </div>
+  <div class="note">When DESC SHARE shows object names prefixed with <code>&lt;DB&gt;</code> → no local database has been created yet from that share.</div>
+</div>
+
+<!-- STREAMS ON SHARED OBJECTS -->
+<div class="sec">
+  <div class="st">Streams on shared objects — special rules</div>
+  <div class="row"><div class="dot dg"></div><div>You CAN create streams on shared <b>secure views</b> and <b>tables</b> to track DML changes.</div></div>
+  <div class="row"><div class="dot dy"></div><div>Provider must <b>enable change tracking</b> on the view/table first. If you can't create the stream → contact the provider.</div></div>
+  <div class="row"><div class="dot dr"></div><div>Stream can become <b>stale</b> if not consumed within the data retention period. Check with provider for retention period.</div></div>
+  <div class="row"><div class="dot db"></div><div>Check staleness: <code>DESCRIBE STREAM stream_name</code> → if <code>STALE = TRUE</code> → stream may be stale.</div></div>
+</div>
+
+<!-- READER ACCOUNTS -->
+<div class="sec">
+  <div class="st">Reader accounts — exception rule</div>
+  <div class="row"><div class="dot dy"></div><div>If consuming data via a <b>reader account</b>, the consumer does NOT need to perform any of these steps — the provider's administrator already completed them.</div></div>
+  <div class="row"><div class="dot db"></div><div>Reader accounts are created by the data provider to give non-Snowflake customers access to shared data.</div></div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What role is required to create a database from a share?","ACCOUNTADMIN, or a role granted the IMPORT SHARE global privilege plus CREATE DATABASE privilege."],
+  ["What SQL command creates a database from a share?","CREATE DATABASE <name> FROM SHARE <provider_account>.<share_name>;"],
+  ["How many times can a share be consumed per account?","Once — only one database can be created from a share per consumer account."],
+  ["What does INBOUND mean in SHOW SHARES output?","The share was made available TO your account (you are the consumer)."],
+  ["After creating a database from a share, who can access it by default?","Only the role that created the database. All other roles must be explicitly granted access."],
+  ["What privilege grants broad access to all objects in an imported database?","GRANT IMPORTED PRIVILEGES ON DATABASE <db> TO ROLE <role>;"],
+  ["When does a consumer use GRANT DATABASE ROLE instead of GRANT IMPORTED PRIVILEGES?","When the provider segmented share objects using database roles — each DB role controls a different subset of objects."],
+  ["Can you clone an imported database?","No. Cloning is not supported for imported databases, schemas, or tables."],
+  ["Can you use Time Travel on an imported database?","No. Time Travel is not supported on imported databases."],
+  ["Can you re-share an imported database to another account?","No. Imported databases cannot be re-shared with or imported by other accounts."],
+  ["Can you replicate an imported database?","No. Replication of imported databases is not supported."],
+  ["Can a consumer create streams on shared tables or views?","Yes, but the provider must first enable change tracking on those objects."],
+  ["How do you check if a stream on a shared object is stale?","Run DESCRIBE STREAM <name> or SHOW STREAMS and check if the STALE column is TRUE."],
+  ["What does an empty database_name column mean in SHOW SHARES?","A database has not yet been created from that share in your account."],
+  ["What SQL command shows you the objects inside a share before creating a database?","DESC SHARE <provider_account>.<share_name>;"],
+  ["Do reader account consumers need to create databases from shares themselves?","No — a provider administrator already completed that setup for reader accounts."],
+  ["What does it mean in DESC SHARE output when object names are prefixed with <DB>?","No database has been created from the share yet in your account."],
+  ["Can a consumer INSERT or UPDATE data in an imported database?","No — imported databases are strictly read-only."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

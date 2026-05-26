@@ -1,0 +1,234 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* cardinality spectrum */
+.card-spec{display:flex;align-items:stretch;gap:0;border-radius:8px;overflow:hidden;height:48px;margin:8px 0}
+.cs-low{flex:1;background:var(--color-background-danger);display:flex;flex-direction:column;justify-content:center;padding:4px 8px}
+.cs-mid{flex:2;background:var(--color-background-success);display:flex;flex-direction:column;justify-content:center;padding:4px 8px}
+.cs-high{flex:1;background:var(--color-background-warning);display:flex;flex-direction:column;justify-content:center;padding:4px 8px}
+.cs-label{font-size:10px;font-weight:600}
+.cs-low .cs-label{color:var(--color-text-danger)}
+.cs-mid .cs-label{color:var(--color-text-success)}
+.cs-high .cs-label{color:var(--color-text-warning)}
+.cs-sub{font-size:9px;color:var(--color-text-tertiary);margin-top:1px}
+
+/* decision flowchart */
+.decision{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:12px;margin-top:4px}
+.dec-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+.dec-q{background:var(--color-background-info);color:var(--color-text-info);border-radius:4px;padding:4px 8px;font-size:11px;font-weight:500;white-space:nowrap}
+.dec-y{color:var(--color-text-success);font-weight:600;font-size:11px}
+.dec-n{color:var(--color-text-danger);font-weight:600;font-size:11px}
+.dec-arrow{color:var(--color-text-tertiary);font-size:13px}
+.dec-result{font-size:11px;color:var(--color-text-secondary)}
+
+/* SQL quick ref */
+.sql-grid{display:grid;grid-template-columns:1fr;gap:6px}
+.sql-row{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:8px 10px}
+.sql-action{font-size:10px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:3px}
+.sql-code{font-size:11px;font-family:monospace;color:var(--color-text-info);line-height:1.5}
+
+/* cost vs benefit visual */
+.cvb{display:flex;gap:8px;margin-top:4px}
+.cvb-col{flex:1;border-radius:8px;padding:10px;border:0.5px solid var(--color-border-secondary)}
+.cvb-good{background:var(--color-background-success)}
+.cvb-bad{background:var(--color-background-danger)}
+.cvb-title{font-size:11px;font-weight:700;margin-bottom:5px}
+.cvb-good .cvb-title{color:var(--color-text-success)}
+.cvb-bad .cvb-title{color:var(--color-text-danger)}
+.cvb-item{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Clustering keys & clustered tables</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- WHAT IS A CLUSTERING KEY -->
+<div class="sec">
+  <div class="st">What it is & when to use it</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Definition</div>
+      <div class="v">Columns or expressions designated to co-locate related data in the same micro-partitions. Enables micro-partition pruning.</div>
+    </div>
+    <div class="card">
+      <div class="l">Target table</div>
+      <div class="v">Multi-TB tables where natural clustering has degraded due to DML or suboptimal insert order.</div>
+    </div>
+    <div class="card">
+      <div class="l">Works on</div>
+      <div class="v">Tables <b>and</b> materialized views. <span class="no">✗ Not supported on hybrid tables</span> (hybrid tables always cluster by primary key).</div>
+    </div>
+    <div class="card">
+      <div class="l">Signs you need it</div>
+      <div class="v">Queries getting slower over time · High clustering depth · Extensive DML on large table</div>
+    </div>
+  </div>
+</div>
+
+<!-- COST-BENEFIT VISUAL -->
+<div class="sec">
+  <div class="st">Cluster when… — cost vs benefit</div>
+  <div class="cvb">
+    <div class="cvb-col cvb-good">
+      <div class="cvb-title">✓ Good candidate</div>
+      <div class="cvb-item">Multi-TB table (many micro-partitions)</div>
+      <div class="cvb-item">Queries filter/sort on same columns</div>
+      <div class="cvb-item">Selective queries (small % of rows)</div>
+      <div class="cvb-item">High query-to-DML ratio</div>
+      <div class="cvb-item">Queries benefit from same key</div>
+    </div>
+    <div class="cvb-col cvb-bad">
+      <div class="cvb-title">✗ Poor candidate</div>
+      <div class="cvb-item">Small tables</div>
+      <div class="cvb-item">High-frequency DML (INSERT/UPDATE/DELETE)</div>
+      <div class="cvb-item">Queries scan most/all of the table</div>
+      <div class="cvb-item">Different queries use different columns</div>
+      <div class="cvb-item">Hybrid tables (use PK instead)</div>
+    </div>
+  </div>
+  <div class="note wn">⚠ Clustering is <b>not for all tables</b>. Credits are consumed for initial clustering AND ongoing automatic reclustering. Only cluster if query gains outweigh costs.</div>
+</div>
+
+<!-- CARDINALITY SPECTRUM -->
+<div class="sec">
+  <div class="st">Cardinality — the key selection rule</div>
+  <div class="card-spec">
+    <div class="cs-low"><div class="cs-label">✗ Too Low</div><div class="cs-sub">IS_NEW_CUSTOMER (boolean) → minimal pruning</div></div>
+    <div class="cs-mid"><div class="cs-label">✓ Sweet spot</div><div class="cs-sub">Date, region, event_type → effective pruning + grouping</div></div>
+    <div class="cs-high"><div class="cs-label">⚠ Too High</div><div class="cs-sub">Nanosecond timestamp, UUID → expensive, poor grouping</div></div>
+  </div>
+  <div class="note">Fix high cardinality: use an <b>expression</b> to reduce distinct values, e.g. <code>TO_DATE(c_timestamp)</code> instead of raw timestamp · <code>TRUNC(number, -5)</code> to truncate digits.</div>
+</div>
+
+<!-- KEY SELECTION PRIORITY -->
+<div class="sec">
+  <div class="st">How to pick the right key — priority order</div>
+  <div class="row"><div class="dot db"></div><div><b>Max 3-4 columns.</b> More columns = more cost, less benefit.</div></div>
+  <div class="row" style="font-weight:500"><div class="dot dg"></div><div>① Columns used in <b>selective WHERE filters</b> (most important) — e.g. date column for "WHERE date BETWEEN x AND y"</div></div>
+  <div class="row" style="font-weight:500"><div class="dot dg"></div><div>② Columns used in <b>JOIN predicates</b></div></div>
+  <div class="row"><div class="dot dy"></div><div>③ GROUP BY / ORDER BY columns — helpful but less impactful than filters/joins</div></div>
+  <div class="row"><div class="dot db"></div><div><b>Multi-column order matters:</b> put <b>lowest cardinality first</b>, highest cardinality last.</div></div>
+  <div class="note">VARCHAR clustering key uses only the first <b>5 bytes</b>. If all rows share the same prefix, cluster on a substring starting after the common prefix.</div>
+</div>
+
+<!-- RECLUSTERING -->
+<div class="sec">
+  <div class="st">Reclustering — what happens</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Trigger</div>
+      <div class="v">DML (INSERT/UPDATE/DELETE/MERGE/COPY) degrades clustering over time</div>
+    </div>
+    <div class="card">
+      <div class="l">How it works</div>
+      <div class="v">Snowflake deletes affected rows and re-inserts them grouped by clustering key → new micro-partitions created</div>
+    </div>
+    <div class="card">
+      <div class="l">Automatic?</div>
+      <div class="v"><span class="yes">✓ Yes</span> — Automatic Clustering runs in background. No manual maintenance needed.</div>
+    </div>
+    <div class="card">
+      <div class="l">Cost</div>
+      <div class="v">Consumes <b>credits</b> (compute) + <b>storage</b> (old micro-partitions retained for Time Travel + Fail-safe: min 8 days, up to 97 days)</div>
+    </div>
+  </div>
+  <div class="note dn">Old micro-partitions are marked deleted but <b>NOT immediately purged</b> — retained for Time Travel & Fail-safe. This increases storage costs during reclustering.</div>
+</div>
+
+<!-- SQL QUICK REFERENCE -->
+<div class="sec">
+  <div class="st">SQL quick reference</div>
+  <div class="sql-grid">
+    <div class="sql-row"><div class="sql-action">CREATE with clustering key</div><div class="sql-code">CREATE TABLE t1 (c1 DATE, c2 STRING) CLUSTER BY (c1, c2);</div></div>
+    <div class="sql-row"><div class="sql-action">ADD / CHANGE clustering key</div><div class="sql-code">ALTER TABLE t1 CLUSTER BY (c1, c3);</div></div>
+    <div class="sql-row"><div class="sql-action">DROP clustering key</div><div class="sql-code">ALTER TABLE t1 DROP CLUSTERING KEY;</div></div>
+    <div class="sql-row"><div class="sql-action">Check clustering info</div><div class="sql-code">SELECT SYSTEM$CLUSTERING_INFORMATION('t1');<br>-- or with specific columns:<br>SELECT SYSTEM$CLUSTERING_INFORMATION('t1', '(c1, c2)');</div></div>
+    <div class="sql-row"><div class="sql-action">Key on expression (reduce cardinality)</div><div class="sql-code">CREATE TABLE t2 (ts TIMESTAMP) CLUSTER BY (TO_DATE(ts));</div></div>
+    <div class="sql-row"><div class="sql-action">Key on VARIANT path</div><div class="sql-code">CREATE TABLE t3 (v VARIANT) CLUSTER BY (v:"Data":id::NUMBER);</div></div>
+  </div>
+</div>
+
+<!-- WHAT CAN/CANNOT BE A CLUSTERING KEY -->
+<div class="sec">
+  <div class="st">Clustering key — supported vs not supported data types</div>
+  <div class="g2">
+    <div class="card"><div class="l"><span class="yes">✓ Supported</span></div><div class="v" style="font-size:11px">Base columns · Expressions on columns · Expressions on VARIANT paths · Any data type except those listed as unsupported</div></div>
+    <div class="card"><div class="l"><span class="no">✗ NOT supported directly</span></div><div class="v" style="font-size:11px">GEOGRAPHY · VARIANT directly (use expression with path instead) · OBJECT · ARRAY · Hybrid tables (always clustered by PK)</div></div>
+  </div>
+  <div class="note">Cloning a clustered table copies the clustering key, but <b>Automatic Clustering is suspended on the clone</b> — must be manually resumed.</div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What is a clustering key?","One or more columns or expressions designated to co-locate related rows in the same micro-partitions, enabling better pruning and scan efficiency."],
+  ["What is the primary benefit of a clustering key?","Micro-partition pruning — queries skip partitions that don't match filter predicates, reducing data scanned."],
+  ["Are clustering keys appropriate for all tables?","No — only for very large tables (multi-TB) where query performance gains outweigh the cost of clustering and reclustering."],
+  ["What is the recommended maximum number of columns in a clustering key?","3-4 columns. More columns increase cost more than they improve performance."],
+  ["In a multi-column clustering key, what order should columns be specified?","Lowest cardinality first, highest cardinality last. Higher cardinality before lower reduces the effectiveness of the later columns."],
+  ["A timestamp column has very high cardinality. How do you use it as a clustering key?","Use an expression to reduce cardinality: CLUSTER BY (TO_DATE(ts)) converts timestamps to dates, dramatically reducing distinct values while preserving ordering."],
+  ["What is the #1 priority when selecting clustering key columns?","Columns used in the most selective WHERE filter predicates (e.g. date ranges). Then JOIN columns. Then GROUP BY/ORDER BY."],
+  ["Is reclustering automatic in Snowflake?","Yes — Automatic Clustering runs in the background with no manual maintenance needed."],
+  ["What happens to old micro-partitions after reclustering?","They are marked as deleted but retained in the system for Time Travel and Fail-safe (minimum 8 days, up to 97 days). This increases storage costs."],
+  ["What does reclustering actually do mechanically?","It deletes affected rows and re-inserts them grouped by the clustering key, creating new micro-partitions."],
+  ["What SQL command checks the clustering depth and info for a table?","SELECT SYSTEM$CLUSTERING_INFORMATION('table_name');"],
+  ["How do you add a clustering key to an existing table?","ALTER TABLE t1 CLUSTER BY (col1, col2);"],
+  ["How do you remove a clustering key?","ALTER TABLE t1 DROP CLUSTERING KEY;"],
+  ["Can you cluster a VARIANT column directly?","No — you must use an expression with a path and target type, e.g. CLUSTER BY (v:\"Data\":id::NUMBER)."],
+  ["Can hybrid tables have clustering keys?","No — hybrid tables are always ordered by primary key. Clustering keys cannot be defined for hybrid tables."],
+  ["What happens when you clone a table that has a clustering key?","The clustering key is copied to the clone, but Automatic Clustering is suspended on the clone and must be resumed manually."],
+  ["A table with a boolean column IS_NEW_CUSTOMER — is it a good clustering key?","No — very low cardinality (only 2 values) yields minimal pruning benefit."],
+  ["What are the 2 costs of clustering?","Credit cost (compute for automatic reclustering) + Storage cost (old micro-partitions retained for Time Travel/Fail-safe)."],
+  ["Which tables benefit most from clustering in terms of cost-effectiveness?","Tables with a high ratio of queries to DML — queried frequently, updated infrequently."],
+  ["What's the VARCHAR clustering key limitation for standard tables?","Only the first 5 bytes of a VARCHAR column are used. For text with a common prefix, cluster on a SUBSTRING starting after the common prefix."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

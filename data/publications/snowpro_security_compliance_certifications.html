@@ -1,0 +1,215 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.card .l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.card .v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.5}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;margin:1px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.bg{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:3px;color:var(--color-text-info)}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+/* big cert table */
+.ct{width:100%;border-collapse:collapse;font-size:11px}
+.ct th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.ct td{padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.ct tr:last-child td{border-bottom:none}
+.ct tr:hover td{background:var(--color-background-primary)}
+/* edition ladder */
+.ladder{display:flex;flex-direction:column;gap:6px}
+.rung{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;border:0.5px solid var(--color-border-secondary)}
+.rung-std{background:var(--color-background-secondary)}
+.rung-ent{background:var(--color-background-info)}
+.rung-bc{background:var(--color-background-warning)}
+.rung-vps{background:var(--color-background-danger)}
+.rung-name{font-size:12px;font-weight:700;min-width:90px;flex-shrink:0}
+.rung-std .rung-name{color:var(--color-text-secondary)}
+.rung-ent .rung-name{color:var(--color-text-info)}
+.rung-bc .rung-name{color:var(--color-text-warning)}
+.rung-vps .rung-name{color:var(--color-text-danger)}
+.rung-certs{font-size:11px;color:var(--color-text-secondary);flex:1;line-height:1.6}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Snowflake security & compliance certifications</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card · trust.snowflake.com / docs.snowflake.com/en/user-guide/intro-compliance</div>
+
+<!-- EDITION × COMPLIANCE LADDER — THE EXAM CORE -->
+<div class="sec">
+  <div class="st">Edition × compliance — the exam ladder</div>
+  <div class="ladder">
+    <div class="rung rung-std">
+      <div class="rung-name">Standard</div>
+      <div class="rung-certs">SOC 1 Type II · SOC 2 Type II · ISO 27001/17/18 · ISO 9001 · CSA STAR L1 — <b>basic audit/security posture only</b></div>
+    </div>
+    <div class="rung rung-ent">
+      <div class="rung-name">Enterprise</div>
+      <div class="rung-certs">+ PCI-DSS · HITRUST CSF · 90-day Time Travel · Multi-cluster WH · Data Classification (PII tagging)</div>
+    </div>
+    <div class="rung rung-bc">
+      <div class="rung-name">Business Critical</div>
+      <div class="rung-certs">+ <b>HIPAA / HITRUST BAA</b> · <b>FedRAMP (Moderate & High)</b> · <b>ITAR</b> (Gov regions) · Tri-Secret Secure · Private Link · Customer-managed keys · Account failover/failback</div>
+    </div>
+    <div class="rung rung-vps">
+      <div class="rung-name">VPS</div>
+      <div class="rung-certs">+ Fully isolated single-tenant Snowflake on dedicated AWS VPC. Maximum isolation. Includes all Business Critical features.</div>
+    </div>
+  </div>
+  <div class="note dn">⚠ HIPAA, FedRAMP, and ITAR require <b>Business Critical edition or higher</b>. A signed <b>BAA (Business Associate Agreement)</b> must exist before storing PHI.</div>
+</div>
+
+<!-- CERTIFICATION MAP BY REGION/INDUSTRY -->
+<div class="sec">
+  <div class="st">Certification map — by scope</div>
+  <table class="ct">
+    <thead><tr><th>Scope</th><th>Certification</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr>
+        <td rowspan="7"><span class="badge bi">🌍 Global</span></td>
+        <td><b>SOC 1 Type II</b></td><td>Controls over financial reporting (audited annually)</td>
+      </tr>
+      <tr><td><b>SOC 2 Type II</b></td><td>Security, availability, confidentiality controls (most cited for enterprise trust)</td></tr>
+      <tr><td><b>ISO 27001</b></td><td>Information security management system (ISMS)</td></tr>
+      <tr><td><b>ISO 27017</b></td><td>Cloud-specific security controls</td></tr>
+      <tr><td><b>ISO 27018</b></td><td>Protection of PII in public cloud</td></tr>
+      <tr><td><b>ISO 9001:2015</b></td><td>Quality management system</td></tr>
+      <tr><td><b>CSA STAR Level 1</b></td><td>Cloud security self-assessment registry</td></tr>
+      <tr>
+        <td rowspan="6"><span class="badge bw">🇺🇸 US Gov</span></td>
+        <td><b>FedRAMP Moderate & High</b></td><td>Cloud services for US federal agencies. AWS + Azure only. Business Critical+.</td>
+      </tr>
+      <tr><td><b>ITAR</b></td><td>Military/defense export control. Gov regions only. Business Critical+.</td></tr>
+      <tr><td><b>CJIS</b></td><td>Criminal justice information security</td></tr>
+      <tr><td><b>DoD IL5</b></td><td>Dept of Defense Impact Level 5</td></tr>
+      <tr><td><b>NIST SP 800-171</b></td><td>Controlled unclassified information (CUI)</td></tr>
+      <tr><td><b>IRS Pub 1075</b></td><td>Tax return information safeguards</td></tr>
+      <tr>
+        <td><span class="badge br">🏥 Healthcare</span></td>
+        <td><b>HIPAA + HITRUST CSF</b></td><td>PHI compliance. BAA required. Business Critical+ only.</td>
+      </tr>
+      <tr>
+        <td><span class="badge bo">💳 Financial</span></td>
+        <td><b>PCI-DSS</b></td><td>Payment card industry. Attestation of compliance by QSA auditor.</td>
+      </tr>
+      <tr>
+        <td><span class="badge bg">🌏 Regional</span></td>
+        <td><b>IRAP (AU) · C5+TISAX (DE) · CE+ (UK) · K-FSI (KR)</b></td><td>Country-specific gov/industry frameworks</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- HOW TO ACCESS REPORTS -->
+<div class="sec">
+  <div class="st">Compliance Center — how to get reports</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Where</div>
+      <div class="v"><b>trust.snowflake.com</b> (Snowflake's online Compliance Center)</div>
+    </div>
+    <div class="card">
+      <div class="l">Who</div>
+      <div class="v">Customers self-request and download. Contact Snowflake Account Team for support.</div>
+    </div>
+    <div class="card">
+      <div class="l">What's available</div>
+      <div class="v">Security compliance certifications, audit reports, and attestations (SOC, ISO, PCI, FedRAMP, etc.)</div>
+    </div>
+    <div class="card">
+      <div class="l">US Gov cloud</div>
+      <div class="v">FedRAMP: <b>AWS + Azure only</b> (GCP not supported for FedRAMP/FIPS 140-2 gov regions)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARED RESPONSIBILITY -->
+<div class="sec">
+  <div class="st">Shared responsibility model — exam trap</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-info)">
+      <div class="l">Snowflake's responsibility</div>
+      <div class="v" style="font-size:11px">Maintain certifications · Secure the platform infrastructure · Provide encryption, audit logging, key management, network isolation</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-warning)">
+      <div class="l">Customer's responsibility</div>
+      <div class="v" style="font-size:11px">Configure RBAC correctly · Sign BAA (HIPAA) · Enable MFA · Choose correct edition · Monitor access · Manage their data</div>
+    </div>
+  </div>
+  <div class="note wn">⚠ Having Business Critical edition does NOT automatically make you HIPAA-compliant — a BAA must be signed AND the environment properly configured.</div>
+</div>
+
+<!-- KEY DEFINITION PILLS -->
+<div class="sec">
+  <div class="st">Certification one-liners — must memorize</div>
+  <div class="g2">
+    <div class="card"><div class="l">SOC 2 Type II</div><div class="v" style="font-size:11px">Most cited. Audited security, availability, confidentiality. All editions.</div></div>
+    <div class="card"><div class="l">HIPAA</div><div class="v" style="font-size:11px">Protected Health Information (PHI). Business Critical+ + signed BAA required.</div></div>
+    <div class="card"><div class="l">FedRAMP</div><div class="v" style="font-size:11px">US federal cloud risk management. AWS + Azure only. Business Critical+.</div></div>
+    <div class="card"><div class="l">ITAR</div><div class="v" style="font-size:11px">US military export controls. Gov regions only. Business Critical+.</div></div>
+    <div class="card"><div class="l">PCI-DSS</div><div class="v" style="font-size:11px">Payment card security. Attestation of Compliance by Qualified Security Assessor.</div></div>
+    <div class="card"><div class="l">HITRUST CSF</div><div class="v" style="font-size:11px">Healthcare security framework (HIPAA + HITECH + state law). Business Critical+.</div></div>
+    <div class="card"><div class="l">ISO 27001</div><div class="v" style="font-size:11px">ISMS standard. Globally recognized. All editions.</div></div>
+    <div class="card"><div class="l">BAA</div><div class="v" style="font-size:11px">Business Associate Agreement. Legal contract. Required before any PHI goes into Snowflake.</div></div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What is the minimum Snowflake edition for HIPAA compliance?","Business Critical Edition (formerly Enterprise for Sensitive Data / ESD). Enterprise alone is NOT sufficient."],
+  ["Before storing PHI in Snowflake, what legal document is required?","A signed Business Associate Agreement (BAA) between the customer's organization and Snowflake Inc."],
+  ["FedRAMP is supported on which cloud providers?","AWS and Azure only. GCP is NOT supported for FedRAMP/US government regions."],
+  ["What edition is required for ITAR compliance?","Business Critical Edition or higher. Only available in Snowflake Government Regions."],
+  ["What certifications are available to ALL Snowflake editions (Global)?","SOC 1 Type II, SOC 2 Type II, ISO 27001, ISO 27017, ISO 27018, ISO 9001:2015, CSA STAR Level 1."],
+  ["What is the most commonly cited certification for enterprise security trust?","SOC 2 Type II — audits security, availability, and confidentiality controls."],
+  ["What is HITRUST CSF and which edition supports it?","Health Information Trust Alliance Common Security Framework — unifies HIPAA/HITECH + state laws. Business Critical+ required."],
+  ["What is PCI-DSS and how does Snowflake demonstrate compliance?","Payment Card Industry Data Security Standard. Snowflake provides an Attestation of Compliance from a Qualified Security Assessor (QSA)."],
+  ["A company has Business Critical Edition. Are they automatically HIPAA-compliant?","No. They must also sign a BAA with Snowflake AND properly configure the environment (MFA, RBAC, encryption, etc.)."],
+  ["Where can customers download Snowflake's security compliance reports?","trust.snowflake.com — Snowflake's Compliance Center. Customers self-request and download."],
+  ["What is ITAR?","International Traffic in Arms Regulations — US standard controlling export of military/defense articles. Business Critical+ in Gov regions only."],
+  ["Name 3 US government-specific certifications Snowflake holds.","FedRAMP (Moderate & High), ITAR, CJIS, DoD IL5, NIST SP 800-171, IRS Publication 1075 — pick any 3."],
+  ["What is the purpose of the ISO 27018 certification?","Protection of personally identifiable information (PII) in the public cloud."],
+  ["What is the SOC 1 Type II certification focused on?","Controls relevant to financial reporting (relevant for customers' own financial audits)."],
+  ["What Australian compliance certification does Snowflake hold?","IRAP (Protected) — Infosec Registered Assessors Program, governed by Australian Signals Directorate."],
+  ["Whose responsibility is it to configure RBAC and enable MFA in Snowflake?","The customer's — Snowflake provides the platform security; customers are responsible for their configuration and data governance."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

@@ -1,0 +1,226 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.some{color:var(--color-text-warning);font-weight:600}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* URL TYPE CARDS */
+.url-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px}
+.url-card{border-radius:10px;padding:12px;border:0.5px solid var(--color-border-secondary)}
+.url-scoped{background:var(--color-background-info)}
+.url-file{background:var(--color-background-success)}
+.url-presigned{background:var(--color-background-warning)}
+.url-name{font-size:13px;font-weight:700;margin-bottom:6px}
+.url-scoped .url-name{color:var(--color-text-info)}
+.url-file .url-name{color:var(--color-text-success)}
+.url-presigned .url-name{color:var(--color-text-warning)}
+.url-prop{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px;line-height:1.4}
+.url-prop strong{color:var(--color-text-primary)}
+
+/* comparison matrix */
+.cmp{width:100%;border-collapse:collapse;font-size:11px}
+.cmp th{font-size:10px;font-weight:600;padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.cmp th.h-scoped{color:var(--color-text-info);background:var(--color-background-info)}
+.cmp th.h-file{color:var(--color-text-success);background:var(--color-background-success)}
+.cmp th.h-presigned{color:var(--color-text-warning);background:var(--color-background-warning)}
+.cmp th.h-prop{color:var(--color-text-tertiary);background:var(--color-background-secondary)}
+.cmp td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.cmp tr:last-child td{border-bottom:none}
+.cmp tr:hover td{background:var(--color-background-primary)}
+
+/* function table */
+.ft{width:100%;border-collapse:collapse;font-size:11px}
+.ft th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.ft td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.ft tr:last-child td{border-bottom:none}
+.ft tr:hover td{background:var(--color-background-primary)}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Unstructured data & file URL types</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- 3 URL TYPES — THE EXAM CORE -->
+<div class="sec">
+  <div class="st">3 URL types — the whole exam in one section</div>
+  <div class="url-grid">
+    <div class="url-card url-scoped">
+      <div class="url-name">🔒 Scoped URL</div>
+      <div class="url-prop"><strong>Expiry:</strong> 24 hrs (results cache period)</div>
+      <div class="url-prop"><strong>Auth:</strong> Only the user who generated it</div>
+      <div class="url-prop"><strong>Function:</strong> <code>BUILD_SCOPED_FILE_URL()</code></div>
+      <div class="url-prop"><strong>Sharing:</strong> ✓ Works in secure views shared via Data Sharing</div>
+      <div class="url-prop"><strong>Best for:</strong> Scoped access to specific roles, custom apps, Snowsight analysis, sharing with data consumers</div>
+    </div>
+    <div class="url-card url-file">
+      <div class="url-name">📁 File URL</div>
+      <div class="url-prop"><strong>Expiry:</strong> Permanent (never expires)</div>
+      <div class="url-prop"><strong>Auth:</strong> Role must have USAGE (ext) or READ (int) on stage</div>
+      <div class="url-prop"><strong>Function:</strong> <code>BUILD_STAGE_FILE_URL()</code> or query directory table</div>
+      <div class="url-prop"><strong>Sharing:</strong> ✗ Cannot be used in secure views for data sharing</div>
+      <div class="url-prop"><strong>Best for:</strong> Custom apps needing permanent persistent links + authorization control</div>
+    </div>
+    <div class="url-card url-presigned">
+      <div class="url-name">🌐 Pre-signed URL</div>
+      <div class="url-prop"><strong>Expiry:</strong> Configurable (set via expiration_time)</div>
+      <div class="url-prop"><strong>Auth:</strong> Anyone with the URL — no Snowflake auth needed</div>
+      <div class="url-prop"><strong>Function:</strong> <code>GET_PRESIGNED_URL()</code></div>
+      <div class="url-prop"><strong>Sharing:</strong> ✓ Works in secure views shared via Data Sharing</div>
+      <div class="url-prop"><strong>Best for:</strong> BI tools, browsers, reporting — no login needed. Open access.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON MATRIX -->
+<div class="sec">
+  <div class="st">Side-by-side comparison matrix</div>
+  <table class="cmp">
+    <thead>
+      <tr>
+        <th class="h-prop">Property</th>
+        <th class="h-scoped">Scoped URL</th>
+        <th class="h-file">File URL</th>
+        <th class="h-presigned">Pre-signed URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><b>Expiration</b></td><td>24 hrs (results cache)</td><td><span class="yes">Permanent</span></td><td>Configurable duration</td></tr>
+      <tr><td><b>Who can use it</b></td><td>Only the generator</td><td>Any role with stage privileges</td><td><span style="color:var(--color-text-danger);font-weight:600">Anyone with the URL</span></td></tr>
+      <tr><td><b>Snowflake login required</b></td><td><span class="yes">Yes</span></td><td><span class="yes">Yes</span></td><td><span class="no">No</span></td></tr>
+      <tr><td><b>Secure Data Sharing</b></td><td><span class="yes">✓ Yes</span></td><td><span class="no">✗ No</span></td><td><span class="yes">✓ Yes</span></td></tr>
+      <tr><td><b>Access control</b></td><td>View privileges</td><td>Stage privileges</td><td>Open (token-based)</td></tr>
+      <tr><td><b>Audit trail</b></td><td><span class="yes">✓ Recorded in query history</span></td><td><span class="some">⚠ Partial</span></td><td><span class="no">✗ No</span></td></tr>
+      <tr><td><b>Use via browser</b></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓ Direct browser access</span></td></tr>
+      <tr><td><b>Generate via</b></td><td><code>BUILD_SCOPED_FILE_URL()</code></td><td><code>BUILD_STAGE_FILE_URL()</code> or directory table</td><td><code>GET_PRESIGNED_URL()</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ENCRYPTION TRAP -->
+<div class="sec">
+  <div class="st">Server-side encryption — internal stage exam trap</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-danger)">
+      <div class="l">Default (client-side encryption)</div>
+      <div class="v" style="font-size:11px">Files are <b>unreadable</b> via pre-signed, file, or scoped URLs. External tools cannot access the files.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-success)">
+      <div class="l">Server-side encryption (<code>SNOWFLAKE_SSE</code>)</div>
+      <div class="v" style="font-size:11px">Files <b>are readable</b> via URLs. Required for unstructured data access on internal stages.<br>Set at stage creation — <b>cannot be changed later</b>.</div>
+    </div>
+  </div>
+  <div class="note dn">⚠ If you need Tri-Secret Secure: use <code>SNOWFLAKE_FULL</code> — NOT <code>SNOWFLAKE_SSE</code>. SSE does not support Tri-Secret Secure.</div>
+</div>
+
+<!-- SQL FUNCTIONS -->
+<div class="sec">
+  <div class="st">SQL file functions — quick reference</div>
+  <table class="ft">
+    <thead><tr><th>Function</th><th>What it does</th><th>URL type</th></tr></thead>
+    <tbody>
+      <tr><td><code>BUILD_SCOPED_FILE_URL(stage, path)</code></td><td>Generates scoped URL to a staged file</td><td><span class="badge bi">Scoped</span></td></tr>
+      <tr><td><code>BUILD_STAGE_FILE_URL(stage, path)</code></td><td>Generates permanent file URL to a staged file</td><td><span class="badge bo">File</span></td></tr>
+      <tr><td><code>GET_PRESIGNED_URL(stage, path [,expiry])</code></td><td>Generates temporary open HTTPS URL</td><td><span class="badge bw">Pre-signed</span></td></tr>
+      <tr><td><code>GET_STAGE_LOCATION(stage)</code></td><td>Returns the cloud storage URL of a stage</td><td>—</td></tr>
+      <tr><td><code>GET_RELATIVE_PATH(stage, abs_path)</code></td><td>Extracts relative path from absolute cloud path</td><td>—</td></tr>
+      <tr><td><code>GET_ABSOLUTE_PATH(stage, rel_path)</code></td><td>Returns absolute cloud path from relative path</td><td>—</td></tr>
+      <tr><td><code>TO_FILE(stage, path)</code></td><td>Returns a FILE object for a staged file</td><td>FILE type</td></tr>
+      <tr><td><code>TRY_TO_FILE(stage, path)</code></td><td>Like TO_FILE but returns NULL if not found/accessible</td><td>FILE type</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- KEY CONCEPTS -->
+<div class="sec">
+  <div class="st">Other key concepts</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Directory tables</div>
+      <div class="v" style="font-size:11px">Catalog of staged files in cloud storage. Query to retrieve file URLs. Must be enabled at stage creation (<code>DIRECTORY = (ENABLE = true)</code>).</div>
+    </div>
+    <div class="card">
+      <div class="l">FILE data type</div>
+      <div class="v" style="font-size:11px">Represents a file in a stage. Convert using <code>TO_FILE()</code> or <code>TRY_TO_FILE()</code>. Accepted by built-in functions in place of stage + path.</div>
+    </div>
+    <div class="card">
+      <div class="l">Processing unstructured data</div>
+      <div class="v" style="font-size:11px">External functions (AWS Textract, Azure Computer Vision) · Java/Python UDFs · Stored procedures · Snowpark API</div>
+    </div>
+    <div class="card">
+      <div class="l">Supported external storage</div>
+      <div class="v" style="font-size:11px">Amazon S3 · GCS · Azure (Blob, Data Lake Gen2, GPv1, GPv2)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What are the 3 URL types for accessing unstructured files in Snowflake?","Scoped URL, File URL, and Pre-signed URL."],
+  ["Which URL type never expires?","File URL — it is permanent."],
+  ["Which URL type expires after 24 hours?","Scoped URL — it expires when the query results cache expires (24 hours)."],
+  ["Which URL type requires NO Snowflake authentication to access?","Pre-signed URL — anyone with the URL can access the file for the life of the token."],
+  ["Which URL types work with Secure Data Sharing (in secure views)?","Scoped URL and Pre-signed URL. File URL does NOT work in secure views shared via Data Sharing."],
+  ["What function generates a Scoped URL?","BUILD_SCOPED_FILE_URL(stage, path)"],
+  ["What function generates a Pre-signed URL?","GET_PRESIGNED_URL(stage, path [, expiration_time])"],
+  ["What function generates a File URL?","BUILD_STAGE_FILE_URL(stage, path) or query the directory table."],
+  ["Who can use a Scoped URL once generated?","Only the user who generated it — no one else can use it."],
+  ["What is the best URL type for BI tools or browser-based access with no login?","Pre-signed URL — accessible directly in a browser without Snowflake authentication."],
+  ["Scoped URLs track usage — where?","In the Snowflake query history. This provides an audit trail of who accessed files and when."],
+  ["By default, files on an internal stage are client-side encrypted. What problem does this cause?","Files are unreadable via pre-signed, file, or scoped URLs. External tools cannot access the files."],
+  ["What encryption type enables URL-based access to files on an internal stage?","SNOWFLAKE_SSE (server-side encryption). Specified in CREATE STAGE."],
+  ["Can you change the encryption type of an internal stage after creation?","No — it must be set at creation time and cannot be changed afterward."],
+  ["What encryption type is required for Tri-Secret Secure with internal stages?","SNOWFLAKE_FULL — not SNOWFLAKE_SSE. SSE does not support Tri-Secret Secure."],
+  ["What is a directory table?","A catalog of staged files in cloud storage that you can query to retrieve file URLs and metadata."],
+  ["What is the FILE data type?","A data type representing a file stored in an internal or external stage. Created with TO_FILE() or TRY_TO_FILE()."],
+  ["What does TRY_TO_FILE() return if the file doesn't exist?","NULL (instead of an error, unlike TO_FILE() which would fail)."],
+  ["What privileges are needed to access a file via File URL?","USAGE on an external stage or READ on an internal stage."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

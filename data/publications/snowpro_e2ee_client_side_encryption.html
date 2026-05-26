@@ -1,0 +1,197 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* E2EE flow diagram */
+.flow{display:flex;align-items:center;gap:0;width:100%;margin:8px 0;overflow-x:auto}
+.fbox{border-radius:8px;padding:8px 6px;text-align:center;font-size:10px;font-weight:600;border:0.5px solid var(--color-border-secondary);flex-shrink:0;min-width:72px}
+.f-client{background:var(--color-background-info);color:var(--color-text-info)}
+.f-stage{background:var(--color-background-warning);color:var(--color-text-warning)}
+.f-snow{background:var(--color-background-success);color:var(--color-text-success)}
+.f-lock{background:var(--color-background-danger);color:var(--color-text-danger)}
+.farr{font-size:14px;color:var(--color-text-tertiary);padding:0 5px;flex-shrink:0}
+.fsub{font-size:9px;font-weight:400;margin-top:2px;line-height:1.3}
+
+/* stage comparison */
+.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc{border-radius:8px;padding:11px;border:0.5px solid var(--color-border-secondary)}
+.sc-int{background:var(--color-background-success)}
+.sc-ext{background:var(--color-background-info)}
+.sc-title{font-size:12px;font-weight:700;margin-bottom:5px}
+.sc-int .sc-title{color:var(--color-text-success)}
+.sc-ext .sc-title{color:var(--color-text-info)}
+.sc-body{font-size:11px;color:var(--color-text-secondary);line-height:1.6}
+
+/* client-side encryption protocol steps */
+.proto-steps{display:flex;flex-direction:column;gap:6px}
+.proto-step{display:flex;align-items:flex-start;gap:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:8px 10px}
+.proto-num{width:20px;height:20px;border-radius:50%;background:var(--color-background-info);color:var(--color-text-info);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.proto-text{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+
+/* key facts strip */
+.kf{display:flex;gap:8px}
+.kf-box{flex:1;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px;text-align:center}
+.kf-val{font-size:16px;font-weight:700;color:var(--color-text-info)}
+.kf-label{font-size:10px;color:var(--color-text-tertiary);margin-top:2px}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">End-to-end encryption (E2EE)</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- E2EE DEFINITION + KEY FACTS -->
+<div class="sec">
+  <div class="st">What E2EE is + key numbers</div>
+  <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">Prevents third parties from reading data <b>at rest</b> OR <b>in transit</b> to/from Snowflake. Minimizes the attack surface.</div>
+  <div class="kf">
+    <div class="kf-box"><div class="kf-val">AES</div><div class="kf-label">Algorithm for client-side encryption</div></div>
+    <div class="kf-box"><div class="kf-val">128 or 256</div><div class="kf-label">Bit key length options</div></div>
+    <div class="kf-box"><div class="kf-val">Base64</div><div class="kf-label">MASTER_KEY encoding format</div></div>
+    <div class="kf-box"><div class="kf-val">TLS/HTTPS</div><div class="kf-label">In-transit encryption</div></div>
+  </div>
+</div>
+
+<!-- E2EE FLOW -->
+<div class="sec">
+  <div class="st">E2EE data flow — 4 steps</div>
+  <div class="flow">
+    <div class="fbox f-client">👤 User<br><span class="fsub">Corporate network</span></div>
+    <div class="farr">→<br><span style="font-size:9px;color:var(--color-text-tertiary)">encrypt<br>(optional ext / auto int)</span></div>
+    <div class="fbox f-stage">📦 Stage<br><span class="fsub">External (A) or Internal (B)</span></div>
+    <div class="farr">→<br><span style="font-size:9px;color:var(--color-text-tertiary)">COPY INTO<br>+ TLS</span></div>
+    <div class="fbox f-snow">❄️ Snowflake<br><span class="fsub">Data encrypted at rest<br>in columnar format</span></div>
+    <div class="farr">→<br><span style="font-size:9px;color:var(--color-text-tertiary)">unload<br>(optionally encrypted)</span></div>
+    <div class="fbox f-stage">📦 Stage<br><span class="fsub">Download + decrypt<br>on client side</span></div>
+  </div>
+  <div class="note">Snowflake decrypts data during processing/transformation in a table, then <b>re-encrypts when operations complete</b>. Data is never stored unencrypted at rest.</div>
+</div>
+
+<!-- INTERNAL vs EXTERNAL STAGE ENCRYPTION -->
+<div class="sec">
+  <div class="st">Internal vs external stage — encryption behavior</div>
+  <div class="stage-grid">
+    <div class="sc sc-int">
+      <div class="sc-title">🏠 Internal stage (Snowflake-provided)</div>
+      <div class="sc-body">
+        <b>Auto-encrypted</b> by Snowflake client on user's local machine <b>before transmission</b>.<br>
+        Also encrypted again after loading into the stage.<br>
+        No customer action required — fully automatic.<br>
+        Files unloaded to internal stage are <b>automatically encrypted</b>.
+      </div>
+    </div>
+    <div class="sc sc-ext">
+      <div class="sc-title">☁️ External stage (customer-provided)</div>
+      <div class="sc-body">
+        Client-side encryption is <b>optional but recommended</b>.<br>
+        If NOT encrypted before upload → <b>Snowflake encrypts immediately on load into table</b>.<br>
+        Files unloaded to external stage are <b>optionally encrypted</b> using client-side encryption.<br>
+        Examples: Amazon S3, GCS, Azure Storage
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENT-SIDE ENCRYPTION PROTOCOL -->
+<div class="sec">
+  <div class="st">Client-side encryption protocol — upload flow</div>
+  <div class="proto-steps">
+    <div class="proto-step"><div class="proto-num">1</div><div class="proto-text"><b>Customer creates a secret master key</b> (128-bit or 256-bit AES, Base64-encoded). This is shared with Snowflake.</div></div>
+    <div class="proto-step"><div class="proto-num">2</div><div class="proto-text">The cloud storage client generates a <b>random file encryption key</b> → encrypts the file with this random key → then encrypts the random key itself with the customer's master key.</div></div>
+    <div class="proto-step"><div class="proto-num">3</div><div class="proto-text">Both the <b>encrypted file</b> and the <b>encrypted random key</b> are uploaded to cloud storage. The encrypted random key is stored in the file's <b>metadata</b>.</div></div>
+    <div class="proto-step" style="background:var(--color-background-success)"><div class="proto-num" style="background:var(--color-background-success);color:var(--color-text-success);border:1px solid var(--color-text-success)">↓</div><div class="proto-text"><b>Download reversal:</b> Client downloads both → decrypts random key using master key → decrypts file using random key. <b>All decryption happens on client side.</b></div></div>
+  </div>
+  <div class="note dn">⚠ At no time does the cloud storage service, ISP, or any third party see the data in plaintext.</div>
+</div>
+
+<!-- MASTER_KEY PARAMETER -->
+<div class="sec">
+  <div class="st">MASTER_KEY — how to configure client-side encryption</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Create encrypted external stage</div>
+      <div class="v" style="font-size:10px;font-family:monospace;color:var(--color-text-info)">CREATE STAGE encrypted_stage<br>  URL='s3://bucket/data/'<br>  CREDENTIALS=(<br>    AWS_KEY_ID='...'<br>    AWS_SECRET_KEY='...'<br>  )<br>  ENCRYPTION=(MASTER_KEY='eSxX...=');</div>
+    </div>
+    <div class="card">
+      <div class="l">Load from encrypted stage</div>
+      <div class="v" style="font-size:10px;font-family:monospace;color:var(--color-text-info)">COPY INTO users<br>FROM @encrypted_stage/users;</div>
+    </div>
+    <div class="card">
+      <div class="l">Unload to encrypted stage</div>
+      <div class="v" style="font-size:10px;font-family:monospace;color:var(--color-text-info)">COPY INTO @encrypted_stage/out<br>FROM my_table;</div>
+    </div>
+    <div class="card">
+      <div class="l">MASTER_KEY requirements</div>
+      <div class="v" style="font-size:11px"><b>128-bit or 256-bit</b> AES key<br>Encoded in <b>Base64</b><br>Transmitted to Snowflake via <b>HTTPS/TLS</b><br>Stored encrypted in metadata storage</div>
+    </div>
+  </div>
+  <div class="note">Named stages can be <b>granted to other users without revealing the master key or credentials</b> — access-controlled reference only.</div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What does E2EE protect against?","Prevents third parties from reading data at rest or in transit to/from Snowflake. Minimizes the attack surface."],
+  ["Is client-side encryption required for external stages?","No — it is optional but recommended. If data is NOT encrypted, Snowflake immediately encrypts it when loaded into a table."],
+  ["What encryption happens automatically for internal stages?","Files are auto-encrypted by the Snowflake client on the user's local machine BEFORE transmission, and again after loading into the stage."],
+  ["What algorithm and key sizes are used for client-side encryption?","AES (Advanced Encryption Standard). Key must be 128-bit or 256-bit, encoded in Base64."],
+  ["What is the MASTER_KEY parameter?","A Base64-encoded AES key (128 or 256 bit) used in CREATE STAGE to support client-side encryption for external stages."],
+  ["What two things are uploaded when using client-side encryption?","The encrypted file AND the encrypted random key (stored in the file's metadata)."],
+  ["Where does decryption happen in client-side encryption?","On the client side only. The cloud storage service never sees plaintext data."],
+  ["What happens to data while it's being processed inside Snowflake?","It is decrypted for transformation/processing, then re-encrypted when operations complete. Never stored unencrypted at rest."],
+  ["What protocol protects data in transit to/from Snowflake?","TLS (HTTPS)."],
+  ["Can you share a named stage object without revealing the master key?","Yes — named stages can be granted to other users who simply reference the stage by name. Credentials and master key are hidden."],
+  ["Where is the master key stored in Snowflake?","Encrypted in metadata storage. Only the customer and Snowflake's query-processing components are exposed to it."],
+  ["Are unloaded results encrypted when written to an internal stage?","Yes — automatically encrypted."],
+  ["Are unloaded results encrypted when written to an external stage?","Optionally — client-side encryption can be applied but is not automatic."],
+  ["What is the 3-step client-side encryption upload protocol?","1. Customer creates master key. 2. Client generates random file key, encrypts file with it, encrypts random key with master key. 3. Both encrypted file + encrypted random key uploaded together."],
+  ["What is the encryption status of all Snowflake data at rest?","All customer data at rest is always encrypted — automatically, with no configuration needed."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

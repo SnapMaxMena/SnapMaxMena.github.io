@@ -1,0 +1,254 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* 3-layer architecture diagram */
+.arch{display:flex;flex-direction:column;gap:6px}
+.layer{border-radius:10px;padding:12px 14px;border:0.5px solid var(--color-border-secondary)}
+.l-cloud{background:var(--color-background-warning)}
+.l-compute{background:var(--color-background-info)}
+.l-storage{background:var(--color-background-success)}
+.layer-title{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.l-cloud .layer-title{color:var(--color-text-warning)}
+.l-compute .layer-title{color:var(--color-text-info)}
+.l-storage .layer-title{color:var(--color-text-success)}
+.layer-body{font-size:11px;color:var(--color-text-secondary);line-height:1.6}
+.layer-arrow{text-align:center;font-size:18px;color:var(--color-text-tertiary)}
+
+/* table types */
+.ttype-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tt{border-radius:8px;padding:10px 12px;border:0.5px solid var(--color-border-secondary)}
+.tt-sf{background:var(--color-background-info)}
+.tt-ic{background:var(--color-background-success)}
+.tt-hy{background:var(--color-background-warning)}
+.tt-name{font-size:12px;font-weight:700;margin-bottom:4px}
+.tt-sf .tt-name{color:var(--color-text-info)}
+.tt-ic .tt-name{color:var(--color-text-success)}
+.tt-hy .tt-name{color:var(--color-text-warning)}
+.tt-body{font-size:10px;color:var(--color-text-secondary);line-height:1.5}
+
+/* architecture hybrid badge */
+.hybrid-banner{background:var(--color-background-primary);border:1.5px solid var(--color-text-warning);border-radius:10px;padding:12px;text-align:center;margin-bottom:8px}
+.hb-title{font-size:14px;font-weight:700;color:var(--color-text-warning)}
+.hb-sub{font-size:12px;color:var(--color-text-secondary);margin-top:4px}
+.hybrid-row{display:flex;gap:8px;margin-top:8px}
+.hcol{flex:1;background:var(--color-background-secondary);border-radius:8px;padding:8px 10px;text-align:center}
+.hcol-title{font-size:11px;font-weight:600;color:var(--color-text-primary);margin-bottom:3px}
+.hcol-body{font-size:10px;color:var(--color-text-tertiary)}
+
+/* connection methods */
+.conn-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+
+/* workload areas */
+.wl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wl-card{border-radius:8px;padding:9px 11px;border:0.5px solid var(--color-border-secondary)}
+.wl-1{background:var(--color-background-info)}
+.wl-2{background:var(--color-background-success)}
+.wl-3{background:var(--color-background-warning)}
+.wl-4{background:var(--color-background-danger)}
+.wl-title{font-size:11px;font-weight:700;margin-bottom:3px}
+.wl-1 .wl-title{color:var(--color-text-info)}
+.wl-2 .wl-title{color:var(--color-text-success)}
+.wl-3 .wl-title{color:var(--color-text-warning)}
+.wl-4 .wl-title{color:var(--color-text-danger)}
+.wl-body{font-size:10px;color:var(--color-text-secondary);line-height:1.5}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Snowflake key concepts & architecture</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card · the #1 most-tested domain (31% of exam)</div>
+
+<!-- HYBRID ARCHITECTURE -->
+<div class="sec">
+  <div class="st">Architecture type — the exam definition</div>
+  <div class="hybrid-banner">
+    <div class="hb-title">Hybrid of shared-disk + shared-nothing</div>
+    <div class="hb-sub">Not purely either one — takes the best of both worlds</div>
+    <div class="hybrid-row">
+      <div class="hcol">
+        <div class="hcol-title">From shared-disk ✓</div>
+        <div class="hcol-body">Central data repository — all compute nodes access the SAME storage</div>
+      </div>
+      <div class="hcol">
+        <div class="hcol-title">From shared-nothing ✓</div>
+        <div class="hcol-body">MPP clusters — each node processes its own portion locally for performance</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3-LAYER ARCHITECTURE -->
+<div class="sec">
+  <div class="st">3-layer architecture — know every layer</div>
+  <div class="arch">
+    <div class="layer l-cloud">
+      <div class="layer-title">⚙️ Layer 3 — Cloud Services</div>
+      <div class="layer-body">
+        Coordinates ALL activities. Runs on cloud instances managed by Snowflake.<br>
+        Includes: <b>Authentication &amp; access control · Horizon Catalog · Metadata management · Query parsing &amp; optimization · Infrastructure management · Regulatory compliance</b><br>
+        Also: SNOWFLAKE database + Information Schema<br>
+        <span style="color:var(--color-text-warning);font-weight:600">Requires NO warehouse for metadata ops (SHOW commands, DDL planning)</span>
+      </div>
+    </div>
+    <div class="layer-arrow">↕ decoupled</div>
+    <div class="layer l-compute">
+      <div class="layer-title">🖥️ Layer 2 — Compute (Virtual Warehouses)</div>
+      <div class="layer-body">
+        Each WH = independent MPP cluster. <b>No shared compute between warehouses</b> → no performance impact on each other.<br>
+        Processes SQL statements + Snowpark code (Java, Python, Scala) + Apache Spark workloads.<br>
+        Can be started/stopped/resized without affecting data or other warehouses.
+      </div>
+    </div>
+    <div class="layer-arrow">↕ decoupled</div>
+    <div class="layer l-storage">
+      <div class="layer-title">💾 Layer 1 — Database Storage</div>
+      <div class="layer-body">
+        Data stored in Snowflake's optimized, <b>compressed, columnar format</b> in cloud storage.<br>
+        Automatically divided into <b>micro-partitions</b>.<br>
+        Snowflake manages: organization · file size · structure · compression · metadata · statistics.<br>
+        Supports: structured · semi-structured · unstructured data.
+      </div>
+    </div>
+  </div>
+  <div class="note">Key exam rule: Storage, Compute, and Cloud Services are <b>fully decoupled</b>. You can scale each independently.</div>
+</div>
+
+<!-- TABLE TYPES -->
+<div class="sec">
+  <div class="st">3 table types in storage layer</div>
+  <div class="ttype-grid">
+    <div class="tt tt-sf">
+      <div class="tt-name">⬛ Snowflake tables</div>
+      <div class="tt-body">Columnar, compressed, micro-partitioned. <b>Snowflake manages storage.</b> Ideal for data warehouses. Supports structured + semi-structured + FILE type.</div>
+    </div>
+    <div class="tt tt-ic">
+      <div class="tt-name">🔷 Iceberg tables</div>
+      <div class="tt-body">Data + metadata in <b>external cloud storage you manage</b> (S3, GCS, Azure). Ideal for data lakes/lakehouses you can't move to Snowflake.</div>
+    </div>
+    <div class="tt tt-hy">
+      <div class="tt-name">⚡ Hybrid tables</div>
+      <div class="tt-body">Index-based reads/writes. Low latency + high throughput. Row locking + unique/referential constraints. For <b>Unistore OLTP workloads</b>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SAAS MODEL -->
+<div class="sec">
+  <div class="st">Snowflake as SaaS — what you DON'T manage</div>
+  <div class="g3">
+    <div class="card"><div class="l"><span class="no">✗ Not your job</span></div><div class="v" style="font-size:11px">Select, install, configure hardware</div></div>
+    <div class="card"><div class="l"><span class="no">✗ Not your job</span></div><div class="v" style="font-size:11px">Install or configure software</div></div>
+    <div class="card"><div class="l"><span class="no">✗ Not your job</span></div><div class="v" style="font-size:11px">Maintenance, upgrades, tuning</div></div>
+  </div>
+  <div class="note dn">⚠ Cannot install/run Snowflake locally or on private cloud (on-premises). Cloud-only: AWS · Azure · GCP.</div>
+</div>
+
+<!-- 4 WORKLOAD AREAS -->
+<div class="sec">
+  <div class="st">4 integrated workload areas</div>
+  <div class="wl">
+    <div class="wl-card wl-1">
+      <div class="wl-title">🔧 Data Engineering</div>
+      <div class="wl-body">Ingest: COPY INTO · Snowpipe · Snowpipe Streaming · Openflow<br>Transform: Dynamic tables · Streams + Tasks · Snowpark · dbt</div>
+    </div>
+    <div class="wl-card wl-2">
+      <div class="wl-title">📊 Analytics</div>
+      <div class="wl-body">SQL: Aggregate / Window functions · CTEs<br>AI analytics: Cortex AI functions (LLMs)<br>Semantic views for business metrics</div>
+    </div>
+    <div class="wl-card wl-3">
+      <div class="wl-title">🤖 AI & ML</div>
+      <div class="wl-body">Cortex: LLM-powered (unstructured data, summaries, translation)<br>Snowflake ML: Build your own models + ML functions</div>
+    </div>
+    <div class="wl-card wl-4">
+      <div class="wl-title">🏗️ Apps & Collaboration</div>
+      <div class="wl-body">Build: Streamlit · Snowpark Container Services · Native App Framework<br>Share: Secure Data Sharing · Listings/Marketplace · Data Clean Rooms</div>
+    </div>
+  </div>
+</div>
+
+<!-- SNOWGRID + CONNECTIONS -->
+<div class="sec">
+  <div class="st">Snowgrid + connection methods</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Snowgrid</div>
+      <div class="v" style="font-size:11px">Cross-region, cross-cloud layer. Connects AWS + Azure + GCP. Enables: data sharing across regions · consistent security/governance · disaster recovery via replication.</div>
+    </div>
+    <div class="card">
+      <div class="l">Connection methods</div>
+      <div class="v" style="font-size:11px">Snowsight (web UI) · Snowflake CLI · Python/REST APIs · JDBC · ODBC · Kafka/Spark connectors · 3rd-party ETL/BI tools</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What type of architecture does Snowflake use?","A hybrid of shared-disk (central storage accessible by all nodes) and shared-nothing (MPP compute clusters processing data locally)."],
+  ["What are Snowflake's 3 architectural layers?","1. Database Storage (columnar, compressed, micro-partitioned). 2. Compute (virtual warehouses / MPP). 3. Cloud Services (coordination, metadata, auth, query optimization)."],
+  ["Can two virtual warehouses share compute resources?","No — each virtual warehouse is an independent compute cluster with no shared compute. They have no effect on each other's performance."],
+  ["What does the Cloud Services layer do?","Coordinates all Snowflake activities: authentication, access control, metadata management, query parsing/optimization, infrastructure management, compliance."],
+  ["Do SHOW commands require a virtual warehouse?","No — metadata operations like SHOW run in the Cloud Services layer and consume no warehouse credits."],
+  ["How is data stored in Snowflake tables?","Automatically reorganized into optimized, compressed, columnar format, divided into micro-partitions. Snowflake manages all aspects."],
+  ["What are the 3 table types in Snowflake?","Snowflake tables (columnar, Snowflake-managed), Iceberg tables (external customer-managed storage), Hybrid tables (OLTP, row locking, referential constraints)."],
+  ["What is a Hybrid table best suited for?","Transactional/OLTP workloads (Unistore). Optimized for low-latency random reads/writes with row locking and unique/referential integrity."],
+  ["What is an Iceberg table?","A table that stores data and metadata in external cloud storage (S3, GCS, Azure) that the customer manages. Ideal for existing data lakes."],
+  ["Can Snowflake be installed on-premises or on a private cloud?","No — Snowflake is cloud-only. It runs on AWS, Azure, and GCP. It cannot be installed locally or on private infrastructure."],
+  ["What are the 3 things Snowflake manages for you as SaaS?","Hardware (none to select/install), software (none to install/configure), and ongoing maintenance/upgrades/tuning."],
+  ["What is Snowgrid?","Snowflake's cross-region, cross-cloud technology layer enabling data sharing, consistent governance, and disaster recovery across AWS, Azure, and GCP."],
+  ["Name 3 data ingestion methods in Snowflake.","COPY INTO (batch from files), Snowpipe (continuous file-triggered), Snowpipe Streaming (row-level, low-latency SDK/REST), Openflow connectors — any 3."],
+  ["What programming languages does Snowpark support?","Java, Python, and Scala. Also supports Apache Spark workloads."],
+  ["What is Snowflake's main architectural difference from a pure shared-nothing system?","Snowflake has centralized storage (shared-disk characteristic) rather than each node owning its own storage, while still using MPP processing clusters."],
+  ["What data types does the storage layer support?","Structured (rows/columns), semi-structured (JSON, XML), and unstructured (documents, images, audio via FILE data type)."],
+  ["What are the 4 workload areas Snowflake integrates?","Data Engineering, Analytics, AI & ML, and Applications & Collaboration."],
+  ["What is the key benefit of decoupled storage and compute?","Each can be scaled independently. Multiple warehouses can access the same data simultaneously without copying or moving it."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

@@ -1,0 +1,307 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.card .l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.card .v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:3px;color:var(--color-text-info)}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+/* BIG comparison table */
+.cmp{width:100%;border-collapse:collapse;font-size:12px}
+.cmp th{font-size:11px;font-weight:600;padding:7px 10px;border-bottom:1px solid var(--color-border-tertiary);text-align:left}
+.cmp th.au{background:var(--color-background-info);color:var(--color-text-info);border-radius:4px 4px 0 0}
+.cmp th.is{background:var(--color-background-success);color:var(--color-text-success);border-radius:4px 4px 0 0}
+.cmp th.prop{color:var(--color-text-tertiary);background:var(--color-background-secondary)}
+.cmp td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.cmp tr:last-child td{border-bottom:none}
+.cmp tr:hover td{background:var(--color-background-primary)}
+/* role cards */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.role-card{border-radius:8px;padding:10px 12px;border:0.5px solid var(--color-border-secondary)}
+.role-obj{background:var(--color-background-info)}
+.role-usg{background:var(--color-background-success)}
+.role-gov{background:var(--color-background-warning)}
+.role-sec{background:var(--color-background-danger)}
+.role-name{font-size:12px;font-weight:700;margin-bottom:4px}
+.role-obj .role-name{color:var(--color-text-info)}
+.role-usg .role-name{color:var(--color-text-success)}
+.role-gov .role-name{color:var(--color-text-warning)}
+.role-sec .role-name{color:var(--color-text-danger)}
+.role-desc{font-size:11px;color:var(--color-text-secondary);margin-bottom:6px}
+.role-examples{font-size:10px;color:var(--color-text-tertiary);line-height:1.6}
+/* latency bar */
+.lat-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.lat-label{font-size:11px;color:var(--color-text-secondary);width:160px;flex-shrink:0}
+.lat-bar-wrap{flex:1;height:10px;background:var(--color-background-primary);border-radius:5px;border:0.5px solid var(--color-border-tertiary);overflow:hidden}
+.lat-bar{height:100%;border-radius:5px;background:var(--color-background-info)}
+.lat-val{font-size:10px;font-weight:600;color:var(--color-text-info);width:40px;text-align:right;flex-shrink:0}
+/* key views highlight */
+.kv-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.kv{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:7px 9px}
+.kv-name{font-size:10px;font-weight:600;color:var(--color-text-info);margin-bottom:2px}
+.kv-lat{font-size:9px;color:var(--color-text-tertiary)}
+.kv-desc{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+/* tabs */
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.tab.on{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
+.panel{display:none}.panel.on{display:block}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Account Usage vs Information Schema</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card · SNOWFLAKE.ACCOUNT_USAGE schema</div>
+
+<!-- THE BIG 3 DIFFERENCES — EXAM CORE -->
+<div class="sec">
+  <div class="st">The 3 differences — this is the exam</div>
+  <table class="cmp">
+    <thead>
+      <tr>
+        <th class="prop">Property</th>
+        <th class="au">ACCOUNT_USAGE</th>
+        <th class="is">INFORMATION_SCHEMA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Dropped objects included?</b></td>
+        <td><span class="yes">✓ Yes</span> — includes DELETED column + ID columns to distinguish re-created objects</td>
+        <td><span class="no">✗ No</span> — only current live objects</td>
+      </tr>
+      <tr>
+        <td><b>Data latency</b></td>
+        <td><span style="color:var(--color-text-warning);font-weight:600">45 min → 3 hours</span> (most views: 2 hrs)</td>
+        <td><span style="color:var(--color-text-success);font-weight:600">None</span> — real-time</td>
+      </tr>
+      <tr>
+        <td><b>Historical data retention</b></td>
+        <td><span style="color:var(--color-text-info);font-weight:600">1 year (365 days)</span></td>
+        <td><span style="color:var(--color-text-secondary);font-weight:600">7 days → 6 months</span> (varies by view)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WHERE IT LIVES -->
+<div class="sec">
+  <div class="st">Location & access</div>
+  <div class="g2">
+    <div class="card">
+      <div class="l">Database</div>
+      <div class="v"><code>SNOWFLAKE</code> (shared, read-only)</div>
+    </div>
+    <div class="card">
+      <div class="l">Schema</div>
+      <div class="v"><code>SNOWFLAKE.ACCOUNT_USAGE</code></div>
+    </div>
+    <div class="card">
+      <div class="l">Default access</div>
+      <div class="v">ACCOUNTADMIN only</div>
+    </div>
+    <div class="card">
+      <div class="l">Grant access 2 ways</div>
+      <div class="v">① <code>GRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE …</code><br>② Grant a SNOWFLAKE database role to an account role</div>
+    </div>
+  </div>
+  <div class="note wn">⚠ Prefer SNOWFLAKE database roles over IMPORTED PRIVILEGES to avoid unintentionally granting org-level data access.</div>
+</div>
+
+<!-- 2 SCHEMA TYPES -->
+<div class="sec">
+  <div class="st">Two schemas inside the SNOWFLAKE database</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-info)">
+      <div class="l">ACCOUNT_USAGE</div>
+      <div class="v" style="font-size:11px">Object metadata + historical usage for <b>your account</b>. Includes dropped objects. 1-year retention.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-success)">
+      <div class="l">READER_ACCOUNT_USAGE</div>
+      <div class="v" style="font-size:11px">Subset of AU views for <b>all reader accounts</b> you created (Secure Data Sharing provider). Adds <code>READER_ACCOUNT_NAME</code> column. Empty if no reader accounts exist.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 DATABASE ROLES -->
+<div class="sec">
+  <div class="st">4 SNOWFLAKE database roles — fine-grained access</div>
+  <div class="role-grid">
+    <div class="role-card role-obj">
+      <div class="role-name">OBJECT_VIEWER</div>
+      <div class="role-desc">Object metadata visibility</div>
+      <div class="role-examples">TABLES · COLUMNS · DATABASES · STAGES · FUNCTIONS · PROCEDURES · PIPES · SCHEMATA · ROLES · SEQUENCES · FILE_FORMATS · VIEWS · RESOURCE_MONITORS</div>
+    </div>
+    <div class="role-card role-usg">
+      <div class="role-name">USAGE_VIEWER</div>
+      <div class="role-desc">Historical usage information</div>
+      <div class="role-examples">QUERY_HISTORY · WAREHOUSE_METERING_HISTORY · COPY_HISTORY · LOAD_HISTORY · METERING_HISTORY · STORAGE_USAGE · PIPE_USAGE_HISTORY · TASK_HISTORY</div>
+    </div>
+    <div class="role-card role-gov">
+      <div class="role-name">GOVERNANCE_VIEWER</div>
+      <div class="role-desc">Data governance information</div>
+      <div class="role-examples">ACCESS_HISTORY · MASKING_POLICIES · ROW_ACCESS_POLICIES · TAG_REFERENCES · QUERY_HISTORY · POLICY_REFERENCES · DATA_CLASSIFICATION_*</div>
+    </div>
+    <div class="role-card role-sec">
+      <div class="role-name">SECURITY_VIEWER</div>
+      <div class="role-desc">Security-based information</div>
+      <div class="role-examples">LOGIN_HISTORY · GRANTS_TO_ROLES · GRANTS_TO_USERS · GRANTS_TO_SHARES · NETWORK_POLICIES · SESSIONS · USERS · PASSWORD_POLICIES</div>
+    </div>
+  </div>
+  <div class="note">READER_ACCOUNT_USAGE: use the <b>READER_USAGE_VIEWER</b> role (SELECT on all reader account views).</div>
+</div>
+
+<!-- KEY VIEWS TO KNOW -->
+<div class="sec">
+  <div class="st">High-frequency exam views — know these</div>
+  <div class="tabs">
+    <button class="tab on" onclick="tab('v1',this)">Performance</button>
+    <button class="tab" onclick="tab('v2',this)">Security</button>
+    <button class="tab" onclick="tab('v3',this)">Storage</button>
+    <button class="tab" onclick="tab('v4',this)">Objects</button>
+  </div>
+  <div id="v1" class="panel on">
+    <div class="kv-grid">
+      <div class="kv"><div class="kv-name">QUERY_HISTORY</div><div class="kv-lat">45 min latency</div><div class="kv-desc">All queries, execution times, bytes scanned. 1-yr retention.</div></div>
+      <div class="kv"><div class="kv-name">WAREHOUSE_METERING_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">Credits consumed per warehouse per hour.</div></div>
+      <div class="kv"><div class="kv-name">METERING_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">All credit consumption by service type.</div></div>
+      <div class="kv"><div class="kv-name">WAREHOUSE_LOAD_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">WH queued vs running load over time.</div></div>
+      <div class="kv"><div class="kv-name">TASK_HISTORY</div><div class="kv-lat">45 min latency</div><div class="kv-desc">Task run history and status.</div></div>
+      <div class="kv"><div class="kv-name">COPY_HISTORY</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">COPY INTO load history. 1-yr retention.</div></div>
+    </div>
+  </div>
+  <div id="v2" class="panel">
+    <div class="kv-grid">
+      <div class="kv"><div class="kv-name">LOGIN_HISTORY</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">All login attempts (success + failure). 1-yr retention.</div></div>
+      <div class="kv"><div class="kv-name">ACCESS_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">Which objects were read/written by whom. Enterprise+. 1-yr retention.</div></div>
+      <div class="kv"><div class="kv-name">GRANTS_TO_ROLES</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">All privileges granted to roles.</div></div>
+      <div class="kv"><div class="kv-name">GRANTS_TO_USERS</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">All roles granted to users.</div></div>
+      <div class="kv"><div class="kv-name">MASKING_POLICIES</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">All dynamic data masking policies.</div></div>
+      <div class="kv"><div class="kv-name">LOCK_WAIT_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">Blocked txn lock analysis. 1-yr retention.</div></div>
+    </div>
+  </div>
+  <div id="v3" class="panel">
+    <div class="kv-grid">
+      <div class="kv"><div class="kv-name">STORAGE_USAGE</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">Total storage (tables + stages). 1-yr retention.</div></div>
+      <div class="kv"><div class="kv-name">DATABASE_STORAGE_USAGE_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">Per-DB storage over time.</div></div>
+      <div class="kv"><div class="kv-name">TABLE_STORAGE_METRICS</div><div class="kv-lat">90 min latency</div><div class="kv-desc">Time Travel + Fail-safe bytes per table.</div></div>
+      <div class="kv"><div class="kv-name">STAGE_STORAGE_USAGE_HISTORY</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">Internal stage storage over time.</div></div>
+      <div class="kv"><div class="kv-name">AUTOMATIC_CLUSTERING_HISTORY</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">Credits + bytes reclustered. 1-yr retention.</div></div>
+      <div class="kv"><div class="kv-name">DATA_TRANSFER_HISTORY</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">Data transfer charges by cloud/region.</div></div>
+    </div>
+  </div>
+  <div id="v4" class="panel">
+    <div class="kv-grid">
+      <div class="kv"><div class="kv-name">TABLES</div><div class="kv-lat">90 min latency</div><div class="kv-desc">All tables including dropped (DELETED column).</div></div>
+      <div class="kv"><div class="kv-name">COLUMNS</div><div class="kv-lat">90 min latency</div><div class="kv-desc">All columns including dropped tables.</div></div>
+      <div class="kv"><div class="kv-name">DATABASES</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">All databases including dropped.</div></div>
+      <div class="kv"><div class="kv-name">USERS</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">All users including deleted.</div></div>
+      <div class="kv"><div class="kv-name">PIPES</div><div class="kv-lat">2 hr latency</div><div class="kv-desc">All Snowpipe objects.</div></div>
+      <div class="kv"><div class="kv-name">OBJECT_DEPENDENCIES</div><div class="kv-lat">3 hr latency</div><div class="kv-desc">Dependency graph for all objects.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LATENCY VISUAL -->
+<div class="sec">
+  <div class="st">Latency spectrum — exam numbers</div>
+  <div class="lat-row"><div class="lat-label">QUERY_HISTORY / TASK_HISTORY</div><div class="lat-bar-wrap"><div class="lat-bar" style="width:25%;background:var(--color-text-success)"></div></div><div class="lat-val" style="color:var(--color-text-success)">45 min</div></div>
+  <div class="lat-row"><div class="lat-label">TABLE_STORAGE_METRICS / TABLES</div><div class="lat-bar-wrap"><div class="lat-bar" style="width:38%;background:var(--color-text-info)"></div></div><div class="lat-val">90 min</div></div>
+  <div class="lat-row"><div class="lat-label">Most views (default)</div><div class="lat-bar-wrap"><div class="lat-bar" style="width:50%;background:var(--color-text-info)"></div></div><div class="lat-val">2 hrs</div></div>
+  <div class="lat-row"><div class="lat-label">ACCESS_HISTORY / WH views</div><div class="lat-bar-wrap"><div class="lat-bar" style="width:75%;background:var(--color-text-warning)"></div></div><div class="lat-val" style="color:var(--color-text-warning)">3 hrs</div></div>
+  <div class="lat-row"><div class="lat-label">READER STORAGE_USAGE</div><div class="lat-bar-wrap"><div class="lat-bar" style="width:100%;background:var(--color-text-danger)"></div></div><div class="lat-val" style="color:var(--color-text-danger)">24 hrs</div></div>
+  <div class="note">Info Schema = 0 latency (real-time). Account Usage latencies are <b>maximums</b> — actual may be lower.</div>
+</div>
+
+<!-- DROPPED OBJECTS DETAIL -->
+<div class="sec">
+  <div class="st">Dropped objects — how ACCOUNT_USAGE handles them</div>
+  <div class="row"><div class="dot db"></div><div>Views include a <code>DELETED</code> column with the drop timestamp.</div></div>
+  <div class="row"><div class="dot db"></div><div>ID columns distinguish objects re-created with the same name (different internal IDs).</div></div>
+  <div class="row"><div class="dot dy"></div><div>If <code>TABLE_NAME</code> (or any object name column) = NULL → object was dropped AND its parent DB/Schema names are also NULL.</div></div>
+  <div class="row"><div class="dot dy"></div><div>Some views still show the name even after drop — use the DELETED timestamp or ID to confirm.</div></div>
+</div>
+
+<!-- BEST PRACTICES -->
+<div class="sec">
+  <div class="st">Best practices — exam-relevant rules</div>
+  <div class="row"><div class="dot dr"></div><div>Never use <code>SELECT *</code> on ACCOUNT_USAGE views — Snowflake may change columns. Always select specific columns.</div></div>
+  <div class="row"><div class="dot dy"></div><div>To reconcile with ORGANIZATION_USAGE views (e.g. billing): run <code>ALTER SESSION SET TIMEZONE = UTC</code> first.</div></div>
+  <div class="row"><div class="dot db"></div><div>Use <b>SNOWFLAKE database roles</b> (not IMPORTED PRIVILEGES) for least-privilege access to ACCOUNT_USAGE.</div></div>
+  <div class="row"><div class="dot db"></div><div>READER_ACCOUNT_USAGE views are empty unless reader accounts exist for your account.</div></div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+function tab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+const qas=[
+  ["What are the 3 key differences between ACCOUNT_USAGE and INFORMATION_SCHEMA?","1. Dropped objects: AU includes them, IS doesn't. 2. Latency: AU has 45min–3hr, IS has none (real-time). 3. Retention: AU keeps 1 year, IS keeps 7 days–6 months."],
+  ["Where does ACCOUNT_USAGE live?","In the SNOWFLAKE shared database: SNOWFLAKE.ACCOUNT_USAGE schema."],
+  ["Who can access ACCOUNT_USAGE by default?","Only ACCOUNTADMIN. Others must be granted IMPORTED PRIVILEGES on the SNOWFLAKE database OR a SNOWFLAKE database role."],
+  ["What are the 4 SNOWFLAKE database roles for ACCOUNT_USAGE?","OBJECT_VIEWER (metadata), USAGE_VIEWER (usage history), GOVERNANCE_VIEWER (data governance/access), SECURITY_VIEWER (security/logins/grants)."],
+  ["Which role do you use to query LOGIN_HISTORY or GRANTS_TO_ROLES?","SECURITY_VIEWER"],
+  ["Which role do you use to query ACCESS_HISTORY or MASKING_POLICIES?","GOVERNANCE_VIEWER"],
+  ["Which role do you use to query QUERY_HISTORY or WAREHOUSE_METERING_HISTORY?","USAGE_VIEWER (also GOVERNANCE_VIEWER for QUERY_HISTORY)"],
+  ["Which role do you use to query TABLES or COLUMNS?","OBJECT_VIEWER"],
+  ["What is the latency for QUERY_HISTORY?","45 minutes (one of the fastest AU views)."],
+  ["What is the latency for ACCESS_HISTORY?","3 hours. It also requires Enterprise Edition."],
+  ["What is the typical latency for most ACCOUNT_USAGE views?","2 hours."],
+  ["What is READER_ACCOUNT_USAGE and when is it empty?","A subset of AU views for reader accounts you created as a Secure Data Sharing provider. Empty if no reader accounts exist."],
+  ["How do you tell if an object was dropped in ACCOUNT_USAGE?","Check the DELETED column for a timestamp. Also, if TABLE_NAME (or object name) is NULL, the object was dropped."],
+  ["Two tables have the same name but different creation times. How does ACCOUNT_USAGE differentiate them?","Via internal ID columns assigned to each object record."],
+  ["Should you use SELECT * on ACCOUNT_USAGE views?","No. Snowflake may change view columns. Always select specific column names."],
+  ["What must you do before reconciling ACCOUNT_USAGE billing views with ORGANIZATION_USAGE?","ALTER SESSION SET TIMEZONE = UTC — billing data must align on UTC."],
+  ["INFORMATION_SCHEMA retains historical data for how long?","7 days to 6 months depending on the view or table function."],
+  ["What database role is used to monitor reader accounts?","READER_USAGE_VIEWER — grants SELECT on all READER_ACCOUNT_USAGE views."],
+  ["Does INFORMATION_SCHEMA include dropped objects?","No — it only shows current live objects."],
+  ["Which ACCOUNT_USAGE view shows Time Travel and Fail-safe bytes per table?","TABLE_STORAGE_METRICS (90-minute latency)."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>

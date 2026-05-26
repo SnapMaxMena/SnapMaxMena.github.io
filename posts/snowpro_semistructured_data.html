@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Snowflake, Data Engineering by Max Mena.">
+  <title>Semistructured Data | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <div class="post-card-content">
+        
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* data type trio */
+.trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.trio-card{border-radius:10px;padding:12px;border:0.5px solid var(--color-border-secondary)}
+.t-variant{background:var(--color-background-danger)}
+.t-object{background:var(--color-background-warning)}
+.t-array{background:var(--color-background-info)}
+.t-name{font-size:14px;font-weight:700;margin-bottom:6px}
+.t-variant .t-name{color:var(--color-text-danger)}
+.t-object .t-name{color:var(--color-text-warning)}
+.t-array .t-name{color:var(--color-text-info)}
+.t-body{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+
+/* hierarchy viz */
+.hier{font-family:monospace;font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px;color:var(--color-text-secondary);line-height:1.7}
+.h-variant{color:var(--color-text-danger);font-weight:600}
+.h-object{color:var(--color-text-warning);font-weight:600}
+.h-array{color:var(--color-text-info);font-weight:600}
+.h-value{color:var(--color-text-success)}
+
+/* vs table */
+.vs{width:100%;border-collapse:collapse;font-size:11px}
+.vs th{font-size:10px;font-weight:600;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.vs th.s{color:var(--color-text-info);background:var(--color-background-info)}
+.vs th.ss{color:var(--color-text-success);background:var(--color-background-success)}
+.vs th.p{color:var(--color-text-tertiary);background:var(--color-background-secondary)}
+.vs td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.vs tr:last-child td{border-bottom:none}
+.vs tr:hover td{background:var(--color-background-primary)}
+
+/* format pills */
+.fmts{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Semi-structured data in Snowflake</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- STRUCTURED vs SEMI-STRUCTURED -->
+<div class="sec">
+  <div class="st">Structured vs semi-structured — core difference</div>
+  <table class="vs">
+    <thead><tr><th class="p">Property</th><th class="s">Structured</th><th class="ss">Semi-structured</th></tr></thead>
+    <tbody>
+      <tr><td><b>Schema required?</b></td><td><span class="yes">✓ Fixed schema upfront</span></td><td><span class="no">✗ Schema-on-read — evolves freely</span></td></tr>
+      <tr><td><b>Structure</b></td><td>Flat table (rows × columns)</td><td>N-level nested hierarchies</td></tr>
+      <tr><td><b>Attributes per entity</b></td><td>Same for all rows</td><td>Different per entity, order unimportant</td></tr>
+      <tr><td><b>Snowflake storage</b></td><td>Standard columns (VARCHAR, NUMBER…)</td><td>VARIANT, OBJECT, ARRAY</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- THE 3 DATA TYPES — EXAM CORE -->
+<div class="sec">
+  <div class="st">The 3 semi-structured data types — know all 3</div>
+  <div class="trio">
+    <div class="trio-card t-variant">
+      <div class="t-name">🧰 VARIANT</div>
+      <div class="t-body">Universal container. Holds <b>any</b> data type — including ARRAY and OBJECT.<br><br>Max single value: ~16 MB compressed.<br><br>The go-to type for storing entire JSON/Avro/Parquet documents.</div>
+    </div>
+    <div class="trio-card t-object">
+      <div class="t-name">📦 OBJECT</div>
+      <div class="t-body">Key-value pairs.<br>= JSON object / dictionary / map / hash.<br><br>Keys = strings.<br>Values = VARIANT.<br><br>⚠ NOT "object" as in OOP.</div>
+    </div>
+    <div class="trio-card t-array">
+      <div class="t-name">📋 ARRAY</div>
+      <div class="t-body">Ordered list of values.<br>Each cell = VARIANT.<br><br>Can hold any type, including nested OBJECTs or ARRAYs.</div>
+    </div>
+  </div>
+  <div class="note">Key nesting rule: <b>VARIANT wraps everything</b>. ARRAY and OBJECT hold VARIANTs. VARIANTs hold ARRAYs/OBJECTs/scalars. They can be combined to infinite depth.</div>
+</div>
+
+<!-- HIERARCHY VISUAL -->
+<div class="sec">
+  <div class="st">How the hierarchy works — visual</div>
+  <div class="hier">
+    <span class="h-variant">VARIANT</span> can hold:<br>
+    &nbsp;&nbsp;├── <span class="h-object">OBJECT</span> { key: <span class="h-variant">VARIANT</span>, key: <span class="h-variant">VARIANT</span> }<br>
+    &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── values are <span class="h-variant">VARIANT</span> → can be <span class="h-array">ARRAY</span>, <span class="h-object">OBJECT</span>, or scalar<br>
+    &nbsp;&nbsp;├── <span class="h-array">ARRAY</span> [ <span class="h-variant">VARIANT</span>, <span class="h-variant">VARIANT</span> ]<br>
+    &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── cells are <span class="h-variant">VARIANT</span> → can be <span class="h-array">ARRAY</span>, <span class="h-object">OBJECT</span>, or scalar<br>
+    &nbsp;&nbsp;└── scalar (<span class="h-value">STRING, NUMBER, DATE…</span>)
+  </div>
+  <div class="note" style="margin-top:8px">Snowflake <b>automatically</b> builds the hierarchy when loading JSON/Avro/Parquet/ORC — no manual mapping required.</div>
+</div>
+
+<!-- SUPPORTED FORMATS -->
+<div class="sec">
+  <div class="st">Supported input formats</div>
+  <div class="fmts">
+    <span class="badge bi">JSON</span>
+    <span class="badge bo">Avro</span>
+    <span class="badge bo">ORC</span>
+    <span class="badge bo">Parquet</span>
+    <span class="badge bw">XML</span>
+  </div>
+  <div class="note">JSON / Avro / ORC / Parquet → Snowflake <b>auto-parses</b> into VARIANT/ARRAY/OBJECT. XML → use <code>XMLGET()</code> function for querying.</div>
+</div>
+
+<!-- 2 STORAGE PATHS -->
+<div class="sec">
+  <div class="st">2 ways to store semi-structured data</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-danger)">
+      <div class="l">Path A — Single VARIANT column</div>
+      <div class="v" style="font-size:11px">Store the entire document as-is in one VARIANT column. Simplest approach.<br><br><code>CREATE TABLE t (col VARIANT);</code><br><code>COPY INTO t FILE FORMAT=(TYPE='JSON');</code><br><br>Or insert with:<br><code>INSERT INTO t SELECT PARSE_JSON('{...}');</code></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-success)">
+      <div class="l">Path B — Split across multiple columns</div>
+      <div class="v" style="font-size:11px">Extract fields into separate typed columns during/after load.<br><br>Options:<br>• Manual: extract + transform with SQL<br>• Auto: Snowflake detects column definitions from staged files → creates table automatically<br><br>Some columns can still be VARIANT; others become VARCHAR, NUMBER, etc.</div>
+    </div>
+  </div>
+  <div class="note wn">Use multiple columns when individual values exceed ~128 MB compressed storage per VARIANT value.</div>
+</div>
+
+<!-- KEY FUNCTIONS -->
+<div class="sec">
+  <div class="st">Key SQL functions</div>
+  <div class="g3">
+    <div class="card"><div class="l">Parse JSON string → VARIANT</div><div class="v" style="font-size:11px"><code>PARSE_JSON('{"a":1}')</code></div></div>
+    <div class="card"><div class="l">Access OBJECT key (colon notation)</div><div class="v" style="font-size:11px"><code>col:key</code> or <code>col['key']</code></div></div>
+    <div class="card"><div class="l">Access ARRAY element (bracket)</div><div class="v" style="font-size:11px"><code>col[0]</code> → first element</div></div>
+    <div class="card"><div class="l">Traverse nested hierarchy</div><div class="v" style="font-size:11px"><code>col:level1:level2</code> (dot-like path)</div></div>
+    <div class="card"><div class="l">Query XML tags</div><div class="v" style="font-size:11px"><code>XMLGET(col, 'tag')</code></div></div>
+    <div class="card"><div class="l">Cast VARIANT value</div><div class="v" style="font-size:11px"><code>col:key::STRING</code><br><code>col:key::NUMBER</code></div></div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What are the 3 Snowflake data types for semi-structured data?","VARIANT, OBJECT, and ARRAY."],
+  ["What is a VARIANT data type?","A universal container that can hold a value of ANY other data type — including ARRAY, OBJECT, or any scalar. Used to store entire semi-structured documents."],
+  ["What is an OBJECT data type in Snowflake?","A collection of key-value pairs — equivalent to a JSON object, dictionary, hash, or map. Keys are strings; values are VARIANT. NOT the same as an OOP object."],
+  ["What does ARRAY hold in Snowflake?","An ordered list of VARIANT values. Each cell can be any type, including nested ARRAY or OBJECT."],
+  ["What semi-structured formats can Snowflake auto-parse into VARIANT?","JSON, Avro, ORC, and Parquet. Snowflake builds the VARIANT/ARRAY/OBJECT hierarchy automatically."],
+  ["What format requires XMLGET() for querying?","XML — it is loaded but queried using the XMLGET() function, not dot-notation like JSON."],
+  ["What are the 2 main options for storing semi-structured data in Snowflake?","1. Single VARIANT column (entire document in one column). 2. Split across multiple typed columns by extracting and transforming fields."],
+  ["What SQL function converts a JSON string to a VARIANT value?","PARSE_JSON() — e.g. SELECT PARSE_JSON('{\"key\":\"value\"}');"],
+  ["How do you access a key in a VARIANT/OBJECT column?","Using colon notation: col:key, or bracket notation: col['key']"],
+  ["How do you traverse multiple nested levels in a VARIANT?","Chain colon notation: col:level1:level2:level3"],
+  ["How do you access an element in an ARRAY stored in VARIANT?","Square bracket notation with 0-based index: col[0] for first element."],
+  ["What does it mean that semi-structured data has no fixed schema?","New attributes can be added at any time without altering the table. Different records in the same collection can have different attributes."],
+  ["What is the key difference in structure between structured and semi-structured data?","Structured data is a flat table. Semi-structured data supports N-level nested hierarchies."],
+  ["How does COPY INTO load semi-structured data?","COPY INTO my_table FROM @stage FILE FORMAT = (TYPE = 'JSON'); — the TYPE parameter tells Snowflake the format to auto-parse."],
+  ["Can a single VARIANT hold a mix of ARRAY, OBJECT, and scalar values?","Yes — VARIANT is the universal container. A VARIANT can hold any type, and nesting can go to any depth."],
+  ["What happens when individual values exceed ~128 MB in a VARIANT column?","You should split the data across multiple columns rather than storing it all in one VARIANT."],
+  ["What is Snowflake's auto-detect feature for semi-structured data?","Snowflake can automatically detect column definitions from staged semi-structured files and create tables/views from them — no manual schema definition needed."],
+  ["How do you cast a VARIANT value to a specific type in a query?","Use double-colon cast: col:key::STRING or col:key::NUMBER"],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>
+
+      </div>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -42,13 +42,6 @@
     "content_file": "pydantic-vs-pandas.md"
   },
   {
-    "id": "snowflake-key-concepts-study-guide",
-    "title": "Snowflake Key Concepts Study Guide",
-    "date": "2026-05-22",
-    "tags": ["Snowflake", "Data Engineering"],
-    "content_html": "snowflake_key_concepts_study_guide.html"
-  },
-  {
     "id": "clustering-keys-study-card",
     "title": "Clustering Keys & Clustered Tables",
     "date": "2026-05-22",

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Snowflake, Data Engineering by Max Mena.">
+  <title>Snowsight User Profile | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <div class="post-card-content">
+        
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.card .l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.card .v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:3px;color:var(--color-text-info)}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+/* settings map */
+.smap{width:100%;border-collapse:collapse;font-size:11px}
+.smap th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.smap td{padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.smap tr:last-child td{border-bottom:none}
+.smap tr:hover td{background:var(--color-background-primary)}
+/* mfa flow */
+.flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:6px 0}
+.flow-box{font-size:11px;font-weight:500;padding:6px 10px;border-radius:6px;background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-tertiary);white-space:nowrap}
+.flow-box.warn{background:var(--color-background-warning);color:var(--color-text-warning)}
+.flow-box.ok{background:var(--color-background-success);color:var(--color-text-success)}
+.flow-box.gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.flow-arr{font-size:14px;color:var(--color-text-tertiary);padding:0 5px;flex-shrink:0}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Snowsight user profile & settings</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card · accessed via username → Settings</div>
+
+<!-- SETTINGS MAP — THE CORE -->
+<div class="sec">
+  <div class="st">Complete settings map — username → Settings</div>
+  <table class="smap">
+    <thead><tr><th>Tab / Section</th><th>What you can do</th><th>Key exam rule</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="badge bi">Profile</span></td>
+        <td>Profile picture · First/Last name · Email<br><span style="color:var(--color-text-danger);font-size:10px">Username = read-only, cannot be changed</span></td>
+        <td>Name + email required for Marketplace terms of service. If can't set → contact admin.</td>
+      </tr>
+      <tr>
+        <td><span class="badge bo">Preferences</span></td>
+        <td>Theme (Dark/Light/System) · Language · <b>Default role</b> · <b>Default warehouse</b> · Cortex column descriptions toggle</td>
+        <td>Default WH is used for all Snowsight pages, worksheets & dashboards unless overridden.</td>
+      </tr>
+      <tr>
+        <td><span class="badge bw">Notifications</span></td>
+        <td>Query completion browser notifications · Trust Center: Strong auth notification · Weekly digest · Resource monitor email (if role permits)</td>
+        <td>Must verify email before receiving resource monitor email notifications.</td>
+      </tr>
+      <tr>
+        <td><span class="badge bi">Authentication</span></td>
+        <td>Change password · Enroll/manage MFA · Generate programmatic access token</td>
+        <td>Can enroll MFA here. Cannot <b>disable</b> MFA here — must contact account admin.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- MFA KEY RULES -->
+<div class="sec">
+  <div class="st">MFA — exam rules</div>
+  <div class="flow">
+    <div class="flow-box gray">Not enrolled</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box warn">Snowsight prompts every 3 days</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box">Enroll via Settings → Authentication</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box ok">Login = password + 2nd factor</div>
+  </div>
+  <div style="margin-top:10px">
+    <div class="row"><div class="dot dr"></div><div><b>Cannot disable MFA via Snowsight.</b> Must contact account admin to disable or reset MFA methods.</div></div>
+    <div class="row"><div class="dot dr"></div><div>Locked out due to MFA (e.g. lost phone)? → Account admin temporarily disables MFA for recovery.</div></div>
+    <div class="row"><div class="dot dy"></div><div>Re-prompted to enable MFA every <b>3 days</b> if dismissed.</div></div>
+  </div>
+</div>
+
+<!-- APPEARANCE MODES -->
+<div class="sec">
+  <div class="st">Appearance modes — username → Appearance</div>
+  <div class="g3">
+    <div class="card"><div class="l">☀️ Light</div><div class="v">Dark text on light background. Normal conditions.</div></div>
+    <div class="card"><div class="l">🖥 System</div><div class="v">Matches OS setting (e.g. macOS appearance setting).</div></div>
+    <div class="card"><div class="l">🌙 Dark</div><div class="v">Light text on dark background. Low-light conditions.</div></div>
+  </div>
+  <div class="note">Appearance setting is <b>persistent at the user level</b> — survives logout/login. Not set by default on first login → prompted to choose.</div>
+</div>
+
+<!-- PROGRAMMATIC ACCESS TOKEN -->
+<div class="sec">
+  <div class="st">Programmatic access token</div>
+  <div class="row"><div class="dot db"></div><div>Generated in Settings → Authentication. Used to authenticate to Snowflake REST APIs, SQL API, Catalog SDK, and Snowpark Container Services.</div></div>
+  <div class="row"><div class="dot db"></div><div>Alternative to username/password for programmatic access — does not require MFA prompt.</div></div>
+</div>
+
+<!-- EMAIL VERIFICATION RULE -->
+<div class="sec">
+  <div class="st">Email verification — required for resource monitor notifications</div>
+  <div class="row"><div class="dot dy"></div><div>Must verify email before receiving resource monitor email alerts.</div></div>
+  <div class="row"><div class="dot dy"></div><div>If can't enter email → admin must add it or grant OWNERSHIP privilege on your user.</div></div>
+  <div class="row"><div class="dot db"></div><div>Can resend verification email from Settings → My Profile → Resend verification email.</div></div>
+</div>
+
+<!-- QUICK REFERENCE GRID -->
+<div class="sec">
+  <div class="st">Can user do it themselves? — exam true/false grid</div>
+  <div class="g2">
+    <div class="card"><div class="l"><span class="yes">✓ User CAN</span></div><div class="v" style="font-size:11px">Change password · Enroll MFA · Set default role · Set default warehouse · Change theme · Change language · Verify email · Generate access token · Set notification prefs</div></div>
+    <div class="card"><div class="l"><span class="no">✗ User CANNOT</span></div><div class="v" style="font-size:11px">Change username · Disable MFA (needs admin) · Reset MFA (needs admin) · Add email if no OWNERSHIP privilege (needs admin) · Enroll others in MFA</div></div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["Can a user change their username in Snowsight?","No. The username field is read-only and cannot be changed from the user profile."],
+  ["Where do you access user settings in Snowsight?","Click your username in the lower-left corner → Settings."],
+  ["What is the default warehouse used for in Snowsight?","It is used to display all Snowsight pages and to run worksheets and dashboards unless another warehouse is explicitly specified."],
+  ["A user dismisses the MFA enrollment prompt. How often will they be re-prompted?","Every 3 days."],
+  ["Can a user disable their own MFA from Snowsight?","No. MFA can only be disabled by an account administrator."],
+  ["A user is locked out due to an MFA issue. What is the fix?","Contact an account administrator — they can temporarily disable MFA or reset the MFA methods."],
+  ["What fields are required in the user profile for Snowflake Marketplace access?","First name, last name, and email address."],
+  ["What happens if a user can't set their email address?","They must contact an account administrator to add it, or be granted the role with OWNERSHIP privilege on their user."],
+  ["What must a user do before they can receive resource monitor email notifications?","Verify their email address."],
+  ["The appearance setting is set to Dark. Does it persist after logout?","Yes — appearance is persistent at the user level."],
+  ["What is the appearance setting on first login?","Not set by default — Snowsight prompts the user to choose Light, System, or Dark."],
+  ["What does the System appearance mode do?","Matches the display setting of the operating system (e.g. macOS Appearance setting)."],
+  ["Where do you generate a programmatic access token?","Settings → Authentication."],
+  ["What can a programmatic access token be used for?","Authenticating to Snowflake REST APIs, SQL API, Catalog SDK, and Snowpark Container Services."],
+  ["What Trust Center notifications can be enabled in user settings?","Strong authentication notification and Weekly digest."],
+  ["Which role is required to set up resource monitor email notifications?","The user's active role must have access to set up resource monitor notifications (typically ACCOUNTADMIN or a role granted that permission)."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>
+
+      </div>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

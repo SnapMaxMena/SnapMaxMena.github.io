@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Snowflake, Data Engineering by Max Mena.">
+  <title>ORGADMIN Role | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <div class="post-card-content">
+        
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.bg{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* org diagram */
+.org-wrap{display:flex;flex-direction:column;align-items:center;gap:0}
+.org-top{background:var(--color-background-warning);border:0.5px solid var(--color-text-warning);border-radius:10px;padding:10px 20px;text-align:center;font-size:12px;font-weight:700;color:var(--color-text-warning);width:200px}
+.org-line{width:1px;height:14px;background:var(--color-border-secondary)}
+.org-label{font-size:10px;color:var(--color-text-tertiary);margin:2px 0}
+.org-accts{display:flex;gap:8px;justify-content:center}
+.org-acct{background:var(--color-background-info);border:0.5px solid var(--color-text-info);border-radius:8px;padding:8px 10px;text-align:center;font-size:11px;font-weight:600;color:var(--color-text-info)}
+.org-acct.special{background:var(--color-background-danger);border-color:var(--color-text-danger);color:var(--color-text-danger)}
+.org-acct.reader{background:var(--color-background-secondary);border-color:var(--color-border-secondary);color:var(--color-text-tertiary)}
+
+/* role compare */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.role-card{border-radius:10px;padding:12px;border:0.5px solid var(--color-border-secondary)}
+.r-org{background:var(--color-background-warning)}
+.r-glob{background:var(--color-background-danger)}
+.r-title{font-size:13px;font-weight:700;margin-bottom:6px}
+.r-org .r-title{color:var(--color-text-warning)}
+.r-glob .r-title{color:var(--color-text-danger)}
+.r-body{font-size:11px;color:var(--color-text-secondary);line-height:1.6}
+
+/* what ORGADMIN can do */
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.cap{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:7px 9px;font-size:11px;color:var(--color-text-secondary)}
+.cap::before{content:"✓ ";color:var(--color-text-success);font-weight:600}
+.cap.no::before{content:"✗ ";color:var(--color-text-danger)}
+
+/* sql ref */
+.sql-list{display:flex;flex-direction:column;gap:6px}
+.sql-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:8px 10px}
+.sql-label{font-size:10px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:3px}
+.sql-code{font-size:10px;font-family:monospace;color:var(--color-text-info);line-height:1.5}
+
+/* key numbers strip */
+.nums{display:flex;gap:8px}
+.num-box{flex:1;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px;text-align:center}
+.num-val{font-size:22px;font-weight:700;color:var(--color-text-info)}
+.num-label{font-size:10px;color:var(--color-text-tertiary);margin-top:2px}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Organizations & ORGADMIN role</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- ORG STRUCTURE DIAGRAM -->
+<div class="sec">
+  <div class="st">Organization — visual structure</div>
+  <div class="org-wrap">
+    <div class="org-top">🏢 Organization<br><span style="font-size:10px;font-weight:400">First-class Snowflake object. Links all accounts.</span></div>
+    <div class="org-line"></div>
+    <div class="org-label">contains (any mix of)</div>
+    <div class="org-accts">
+      <div class="org-acct" style="flex-direction:column">Regular accounts<br><span style="font-size:9px;font-weight:400">incl. trial accounts</span></div>
+      <div class="org-acct special">Organization account<br><span style="font-size:9px;font-weight:400">GLOBALORGADMIN lives here</span></div>
+      <div class="org-acct reader">Reader accounts<br><span style="font-size:9px;font-weight:400">❌ No ORGADMIN</span></div>
+    </div>
+  </div>
+  <div class="note wn">⚠ Organizations are never created by users. Self-service signup → auto-created with system-generated name. Working with Snowflake personnel → custom name assigned.</div>
+</div>
+
+<!-- KEY NUMBERS -->
+<div class="sec">
+  <div class="st">Key numbers to memorize</div>
+  <div class="nums">
+    <div class="num-box"><div class="num-val">1</div><div class="num-label">First account always has ORGADMIN</div></div>
+    <div class="num-box"><div class="num-val">8</div><div class="num-label">Max accounts with ORGADMIN (default — contact Support for more)</div></div>
+    <div class="num-box"><div class="num-val">90</div><div class="num-label">Days old org URL stays active after rename</div></div>
+    <div class="num-box"><div class="num-val">0</div><div class="num-label">Reader accounts that can have ORGADMIN</div></div>
+  </div>
+</div>
+
+<!-- ORGADMIN vs GLOBALORGADMIN -->
+<div class="sec">
+  <div class="st">Two org admin roles — compare</div>
+  <div class="role-grid">
+    <div class="role-card r-org">
+      <div class="r-title">⚠️ ORGADMIN (being phased out)</div>
+      <div class="r-body">
+        Lives in ORGADMIN-enabled <b>regular accounts</b> (up to 8).<br>
+        Granted to users by ACCOUNTADMIN using <code>GRANT ROLE</code>.<br>
+        <b>Not in the standard role hierarchy</b> — sits outside it.<br><br>
+        Still works but being <b>deprecated for multi-account orgs</b>. Snowflake notifies 3 months before removal.
+      </div>
+    </div>
+    <div class="role-card r-glob">
+      <div class="r-title">✅ GLOBALORGADMIN (preferred)</div>
+      <div class="r-body">
+        Lives exclusively in the <b>Organization account</b> (special account type).<br>
+        Recommended for multi-account organizations going forward.<br><br>
+        Sign in to the org account → <code>USE ROLE GLOBALORGADMIN;</code>
+      </div>
+    </div>
+  </div>
+  <div class="note dn">⚠ ORGADMIN is NOT part of the standard role hierarchy (ACCOUNTADMIN → SYSADMIN → USERADMIN chain). It is a separate, standalone system role.</div>
+</div>
+
+<!-- WHAT ORGADMIN CAN DO -->
+<div class="sec">
+  <div class="st">What ORGADMIN can & cannot do</div>
+  <div class="cap-grid">
+    <div class="cap">Create accounts in the organization</div>
+    <div class="cap">View/list all accounts in the org</div>
+    <div class="cap">View list of regions for the org</div>
+    <div class="cap">View usage info for all accounts (ORGANIZATION_USAGE schema)</div>
+    <div class="cap">Enable database replication for accounts</div>
+    <div class="cap">Enable ORGADMIN in other accounts (<code>IS_ORG_ADMIN = TRUE</code>)</div>
+    <div class="cap no">Access account data after creating an account</div>
+    <div class="cap no">Enable ORGADMIN on a reader account</div>
+    <div class="cap no">Disable ORGADMIN on the last enabled account (need Support)</div>
+    <div class="cap no">Change org name (need Snowflake Support)</div>
+  </div>
+</div>
+
+<!-- SQL QUICK REFERENCE -->
+<div class="sec">
+  <div class="st">SQL quick reference</div>
+  <div class="sql-list">
+    <div class="sql-item"><div class="sql-label">Enable ORGADMIN in another account</div><div class="sql-code">USE ROLE ORGADMIN;<br>ALTER ACCOUNT my_account1 SET IS_ORG_ADMIN = TRUE;</div></div>
+    <div class="sql-item"><div class="sql-label">Disable ORGADMIN in an account (from a DIFFERENT ORGADMIN account)</div><div class="sql-code">USE ROLE ORGADMIN;<br>ALTER ACCOUNT account_123 SET IS_ORG_ADMIN = FALSE;</div></div>
+    <div class="sql-item"><div class="sql-label">Grant ORGADMIN role to a user (ACCOUNTADMIN only)</div><div class="sql-code">USE ROLE ACCOUNTADMIN;<br>GRANT ROLE ORGADMIN TO USER &lt;username&gt;;</div></div>
+    <div class="sql-item"><div class="sql-label">View all org accounts</div><div class="sql-code">SHOW ACCOUNTS;</div></div>
+    <div class="sql-item"><div class="sql-label">Get current org name (any role)</div><div class="sql-code">SELECT CURRENT_ORGANIZATION_NAME();</div></div>
+  </div>
+  <div class="note">ALTER ACCOUNT accepts <b>account name format only</b> — NOT account locator format.</div>
+</div>
+
+<!-- ORGANIZATION BENEFITS -->
+<div class="sec">
+  <div class="st">Why organizations exist — 5 benefits</div>
+  <div class="g2">
+    <div class="card"><div class="l">🔍 Visibility</div><div class="v" style="font-size:11px">Central view of all accounts. View usage across all accounts via ORGANIZATION_USAGE views.</div></div>
+    <div class="card"><div class="l">⚡ Self-service</div><div class="v" style="font-size:11px">Create new accounts without contacting Snowflake Support.</div></div>
+    <div class="card"><div class="l">🔄 Replication</div><div class="v" style="font-size:11px">Data availability + disaster recovery via replication and failover across accounts.</div></div>
+    <div class="card"><div class="l">🌍 Data sharing</div><div class="v" style="font-size:11px">Seamless sharing with consumers across cloud regions.</div></div>
+  </div>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["What is a Snowflake organization?","A first-class Snowflake object that links all accounts owned by a business entity, enabling centralized management, billing, replication, and data sharing."],
+  ["Do users create organizations directly?","No — Snowflake creates the organization automatically (self-service signup = system-generated name; working with Snowflake = custom name)."],
+  ["What is the ORGADMIN role?","A system role for managing operations at the organization level — creating accounts, viewing all accounts, enabling replication, viewing org-wide usage. NOT part of the standard role hierarchy."],
+  ["Is ORGADMIN in the standard role hierarchy (ACCOUNTADMIN → SYSADMIN...)?","No — ORGADMIN is a SEPARATE, standalone system role outside the standard hierarchy."],
+  ["Who can grant the ORGADMIN role to a user?","An ACCOUNTADMIN, using GRANT ROLE ORGADMIN TO USER <user>;"],
+  ["How many accounts can have the ORGADMIN role enabled by default?","Maximum 8 accounts. Contact Snowflake Support for more."],
+  ["Which account automatically has ORGADMIN enabled?","The FIRST account created in the organization."],
+  ["Can a reader account have the ORGADMIN role?","No — ORGADMIN cannot be enabled for reader accounts."],
+  ["What SQL enables ORGADMIN in another account?","USE ROLE ORGADMIN; ALTER ACCOUNT my_account1 SET IS_ORG_ADMIN = TRUE;"],
+  ["What SQL disables ORGADMIN in an account?","Sign in to a DIFFERENT ORGADMIN account, then: ALTER ACCOUNT account_123 SET IS_ORG_ADMIN = FALSE;"],
+  ["Can you disable ORGADMIN if it's the last account with the role enabled?","No — you must contact Snowflake Support to do so."],
+  ["What format does ALTER ACCOUNT accept for account identifiers?","Account name format only. Account locator is NOT accepted."],
+  ["What is the GLOBALORGADMIN role?","The preferred org admin role for multi-account orgs. Lives in the Organization account. Replaces ORGADMIN for org-level tasks."],
+  ["What is an Organization account?","A special account type used exclusively for org-level admin via GLOBALORGADMIN. Used to access ORGANIZATION_USAGE schema data."],
+  ["After ORGADMIN creates a new account, can it access that account's data?","No — ORGADMIN can view account properties but has NO access to account data."],
+  ["What function returns the current org name (any role)?","SELECT CURRENT_ORGANIZATION_NAME();"],
+  ["How do you rename an organization?","Contact Snowflake Support. Old account URL stays active for 90 days, then is dropped automatically."],
+  ["How do you delete an organization?","Delete all accounts except one, then contact Snowflake Support to delete the last account and the org."],
+  ["What schema contains org-wide usage data?","ORGANIZATION_USAGE schema (in the SNOWFLAKE database). Accessible by ORGADMIN / GLOBALORGADMIN."],
+  ["ORGADMIN is being phased out — how much notice does Snowflake give?","At least 3 months via notification email before phasing out the ORGADMIN role for multi-account orgs."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>
+
+      </div>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

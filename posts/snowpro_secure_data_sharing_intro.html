@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Snowflake, Data Engineering by Max Mena.">
+  <title>Secure Data Sharing | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <div class="post-card-content">
+        
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui)}
+.page{padding:.5rem 0 1rem}
+.sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px}
+.l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.v{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:4px}
+.bi{background:var(--color-background-info);color:var(--color-text-info)}
+.bo{background:var(--color-background-success);color:var(--color-text-success)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.bg{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2.5px solid var(--color-text-info);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:8px}
+.wn{border-left-color:var(--color-text-warning)}
+.dn{border-left-color:var(--color-text-danger)}
+.row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--color-text-primary)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dg{background:var(--color-text-success)}
+.dr{background:var(--color-text-danger)}
+.db{background:var(--color-text-info)}
+.dy{background:var(--color-text-warning)}
+code{font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:1px 4px;border-radius:3px;color:var(--color-text-info);font-family:monospace}
+.yes{color:var(--color-text-success);font-weight:700}
+.no{color:var(--color-text-danger);font-weight:700}
+.qa-item{margin-bottom:4px}
+.q{font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.q::before{content:"Q";font-size:10px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.a{font-size:12px;color:var(--color-text-secondary);padding-left:24px;display:none;margin-bottom:8px}
+.a.open{display:block}
+.a::before{content:"A → ";color:var(--color-text-success);font-weight:500}
+
+/* Architecture diagram */
+.arch{display:flex;align-items:center;gap:0;width:100%;margin:8px 0}
+.arch-box{border-radius:10px;padding:12px 8px;text-align:center;font-size:11px;font-weight:600;border:0.5px solid var(--color-border-secondary);flex:1}
+.arch-provider{background:var(--color-background-info);color:var(--color-text-info)}
+.arch-share{background:var(--color-background-warning);color:var(--color-text-warning)}
+.arch-consumer{background:var(--color-background-success);color:var(--color-text-success)}
+.arch-arr{font-size:20px;color:var(--color-text-tertiary);padding:0 6px;flex-shrink:0}
+.arch-sub{font-size:9px;font-weight:400;margin-top:3px;line-height:1.4}
+
+/* sharing options */
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt-card{border-radius:8px;padding:10px 12px;border:0.5px solid var(--color-border-secondary)}
+.opt-1{background:var(--color-background-info)}
+.opt-2{background:var(--color-background-success)}
+.opt-3{background:var(--color-background-warning)}
+.opt-4{background:var(--color-background-danger)}
+.opt-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.opt-1 .opt-title{color:var(--color-text-info)}
+.opt-2 .opt-title{color:var(--color-text-success)}
+.opt-3 .opt-title{color:var(--color-text-warning)}
+.opt-4 .opt-title{color:var(--color-text-danger)}
+.opt-body{font-size:11px;color:var(--color-text-secondary)}
+
+/* what can be shared */
+.shareable{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+
+/* reader vs full account */
+.comp{width:100%;border-collapse:collapse;font-size:11px}
+.comp th{font-size:10px;font-weight:600;color:var(--color-text-tertiary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.comp td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.comp tr:last-child td{border-bottom:none}
+.comp tr:hover td{background:var(--color-background-primary)}
+</style>
+
+<div class="page">
+<div style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Secure Data Sharing — intro</div>
+<div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:14px">SnowPro Core — quick-review card</div>
+
+<!-- THE #1 CONCEPT: ZERO DATA COPY -->
+<div class="sec">
+  <div class="st">The single most-tested concept</div>
+  <div style="background:var(--color-background-primary);border:1.5px solid var(--color-text-info);border-radius:10px;padding:14px 16px;text-align:center">
+    <div style="font-size:16px;font-weight:700;color:var(--color-text-info)">⚡ NO data is copied or transferred between accounts</div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-top:6px">Sharing uses Snowflake's <b>services layer + metadata store</b> only.<br>Shared data takes up <b>zero storage</b> in the consumer account → no storage charges to the consumer.<br>Consumer is only charged for the <b>virtual warehouse compute</b> used to query the data.</div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE DIAGRAM -->
+<div class="sec">
+  <div class="st">How it works — architecture</div>
+  <div class="arch">
+    <div class="arch-box arch-provider">
+      🏭 Provider account
+      <div class="arch-sub">Creates the SHARE object<br>Grants objects to share<br>Adds consumer accounts<br>Controls everything</div>
+    </div>
+    <div class="arch-arr">→</div>
+    <div class="arch-box arch-share">
+      📦 SHARE object
+      <div class="arch-sub">Named Snowflake object<br>Contains metadata only<br>No data moved<br>Immediate updates</div>
+    </div>
+    <div class="arch-arr">→</div>
+    <div class="arch-box arch-consumer">
+      🏢 Consumer account
+      <div class="arch-sub">Creates read-only DB<br>from the share<br>1 DB per share<br>Pays only for compute</div>
+    </div>
+  </div>
+  <div class="note">New/updated objects in a share become <b>immediately available</b> to all consumers — real-time, no lag.</div>
+</div>
+
+<!-- WHAT CAN BE SHARED -->
+<div class="sec">
+  <div class="st">Objects that CAN be shared</div>
+  <div class="shareable">
+    <span class="badge bi">Databases</span>
+    <span class="badge bi">Tables</span>
+    <span class="badge bi">Dynamic tables</span>
+    <span class="badge bi">External tables</span>
+    <span class="badge bi">Iceberg tables</span>
+    <span class="badge bi">Delta Lake tables</span>
+    <span class="badge bo">Regular views</span>
+    <span class="badge bo">Secure views</span>
+    <span class="badge bo">Secure materialized views</span>
+    <span class="badge bo">Semantic views</span>
+    <span class="badge bw">UDFs (secure + non-secure)</span>
+    <span class="badge bw">Cortex Search services</span>
+    <span class="badge bw">AI Models (USER_MODEL, CORTEX_FINETUNED, DOC_AI)</span>
+  </div>
+  <div class="note dn">⚠ All shared objects are <b>read-only</b> — consumers cannot modify, insert, update, or delete data.</div>
+</div>
+
+<!-- 4 SHARING OPTIONS -->
+<div class="sec">
+  <div class="st">4 ways to share data in Snowflake</div>
+  <div class="opt-grid">
+    <div class="opt-card opt-1">
+      <div class="opt-title">📋 Direct Share</div>
+      <div class="opt-body">Share specific DB objects directly to another account <b>in the same region</b>. Point-to-point.</div>
+    </div>
+    <div class="opt-card opt-2">
+      <div class="opt-title">🛒 Listing</div>
+      <div class="opt-body">Offer share + metadata as a <b>data product</b> to one or more accounts (including Marketplace). Can convert a Direct Share to a Listing.</div>
+    </div>
+    <div class="opt-card opt-3">
+      <div class="opt-title">🔗 Data Exchange</div>
+      <div class="opt-body">Set up and manage a <b>private group of accounts</b>. Share within that curated network. Usage metrics available.</div>
+    </div>
+    <div class="opt-card opt-4">
+      <div class="opt-title">🧹 Clean Room</div>
+      <div class="opt-body">Share data with <b>query restrictions</b> — control exactly which queries consumers can run against your data.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROVIDER vs CONSUMER KEY RULES -->
+<div class="sec">
+  <div class="st">Provider vs consumer — key rules</div>
+  <div class="g2">
+    <div class="card" style="border-left:3px solid var(--color-text-info)">
+      <div class="l">🏭 Provider</div>
+      <div class="v" style="font-size:11px">
+        • Creates the share<br>
+        • Grants objects via DB role OR directly<br>
+        • Adds consumer accounts to share<br>
+        • Can create unlimited shares<br>
+        • Can add unlimited accounts to a share<br>
+        • Can revoke access anytime<br>
+        • Can share from multiple DBs (same account only)
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--color-text-success)">
+      <div class="l">🏢 Consumer</div>
+      <div class="v" style="font-size:11px">
+        • Creates read-only DB from share<br>
+        • <b>1 DB per share</b> (cannot consume same share twice)<br>
+        • Can consume unlimited shares<br>
+        • Queries data like any local DB<br>
+        • Pays only for compute (WH)<br>
+        • Zero storage cost for shared data
+      </div>
+    </div>
+  </div>
+  <div class="note wn">A full Snowflake account can be BOTH a provider and a consumer simultaneously.</div>
+</div>
+
+<!-- READER ACCOUNTS -->
+<div class="sec">
+  <div class="st">Reader accounts — non-Snowflake consumers</div>
+  <table class="comp">
+    <thead><tr><th>Property</th><th>Full consumer account</th><th>Reader account</th></tr></thead>
+    <tbody>
+      <tr><td>Snowflake customer required?</td><td class="yes">Yes</td><td class="no">No</td></tr>
+      <tr><td>Who creates it?</td><td>The consumer organization</td><td>The <b>provider</b> creates it</td></tr>
+      <tr><td>Who pays compute costs?</td><td>Consumer</td><td><b>Provider</b> pays all costs</td></tr>
+      <tr><td>Can consume from other providers?</td><td><span class="yes">✓ Any provider</span></td><td><span class="no">✗ Only its creator-provider</span></td></tr>
+      <tr><td>DML (INSERT/UPDATE/DELETE)?</td><td><span class="yes">✓ On own data</span></td><td><span class="no">✗ Never — query only</span></td></tr>
+      <tr><td>Data loading?</td><td><span class="yes">✓ Yes</span></td><td><span class="no">✗ No</span></td></tr>
+      <tr><td>Former name</td><td>—</td><td>Read-only accounts</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Q&A -->
+<div class="sec">
+  <div class="st">Tap to reveal — exam Q&A</div>
+  <div id="qa"></div>
+</div>
+</div>
+
+<script>
+const qas=[
+  ["Does Secure Data Sharing copy data between accounts?","No. Zero data is copied or transferred. Sharing uses Snowflake's services layer and metadata store only."],
+  ["Who pays storage costs for shared data in the consumer account?","Nobody — shared data takes up zero storage in the consumer account. Consumers are only charged for virtual warehouse compute used to query the data."],
+  ["What is a share in Snowflake?","A named Snowflake object that encapsulates all information needed to share a database. Created by the provider, consumed by consumers."],
+  ["Can a Snowflake account be both a provider and a consumer?","Yes — any full Snowflake account can both provide and consume shared data simultaneously."],
+  ["How many databases can a consumer create from one share?","Only one. A share can only be consumed once per consumer account."],
+  ["How many shares can a provider create?","Unlimited. A provider can create as many shares as they want and add as many consumer accounts as they want."],
+  ["When a provider adds a new object to a share, when do consumers see it?","Immediately — updates to shares are available in real-time to all consumers."],
+  ["Can shared objects be modified by consumers?","No — all shared database objects are read-only."],
+  ["What are the 4 ways to share data in Snowflake?","Direct Share (same region), Listing (data product/Marketplace), Data Exchange (private group of accounts), Clean Room (controlled query sharing)."],
+  ["What is a reader account and who creates it?","A special consumer account for non-Snowflake customers. Created by the data provider (not the consumer)."],
+  ["Who pays the compute costs for queries in a reader account?","The data provider — not the consumer."],
+  ["Can a reader account consume data from multiple providers?","No — a reader account can only consume data from the provider that created it."],
+  ["Can a reader account perform DML operations like INSERT or UPDATE?","No — reader account users can only query (SELECT) shared data."],
+  ["A provider wants to share data from multiple databases. Is this supported?","Yes, but all databases must belong to the same provider account."],
+  ["What are the 2 options for adding objects to a share?","Option 1: Grant privileges via a database role. Option 2: Grant privileges directly to the share."],
+  ["Can a Direct Share be converted to a Listing?","Yes — Snowflake supports converting a direct share to a private listing."],
+  ["Name 3 object types that can be shared in Snowflake.","Tables, secure views, external tables, dynamic tables, Iceberg tables, UDFs, Cortex Search services, AI models — any 3."],
+  ["What is a Data Exchange?","A provider-managed group of accounts where the provider can offer shares to a curated private network."],
+];
+const c=document.getElementById('qa');
+qas.forEach(([q,a],i)=>{
+  const d=document.createElement('div');
+  d.className='qa-item';
+  d.innerHTML=`<div class="q">${q}</div><div class="a" id="qa${i}">${a}</div>`;
+  c.appendChild(d);
+  d.querySelector('.q').addEventListener('click',()=>{
+    document.getElementById('qa'+i).classList.toggle('open');
+  });
+});
+</script>
+
+      </div>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Python, Data Engineering by Max Mena.">
+  <title>Pydantic vs Pandas | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <article class="post-article">
+        <p><strong>Comparative Analysis: Pandas vs. Pydantic for DataFrames</strong></p>
+<p>This report analyzes the performance metrics gathered from processing <strong>176,779 rows</strong> of CSV data using two different approaches: <strong>Pandas (Vectorized)</strong> and <strong>Pydantic (Row-based Object Validation)</strong>.</p>
+<p><strong>1. Metric Comparison Summary</strong></p>
+<p>Based on your execution results, Pandas significantly outperformed Pydantic in raw efficiency:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Metric</strong></th>
+<th><strong>Pandas (Result)</strong></th>
+<th><strong>Pydantic (Result)</strong></th>
+<th><strong>Delta</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Total Wall Time</strong></td>
+<td><strong>0.348 s</strong></td>
+<td><strong>1.170 s</strong></td>
+<td>~3.3x Slower</td>
+</tr>
+<tr>
+<td><strong>Memory Usage</strong></td>
+<td><strong>79.11 MB</strong></td>
+<td><strong>244.47 MB</strong></td>
+<td>~3.1x Heavier</td>
+</tr>
+<tr>
+<td><strong>Per-Row Cost</strong></td>
+<td><strong>~469 bytes</strong></td>
+<td><strong>~1,537 bytes</strong></td>
+<td>~3.3x Larger</td>
+</tr>
+</tbody></table>
+<p><strong>2. Why Pandas Won the &quot;Numbers Game&quot;</strong></p>
+<p><strong>A. Vectorization vs. Iteration</strong></p>
+<p>Pandas is built on <strong>NumPy</strong>, which is implemented in C and Fortran. When you coerce a column to an integer in Pandas, it performs a &quot;vectorized&quot; operation. It tells the CPU to process a continuous block of memory in one go. Pydantic, however, must:</p>
+<ul>
+<li>Initialize a Python class instance for <strong>every single row</strong>.</li>
+<li>Perform individual attribute checks for every field in that row.</li>
+<li>Store that object in a standard Python list. Creating ~177,000 Python objects is computationally expensive compared to a few C-level array operations.</li>
+</ul>
+<p><strong>B. Memory Layout (Contiguous vs. Pointers)</strong></p>
+<ul>
+<li><strong>Pandas Memory:</strong> Stores data in contiguous blocks. A column of 64-bit integers is just a sequence of 8-byte chunks.</li>
+<li><strong>Pydantic Memory:</strong> Each &quot;row&quot; is a complex Python object. Even a simple Pydantic model carries internal metadata, a __dict__ for attributes, and pointers to other objects. This &quot;Object Overhead&quot; is why the per-row cost jumped from ~469 bytes to over 1.5 KB.</li>
+</ul>
+<p><strong>3. The &quot;Efficiency&quot; Misconception</strong></p>
+<p>You noted that you expected Pydantic to be more efficient. Pydantic is &quot;efficient&quot; in terms of <strong>Memory Safety</strong> and <strong>Developer Time</strong>, but rarely in <strong>Processing Speed</strong>.</p>
+<p><strong>The Streaming Advantage (What was missed)</strong></p>
+<p>In your test, both scripts loaded the entire dataset into RAM first:</p>
+<ul>
+<li><strong>Pandas:</strong> pd.read_csv (All in RAM).</li>
+<li><strong>Pydantic script:</strong> list(reader) (All in RAM).</li>
+</ul>
+<p>If you had a <strong>10GB CSV file</strong>, Pandas would crash a typical laptop. Pydantic would become the &quot;efficient&quot; choice if you <strong>streamed</strong> the file:</p>
+<pre><code class="language-python"># The &quot;Efficient&quot; Pydantic Pattern
+
+with open(&quot;huge_file.csv&quot;) as f:
+    for row in csv.DictReader(f):
+        model = OrderLineRow.model_validate(row)
+
+# Process and save to database immediately
+# RAM usage stays at ~50MB regardless of file size 
+</code></pre>
+<p><strong>4. Decision Matrix: Which one to use?</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Use Pandas / Polars When...</strong></th>
+<th><strong>Use Pydantic When...</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>You are doing bulk analysis (sums, means, grouping).</td>
+<td>You are building an API that receives one &quot;record&quot; at a time.</td>
+</tr>
+<tr>
+<td>You need high-speed throughput on medium-to-large datasets.</td>
+<td>You need strict, complex validation logic (e.g., regex, cross-field checks).</td>
+</tr>
+<tr>
+<td>Data fits (mostly) in your available RAM.</td>
+<td>You need to stream data that is much larger than your RAM.</td>
+</tr>
+<tr>
+<td>You are working in a Data Science/Research context.</td>
+<td>You are working in a Web Backend/Microservice context.</td>
+</tr>
+</tbody></table>
+<p><strong>5. Conclusion</strong></p>
+<p>Your file size (~177k rows) is the &quot;sweet spot&quot; for Pandas. It is large enough that the overhead of Python objects becomes visible, but small enough that it fits comfortably in memory. At this scale, <strong>Pandas will almost always be faster.</strong></p>
+<p>Pydantic&#39;s true value isn&#39;t speed; it&#39;s the <strong>guarantee</strong> that your data is correct before it hits your database or business logic.</p>
+
+      </article>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

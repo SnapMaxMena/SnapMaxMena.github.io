@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about AI, Software Development, Career by Max Mena.">
+  <title>How AI change the landscape for junior developers | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <article class="post-article">
+        <h1 id="ai-native-engineering">AI Native Engineering</h1>
+<h2 id="brief-overview">Brief Overview</h2>
+<p>This note covers AI Engineering and was created from the YouTube video: <strong>From Writing Code to Managing Agents. Most Engineers Aren&#39;t Ready | Stanford University, Mihail Eric</strong>.</p>
+<p>It addresses the transition from programming to managing agents, the skills gap for junior engineers, incremental orchestration strategies, and the vision of AI-native organizations.</p>
+<h3 id="key-points">Key Points</h3>
+<ul>
+<li>Definition and key competencies of an AI native engineer.</li>
+<li>Current situation and challenges for junior engineers facing massive AI adoption.</li>
+<li>Step-by-step approaches to orchestrate agents and manage context between them.</li>
+<li>Perspective of AI-native organizations and agent collaboration.</li>
+</ul>
+<hr>
+<h2 id="ai-native-engineer">AI Native Engineer</h2>
+<p><strong>Definition:</strong> An AI native engineer is one who combines a solid foundation in traditional programming, systems design, and algorithmic thinking with the competence to create and manage AI agent-based workflows.</p>
+<ul>
+<li>Masters conventional languages and tools.</li>
+<li>Handles agents as a &quot;new language&quot; of development.</li>
+<li>Can act as a manager of multiple agents, not just an individual developer.</li>
+</ul>
+<hr>
+<h2 id="current-situation-of-junior-engineers">Current situation of junior engineers</h2>
+<p><strong>Problem:</strong> The combination of oversupply of CS graduates, massive workforce layoffs, and accelerated AI adoption has notably reduced opportunities for newly graduated engineers.</p>
+<ul>
+<li><strong>2021:</strong> Major wave of hiring followed by 20-30% workforce layoffs.</li>
+<li><strong>Graduate growth:</strong> The number of CS graduates has doubled or tripled in the last decade.</li>
+<li><strong>AI impact:</strong> Companies prefer to hire few AI-native talents who cover more functions, displacing candidates with only traditional knowledge.</li>
+</ul>
+<hr>
+<h2 id="agent-orchestration-by-top-1-engineers">Agent orchestration by top 1% engineers</h2>
+<h3 id="1-incremental-approach">1. Incremental approach</h3>
+<ul>
+<li>Start with one agent that performs a complete and reliable task.</li>
+<li>Add secondary agents only when the first is stable and the new task is isolated (e.g., updating a logo, modifying header copy).</li>
+<li>Progress step by step: $1 \rightarrow 2 \rightarrow 3$ agents, verifying quality at each phase.</li>
+</ul>
+<h3 id="2-context-switching">2. Context switching</h3>
+<ul>
+<li><strong>Key skill:</strong> <em>Switching</em> context between multiple agents, maintaining memory of the previous task and clear direction to move forward.</li>
+<li>Monitor output from each agent in the terminal or IDE.</li>
+<li>Document which agent is working on which sub-task.</li>
+<li>Apply human management techniques to agent handling.</li>
+</ul>
+<h3 id="3-agent-friendly-code">3. Agent-friendly code</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Feature</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Test contracts</strong></td>
+<td align="left">Tests that act as correctness contracts; agents only operate on code with sufficient coverage.</td>
+</tr>
+<tr>
+<td align="left"><strong>README-code coherence</strong></td>
+<td align="left">Avoid misalignments between documentation and code; agents should receive a single source of truth.</td>
+</tr>
+<tr>
+<td align="left"><strong>Uniform design patterns</strong></td>
+<td align="left">Consistent use of APIs and patterns avoids agent confusion about which implementation to choose.</td>
+</tr>
+<tr>
+<td align="left"><strong>Linting and formatting</strong></td>
+<td align="left">Guarantees uniform style and structure, facilitating agent interpretation.</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Prevention of compound errors:</strong> A misunderstanding in the first iteration can multiply; that&#39;s why the agent&#39;s first look should be at robust, well-tested code.</li>
+</ul>
+<hr>
+<h2 id="functional-software-vs-incredible-software">Functional software vs. &quot;incredible&quot; software</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Aspect</th>
+<th align="left">Functional software</th>
+<th align="left">&quot;Incredible&quot; software</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Approach</strong></td>
+<td align="left">Meets defined requirements and passes tests.</td>
+<td align="left">Seeks aesthetic and experiential excellence beyond basic requirement.</td>
+</tr>
+<tr>
+<td align="left"><strong>Motivation</strong></td>
+<td align="left">Satisfy the minimum specification.</td>
+<td align="left">Go beyond for taste, extra credit, or own product vision.</td>
+</tr>
+<tr>
+<td align="left"><strong>Typical result</strong></td>
+<td align="left">Stable and usable product.</td>
+<td align="left">Product with additional features, often used as basis for startups or personal projects.</td>
+</tr>
+<tr>
+<td align="left"><strong>Student example</strong></td>
+<td align="left">Complete five mandatory flows.</td>
+<td align="left">Add extra flows, refactor, launch a commercial version.</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Software taste:</strong> Develops with practice and willingness to go beyond perfect score.</li>
+<li><strong>Experimentation:</strong> Crucial to move from &quot;functional&quot; to &quot;incredible&quot;; involves iteration, feedback, and reworking.</li>
+</ul>
+<hr>
+<h2 id="why-junior-engineers-are-still-necessary">Why junior engineers are still necessary</h2>
+<ul>
+<li><strong>Sponge mentality:</strong> Newcomers aren&#39;t &quot;marked&quot; by negative experiences and are willing to try new solutions.</li>
+<li><strong>Adaptability:</strong> Learn AI tools quickly and can apply emerging skills with greater agility than seniors resistant to change.</li>
+<li><strong>Breakthrough thinking:</strong> Their <em>naïveté</em> allows them to tackle complex problems without preconceptions.</li>
+<li><strong>Conceptual foundation:</strong> CS education provides decomposition and algorithmic problem-solving mindset.</li>
+</ul>
+<hr>
+<h2 id="vision-of-ai-native-organizations">Vision of AI-native organizations</h2>
+<p><strong>Concept:</strong> An AI-native organization integrates AI directly into the product, removing humans from most customer interaction loops.</p>
+<ul>
+<li><strong>Intelligence allocation:</strong> Not just use AI as a tool, but embed it to do the work with the user.</li>
+<li><strong>Collaboration between AIs:</strong> Open questions about how agents can communicate and cooperate, potentially creating trillion-dollar companies by answering that challenge.</li>
+</ul>
+
+      </article>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

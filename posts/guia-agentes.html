@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about agents, Vibe Coding, Architecture by Max Mena.">
+  <title>Guia básica para crear agentes autónomos. | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <article class="post-article">
+        <h1 id="guia-sobre-agentes">Guia sobre agentes</h1>
+<h3 id="puntos-clave">Puntos clave</h3>
+<ul>
+<li>La estructura básica de un archivo AGENTS.md. </li>
+<li>Requisitos de estilo, como tipo de hints y CamelCase (requisitos de estilo). </li>
+<li>Ejemplos de código correcto e incorrecto para reforzar las normas. </li>
+<li>Directrices de seguridad para evitar comandos peligrosos (seguridad).</li>
+</ul>
+<hr>
+<h2 id="visión-general-de-agents-md">Visión general de Agents MD</h2>
+<p><strong>Agents MD</strong> es un formato abierto en Markdown para guiar a los agentes de IA (especialmente agentes de codificación) sin importar la herramienta o proveedor que se utilice. , </p>
+<ul>
+<li><strong>Vendor-agnostic</strong>: funciona con Cursor, Claude, Gemini, etc. </li>
+<li>Permite definir reglas y contexto centralizado que los agentes respetarán en cada conversación.</li>
+</ul>
+<h3 id="qué-es-agents-md-y-cómo-se-diferencia-de-no-usarlo">Qué es Agents MD y cómo se diferencia de no usarlo</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Sin Agents MD</th>
+<th align="left">Con Agents MD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Se pasa solo el archivo objetivo (ej. utils.py).</td>
+<td align="left">Se crea agents.md que contiene reglas reutilizables.</td>
+</tr>
+<tr>
+<td align="left">El agente no conoce estilo ni herramientas específicas (ej. uso de uv).</td>
+<td align="left">Las reglas dictan type hints, camelCase, comandos correctos, etc.</td>
+</tr>
+<tr>
+<td align="left">Cada conversación requiere volver a especificar el contexto.</td>
+<td align="left">Un único archivo provee contexto implícito en todas las interacciones.</td>
+</tr>
+<tr>
+<td align="left">Mayor probabilidad de generar código inconsistente o erróneo.</td>
+<td align="left">Consistencia y cumplimiento de normas de proyecto.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="ejemplo-de-proyecto-sample-project">Ejemplo de proyecto sample-project</h2>
+<ul>
+<li><strong>Framework</strong>: Django (Python 3.12+). </li>
+<li><strong>Comando de inicio</strong>: <code>uv run manage.py runserver</code> , </li>
+<li><strong>Módulos clave</strong>: <code>mathematics/</code>, <code>utils.py</code> con funciones matemáticas como: <ul>
+<li>Cálculo del n-ésimo número de Fibonacci $F_{n}$ </li>
+<li>Exportación de resultados a PDF.</li>
+</ul>
+</li>
+</ul>
+<h3 id="implementación-de-una-función-sin-reglas-sin-agentsmd">Implementación de una función sin reglas (sin agents.md)</h3>
+<p><strong>Prompt al modelo</strong>: &quot;Implementa una función que calcule el n-ésimo número de Lucas $L_{n}{{CONTENT}}quot;. 
+<strong>Resultado</strong>: función creada sin type hints ni estilo acordado. </p>
+<pre><code class="language-python">def lucas (n):
+    # implementación...
+    return result
+</code></pre>
+<hr>
+<h2 id="uso-de-agents-md-para-imponer-type-hints-y-estilo">Uso de Agents MD para imponer type hints y estilo</h2>
+<ol>
+<li><p>Crear <strong>agents.md</strong> en el directorio raíz. </p>
+</li>
+<li><p>Añadir regla básica: <strong>Regla: Siempre usar type hints, especialmente en archivos utils.py.</strong> </p>
+</li>
+<li><p>Ejecutar el mismo prompt (sin volver a cargar agents.md). </p>
+</li>
+<li><p>El agente genera:</p>
+</li>
+</ol>
+<pre><code class="language-python">def lucas (n: int) -&gt; int:
+    # implementación....
+    return result
+</code></pre>
+<p><strong>Observación</strong>: aunque el archivo agents.md no se pasa explícitamente como contexto, el agente lo reconoce automáticamente. </p>
+<hr>
+<h2 id="buenas-prácticas-para-agents-md">Buenas prácticas para Agents MD</h2>
+<ul>
+<li><p><strong>Regla 1</strong>: Colocar comandos al inicio del archivo. ß</p>
+</li>
+<li><p><strong>Regla 2</strong>: Usar ejemplos (código correcto e incorrecto) en lugar de descripciones largas. ß</p>
+</li>
+<li><p><strong>Regla 3</strong>: Especificar versiones exactas del stack (Python 3.12+, UV, SQLite 3, etc.). ß</p>
+</li>
+<li><p><strong>Regla 4</strong>: Incluir la estructura del proyecto (árbol de archivos). ß</p>
+</li>
+<li><p><strong>Regla 5</strong>: Definir límites de seguridad (no usar rm, prohibir comandos Git). ß</p>
+</li>
+</ul>
+<h3 id="tabla-resumida">Tabla resumida</h3>
+<table>
+<thead>
+<tr>
+<th>Categoría</th>
+<th>Recomendación</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Comandos</td>
+<td>Listar al comienzo</td>
+<td><br><code>uv run manage.py migrate</code></td>
+</tr>
+<tr>
+<td>Estilo</td>
+<td>Mostrar buen/malo ejemplo</td>
+<td><br><code>def calcular_suma(a: int, b: int)</code></td>
+</tr>
+<tr>
+<td>Stack</td>
+<td>Versiones precisas</td>
+<td>Python &gt; 3.12, UV 0.4.0</td>
+</tr>
+<tr>
+<td>Estructura</td>
+<td>Incluir tree (2 niveles)</td>
+<td><br><code>project/app1/ utils.py</code></td>
+</tr>
+<tr>
+<td>Seguridad</td>
+<td>Prohibir rm, git</td>
+<td>&quot;Never execute rm or any Git command.&quot;</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="estructura-típica-de-un-archivo-agentsmd">Estructura típica de un archivo agents.md</h2>
+<h1 id="agents-md">Agents MD</h1>
+<h2 id="project-overview">Project Overview</h2>
+<p><strong>Stack</strong>: Python 3.12+, UV, Django, SQLite 3 <strong>Commands</strong>: All commands must be prefixed with <code>uv run</code> </p>
+<h2 id="coding-conventions">Coding Conventions</h2>
+<ul>
+<li><p><strong>Type hints</strong> mandatory in <code>utils.py</code> </p>
+</li>
+<li><p><strong>CamelCase</strong> for function names </p>
+</li>
+<li><p>Blank line between each statement</p>
+</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<h3 id="correct">Correct</h3>
+<pre><code class="language-python">def calcularFactorial (n: int) -&gt; int:
+    if n == 0:
+        return 1
+    return n * calcularFactorial(n - 1)
+</code></pre>
+<h3 id="incorrect">Incorrect</h3>
+<pre><code class="language-python">def calcularfactorial(n):
+    if n==0: return 1
+    return n*calcularfactorial(n-1)
+</code></pre>
+<h3 id="boundaries">Boundaries</h3>
+<ul>
+<li><p>No <code>rm</code> commands </p>
+</li>
+<li><p>No Git operations</p>
+</li>
+</ul>
+<hr>
+<h2 id="combinar-varios-agentsmd">Combinar varios agents.md</h2>
+<ul>
+<li><p><strong>Archivo raíz</strong>: reglas generales (type hints, camelCase). </p>
+</li>
+<li><p><strong>Archivo específico</strong> (ej. <code>mathematics/agents.md</code>): reglas más granulares, por ejemplo: <em>No usar type hints en este sub-directorio</em>.</p>
+</li>
+</ul>
+<p>El agente evalúa ambas fuentes, priorizando las reglas más locales. </p>
+<h2 id="límites-y-seguridad">Límites y seguridad</h2>
+<p>Incluir directrices explícitas para evitar acciones peligrosas: </p>
+<ul>
+<li><p>&quot;<strong>Never delete files</strong> with rm.&quot; </p>
+</li>
+<li><p>&quot;<strong>Never execute Git commands</strong> (commit, push, pull).&quot;</p>
+</li>
+</ul>
+<blockquote>
+<p><em>Nota</em>: Los agentes pueden ignorar estos límites si la petición directa los contradice, pero sirven como recordatorio. </p>
+</blockquote>
+<hr>
+<h2 id="casos-de-uso-comunes">Casos de uso comunes</h2>
+<ul>
+<li><p><strong>Configuraciones de Docker</strong> y <strong>UV</strong> con versiones exactas. </p>
+</li>
+<li><p><strong>Integración de Tailwind</strong> en proyectos Vite + React (especificar versiones y comandos de instalación). </p>
+</li>
+<li><p><strong>Pruebas automáticas</strong> y guías de contribución (archivos <code>contribution.md</code>).</p>
+</li>
+</ul>
+<h2 id="resumen-de-conceptos-clave">Resumen de conceptos clave</h2>
+<ul>
+<li><p><strong>Agents MD</strong>: archivo Markdown que centraliza reglas para agentes de IA. </p>
+</li>
+<li><p><strong>Vendor-agnostic</strong>: funciona con cualquier herramienta de IA. </p>
+</li>
+<li><p><strong>Reglas</strong>: estilo de código, comandos, versiones, límites de seguridad. </p>
+</li>
+<li><p><strong>Ejemplos vs. Descripciones</strong>: los ejemplos son más efectivos para que el agente aprenda. </p>
+</li>
+<li><p><strong>Combinar archivos</strong>: permite reglas globales y locales según el directorio.</p>
+</li>
+</ul>
+
+      </article>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Snowflake, Data Engineering by Max Mena.">
+  <title>VARIANT & Semi-structured Data in Snowflake | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <div class="post-card-content">
+        
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1rem 0; font-family: var(--font-sans); }
+.st { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: var(--color-text-secondary); margin: 1.25rem 0 .65rem; }
+.hl { border-left: 3px solid #29B5E8; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: var(--color-background-secondary); padding: 10px 14px; font-size: 13px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 8px; }
+.hl strong { font-weight: 500; }
+.trap { border-left: 3px solid #E24B4A; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: #FCEBEB; padding: 10px 14px; font-size: 13px; color: #501313; line-height: 1.6; margin-bottom: 8px; }
+.trap .lbl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: #A32D2D; margin-bottom: 3px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; background: var(--color-background-primary); }
+.card h4 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+.card ul { font-size: 13px; color: var(--color-text-secondary); padding-left: 1rem; line-height: 1.8; }
+.card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.full { grid-column: 1/-1; }
+code { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); padding: 1px 6px; border-radius: 4px; border: 0.5px solid var(--color-border-secondary); }
+.null-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.null-cell { padding: 10px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); }
+.null-cell .tag { font-size: 11px; font-weight: 500; margin-bottom: 4px; }
+.null-cell p { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; margin-top: 3px; }
+/* quiz */
+.quiz-q { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: .875rem; background: var(--color-background-primary); }
+.question { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 7px; }
+.opt { padding: 8px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 13px; cursor: pointer; transition: all .15s; color: var(--color-text-primary); background: transparent; text-align: left; }
+.opt:hover:not([disabled]) { background: var(--color-background-secondary); }
+.opt.correct { background: #EAF3DE; border-color: #3B6D11; color: #173404; }
+.opt.wrong { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+.opt.reveal-correct { background: #EAF3DE; border-color: #3B6D11; color: #173404; }
+.exp { margin-top: 10px; font-size: 13px; color: var(--color-text-secondary); padding: 8px 12px; border-left: 3px solid var(--color-border-info); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: var(--color-background-secondary); display: none; line-height: 1.5; }
+.exp.show { display: block; }
+.score-bar { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); margin-bottom: 1rem; font-size: 13px; color: var(--color-text-secondary); }
+.score-val { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">VARIANT and Semi-structured Data study card for SnowPro Core</h2>
+
+<!-- KEY FACTS -->
+<div class="st">The essentials</div>
+<div class="g2">
+  <div class="card">
+    <h4>VARIANT limits</h4>
+    <ul>
+      <li>Max size: <strong>16 MB</strong> compressed (~128 MB uncompressed)</li>
+      <li>Stores JSON, Avro, ORC, Parquet</li>
+      <li>Auto-extracts up to <strong>200 elements</strong> per partition into columnar form</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>VARIANT vs flatten — when to flatten</h4>
+    <ul>
+      <li>Dates/timestamps (esp. non-ISO 8601)</li>
+      <li>Numbers stored as strings</li>
+      <li>Arrays</li>
+      <li>Unknown schema? → keep as VARIANT for now</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SUBCOLUMNARIZATION -->
+<div class="st">Subcolumnarization — how Snowflake auto-optimizes VARIANT</div>
+<div class="hl">Snowflake tries to extract VARIANT elements into hidden columnar form for faster scans. Two cases where it <strong>won't extract</strong>:</div>
+<div class="g2">
+  <div class="card" style="border-color:#A32D2D">
+    <h4>❌ Not extracted if…</h4>
+    <ul>
+      <li>Element contains even <strong>one JSON null</strong> value</li>
+      <li>Element has <strong>mixed data types</strong> across rows<br><small style="color:var(--color-text-secondary)">e.g. foo=1 in row 1, foo="1" in row 2</small></li>
+    </ul>
+  </div>
+  <div class="card" style="border-color:#3B6D11">
+    <h4>✅ Fix it by…</h4>
+    <ul>
+      <li>Flatten nulls to relational columns before loading</li>
+      <li>Use <code>STRIP_NULL_VALUES=TRUE</code> in file format</li>
+      <li>Ensure consistent data types per element</li>
+    </ul>
+  </div>
+</div>
+
+<!-- NULL VALUES -->
+<div class="st">Two types of NULL — biggest exam trap</div>
+<div class="null-grid" style="margin-bottom:1rem">
+  <div class="null-cell" style="background:#E6F1FB; border-color:#185FA5">
+    <div class="tag" style="color:#185FA5">SQL NULL</div>
+    <p>Value is missing or unknown. Standard SQL behaviour. Stored as true NULL.</p>
+    <p style="margin-top:6px"><code>PARSE_JSON(NULL)</code> → <code>NULL</code></p>
+  </div>
+  <div class="null-cell" style="background:#FAEEDA; border-color:#854F0B">
+    <div class="tag" style="color:#854F0B">JSON null (VARIANT NULL)</div>
+    <p>Stored as the <strong>string "null"</strong> inside VARIANT. Looks like null but is not SQL NULL.</p>
+    <p style="margin-top:6px"><code>PARSE_JSON('null')</code> → <code>null</code></p>
+  </div>
+</div>
+<div class="hl"><strong>Convert JSON null → SQL NULL:</strong> cast with <code>TO_VARCHAR()</code> or <code>TO_CHAR()</code>.<br>In an ARRAY: SQL NULL = <code>undefined</code> · JSON null = <code>null</code></div>
+
+<!-- EXAM TRAPS -->
+<div class="st">Exam traps</div>
+<div class="trap"><div class="lbl">Trap 1 — size limit</div>VARIANT max is <strong>16 MB compressed / ~128 MB uncompressed</strong>. Not unlimited.</div>
+<div class="trap"><div class="lbl">Trap 2 — null blocks extraction</div>Even ONE JSON null in an element prevents that element from being columnarized → slower queries.</div>
+<div class="trap"><div class="lbl">Trap 3 — mixed types block extraction</div>Same key storing a number in one row and a string in another = not extracted. Keep types consistent.</div>
+<div class="trap"><div class="lbl">Trap 4 — SQL NULL ≠ JSON null</div>They look similar but behave differently. JSON null is a string. SQL NULL is absence of value.</div>
+<div class="trap"><div class="lbl">Trap 5 — extraction limit</div>Snowflake extracts max <strong>200 elements per partition</strong>. Beyond that, elements stay in raw semi-structured form.</div>
+
+<!-- QUIZ -->
+<div class="st">Practice questions</div>
+<div class="score-bar"><span>Score:</span><span class="score-val" id="sc">0 / 0</span><span style="flex:1"></span><button onclick="rst()" style="font-size:12px;padding:4px 12px">Reset</button></div>
+
+<div class="quiz-q" id="q1">
+  <div class="question">1. Which scenario should trigger flattening VARIANT data into relational columns?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q1',false)">A. Data contains only strings and integers</button>
+    <button class="opt" onclick="ans(this,'q1',true)">B. Data contains dates stored as strings and arrays</button>
+    <button class="opt" onclick="ans(this,'q1',false)">C. Schema is unknown at load time</button>
+    <button class="opt" onclick="ans(this,'q1',false)">D. Data comes from a JSON file</button>
+  </div>
+  <div class="exp" id="exp-q1">Flatten when you have dates/timestamps (especially non-ISO 8601), numbers in strings, or arrays — these perform poorly in VARIANT. Native strings and integers are fine in VARIANT.</div>
+</div>
+
+<div class="quiz-q" id="q2">
+  <div class="question">2. Why would Snowflake NOT extract a VARIANT element into columnar form?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q2',false)">A. The element contains more than 10 keys</button>
+    <button class="opt" onclick="ans(this,'q2',true)">B. The element contains a JSON null value in any row</button>
+    <button class="opt" onclick="ans(this,'q2',false)">C. The element is nested more than 3 levels deep</button>
+    <button class="opt" onclick="ans(this,'q2',false)">D. The VARIANT column has more than 1M rows</button>
+  </div>
+  <div class="exp" id="exp-q2">Even one JSON null value in an element blocks columnar extraction for that element. Also blocks: mixed data types across rows. Fix: use STRIP_NULL_VALUES=TRUE or flatten before loading.</div>
+</div>
+
+<div class="quiz-q" id="q3">
+  <div class="question">3. What is the result of <code>PARSE_JSON('null')</code> in Snowflake?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q3',false)">A. SQL NULL — the value is absent</button>
+    <button class="opt" onclick="ans(this,'q3',true)">B. A VARIANT containing the string "null" — JSON null</button>
+    <button class="opt" onclick="ans(this,'q3',false)">C. An error — null is not valid JSON</button>
+    <button class="opt" onclick="ans(this,'q3',false)">D. The integer 0</button>
+  </div>
+  <div class="exp" id="exp-q3">PARSE_JSON('null') returns a VARIANT null (JSON null) — a string "null", not SQL NULL. PARSE_JSON(NULL) — passing SQL NULL — returns SQL NULL. They look similar but are fundamentally different.</div>
+</div>
+
+<div class="quiz-q" id="q4">
+  <div class="question">4. What is the maximum number of VARIANT elements Snowflake extracts into columnar form per partition by default?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q4',false)">A. 50</button>
+    <button class="opt" onclick="ans(this,'q4',false)">B. 100</button>
+    <button class="opt" onclick="ans(this,'q4',true)">C. 200</button>
+    <button class="opt" onclick="ans(this,'q4',false)">D. Unlimited</button>
+  </div>
+  <div class="exp" id="exp-q4">200 elements per partition per table is the default extraction limit. Beyond 200, elements stay in raw semi-structured form and require full JSON traversal to query — slower. Contact Snowflake Support to increase this.</div>
+</div>
+</div>
+
+<script>
+let a=0,c=0;
+function ans(btn,qid,ok){
+  const q=document.getElementById(qid);
+  if(q.dataset.done)return;
+  q.dataset.done='1';a++;
+  q.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+  if(ok){btn.classList.add('correct');c++;}
+  else{btn.classList.add('wrong');q.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('onclick').includes('true'))o.classList.add('reveal-correct');});}
+  document.getElementById('exp-'+qid).classList.add('show');
+  document.getElementById('sc').textContent=c+' / '+a;
+}
+function rst(){
+  a=0;c=0;document.getElementById('sc').textContent='0 / 0';
+  document.querySelectorAll('.quiz-q').forEach(q=>{
+    delete q.dataset.done;
+    q.querySelectorAll('.opt').forEach(o=>{o.className='opt';o.disabled=false;});
+    const e=q.querySelector('.exp');if(e)e.classList.remove('show');
+  });
+}
+</script>
+
+      </div>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

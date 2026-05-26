@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about DBT, Data Engineering by Max Mena.">
+  <title>Important Rules in DBT | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <article class="post-article">
+        <h1 id="things-learned-from-the-most-revised-dbt-project">Things learned from the most revised DBT project</h1>
+<blockquote>
+<p>Concrete rules about code and structure, each with clear steps on how to execute them.  </p>
+</blockquote>
+<hr>
+<h2 id="1-🗂️-model-layering--folder-structure">1. 🗂️ Model Layering &amp; Folder Structure</h2>
+<h3 id="rule-dont-create-duplicate-yaml-files-for-an-existing-source-or-layer">RULE: Don&#39;t create duplicate YAML files for an existing source or layer</h3>
+<p>Before creating a new <code>_models.yml</code> or <code>_sources.yml</code>, check whether one already exists for that source. If it does, add your entries to the existing file.</p>
+<hr>
+<h3 id="rule-place-models-in-the-correct-dbt-layer">RULE: Place models in the correct dbt layer</h3>
+<p><code>staging/</code> must be thin wrappers over raw sources only. Any filtering, joining, or business logic belongs in <code>intermediate/</code>.</p>
+<hr>
+<h3 id="rule-folder-path-and-model-name-prefix-must-match">RULE: Folder path and model name prefix must match</h3>
+<p>The subfolder a model lives in must be consistent with its name prefix.</p>
+<hr>
+<h3 id="rule-every-new-model-file-must-have-an-entry-in-the-models-yaml">RULE: Every new model file must have an entry in the models YAML</h3>
+<p>Pre-commits enforce that every <code>.sql</code> model has a corresponding YAML entry. Missing entries will cause pre-commit failures.</p>
+<hr>
+<h2 id="2-🧱-sql-code">2. 🧱 SQL Code</h2>
+<h3 id="rule-every-column-defined-in-a-cte-must-appear-in-the-final-select">RULE: Every column defined in a CTE must appear in the final SELECT</h3>
+<p>When adding new columns to a CTE, always verify they are included in the model&#39;s final <code>SELECT</code>. It is a common mistake to enrich a CTE but never expose the columns.</p>
+<hr>
+<h3 id="rule-use-correct_date-for-salesforce-deduplication-partition-by-id">RULE: Use <code>correct_date</code> for Salesforce deduplication, partition by <code>id</code></h3>
+<p>Singer uses <code>correct_date</code> as the ingestion watermark to determine when to pull new rows from the Salesforce API. Deduplication must order by this column and partition by the entity&#39;s own primary key.</p>
+<hr>
+<h3 id="rule-always-comment-filter-and-exclusion-logic-in-sql">RULE: Always comment filter and exclusion logic in SQL</h3>
+<p>Any <code>WHERE</code> clause that excludes records must have an inline comment explaining why. Undocumented filters become a maintenance hazard.</p>
+<hr>
+<h2 id="3-⚙️-materialization">3. ⚙️ Materialization</h2>
+<h3 id="rule-dont-explicitly-declare-materializedview-in-staging-models">RULE: Don&#39;t explicitly declare <code>materialized=&#39;view&#39;</code> in staging models</h3>
+<p><code>models/staging/</code> is already configured as <code>view</code> by default in <code>dbt_project.yml</code>. Declaring it in individual model configs is redundant.</p>
+<hr>
+<h3 id="rule-non-default-materializations-must-be-justified-with-a-comment">RULE: Non-default materializations must be justified with a comment</h3>
+<p>When a model uses a materialization different from its layer default, document the reason in a comment next to the config.</p>
+<hr>
+<h3 id="rule-incremental-filter-logic-must-be-placed-correctly-and-incremental-models-require-tests">RULE: Incremental filter logic must be placed correctly, and incremental models require tests</h3>
+<p>Placing incremental filtering at the wrong point in the model won&#39;t improve build time. Incremental models also need tests that validate correctness over time.</p>
+<hr>
+<h2 id="4-✅-testing">4. ✅ Testing</h2>
+<h3 id="rule-every-model-must-have-at-minimum-unique-and-not_null-tests-on-its-key-column">RULE: Every model must have at minimum <code>unique</code> and <code>not_null</code> tests on its key column</h3>
+<p>No model should be merged without basic data tests on the primary key.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml">models:
+  - name: name_of_model
+    columns:
+      - name: contact_id
+        tests:
+          - unique
+          - not_null
+</code></pre>
+<blockquote>
+<p><em>&quot;Should we have some tests for this column?&quot;</em><br><em>&quot;Need to add data tests.&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-case-when-derived-columns-must-have-a-test-validating-their-output">RULE: CASE WHEN derived columns must have a test validating their output</h3>
+<p>When a column is built with <code>CASE WHEN</code>, add a test to assert its expected values.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml">- name: name_of_column
+  tests:
+    - accepted_values:
+        values: [&#39;subscribed&#39;, &#39;unsubscribed&#39;, &#39;pending&#39;]
+</code></pre>
+<p>Or for numeric ranges using <code>utilities</code>:</p>
+<pre><code class="language-yaml">- name: name_of_column
+  tests:
+    - dbt_utils.expression_is_true:
+        expression: &quot;&gt;= 0&quot;
+</code></pre>
+<blockquote>
+<p><em>&quot;Write a test for this column since you are doing this case when. Something like expected values between or do not expect certain values.&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-dont-use-severity-warn-without-a-documented-reason">RULE: Don&#39;t use <code>severity: warn</code> without a documented reason</h3>
+<p>Test severity defaults to <code>error</code>. Using <code>severity: warn</code> silently lets failures pass — only use it intentionally and explain why.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml"># ❌ Avoid unless you have a specific reason
+- unique:
+    severity: warn
+
+# ✅ Default — just list the test name
+- unique
+</code></pre>
+<blockquote>
+<p><em>&quot;Why is this <code>severity=\&quot;warn\&quot;</code> for?&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-dont-use-store_failures_as-without-a-reason">RULE: Don&#39;t use <code>store_failures_as</code> without a reason</h3>
+<p><code>store_failures_as: view</code> creates a queryable view of test failures. Only add it when you actively need to inspect failures.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml"># ❌ Remove if not needed
+- not_null:
+    store_failures_as: view
+
+# ✅ Clean default
+- not_null
+</code></pre>
+<blockquote>
+<p><em>&quot;How come you added <code>store_failures_as=\&quot;view\&quot;</code> to this test?&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-ci-tests-must-pass-before-requesting-review-or-merging">RULE: CI tests must pass before requesting review or merging</h3>
+<p>A PR with failing tests must not be submitted for review.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-bash"># Run tests locally before pushing
+dbt test --select path:models/your/model
+
+# Or verify the CI run in the PR Actions tab — all jobs must be green
+</code></pre>
+<hr>
+<h2 id="5-📝-yaml--documentation">5. 📝 YAML &amp; Documentation</h2>
+<h3 id="rule-model-descriptions-belong-in-the-yaml-not-inline-in-sql">RULE: Model descriptions belong in the YAML, not inline in SQL</h3>
+<p>Use the <code>description:</code> field in <code>_models.yml</code>. Match the description to the actual layer the model lives in.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml"># ✅ In _location__models.yml
+models:
+  - name: name_of_the_model
+    description: &gt;
+      Explain what it does and document properly to later understanding.
+      Intermediate model — marketing LCM layer.
+</code></pre>
+<pre><code class="language-sql">-- ❌ Not here — don&#39;t use inline SQL comments as model documentation
+-- Model: identifies new users for the B2B seedlist
+</code></pre>
+<blockquote>
+<p><em>&quot;Please put model descriptions in the models yaml.&quot;</em><br><em>&quot;This description says this is a &#39;staging model&#39; but it&#39;s in the intermediate layer. Please fix.&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-dont-add-manual-sourcemodel-links-in-yaml-descriptions">RULE: Don&#39;t add manual source/model links in YAML descriptions</h3>
+<p>dbt auto-generates lineage from <code>source()</code> and <code>ref()</code>. Manual URL links in descriptions go stale.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml"># ❌ Remove manual links
+description: &quot;See source at https://github.com/...&quot;
+
+# ✅ Just describe the model — dbt handles the lineage graph
+description: &quot;Just use a brief description of the model.&quot;
+</code></pre>
+<blockquote>
+<p><em>&quot;You don&#39;t really need to add links to the source since dbt self documents these things via the <code>source</code> and <code>ref</code> macros.&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-keep-yaml-formatting-clean--no-empty-descriptions-no-extra-blank-lines-between-columns">RULE: Keep YAML formatting clean — no empty descriptions, no extra blank lines between columns</h3>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml"># ❌ Messy
+models:
+  - name: name_of_model
+    description: &quot;&quot;
+    columns:
+
+      - name: id
+
+      - name: email
+
+# ✅ Clean
+models:
+  - name: name_of_model
+    columns:
+      - name: id
+      - name: email
+
+  - name: name_of_model
+    columns:
+      - name: id
+</code></pre>
+<p>Rules:</p>
+<ol>
+<li>Delete any <code>description: &quot;&quot;</code> lines</li>
+<li>No blank lines between columns within a model entry</li>
+<li>One blank line between model entries</li>
+</ol>
+<blockquote>
+<p><em>&quot;Please remove the empty descriptions (i.e. <code>description: \&quot;\&quot;</code>) and spaces between columns. Let&#39;s just have a single empty space between tables.&quot;</em></p>
+</blockquote>
+<hr>
+<h2 id="6-🏷️-naming-conventions">6. 🏷️ Naming Conventions</h2>
+<h3 id="rule-column-names-must-follow-the-project-naming-contract-enforced-by-pre-commits">RULE: Column names must follow the project naming contract (enforced by pre-commits)</h3>
+<p>The project has a pre-commit hook that validates column naming format. The convention is <code>&lt;noun&gt;_&lt;qualifier&gt;</code> — patterns like <code>date_submit</code> are rejected.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-sql">-- ❌ Violates naming contract
+date_submit
+
+-- ✅ Correct
+submit_date
+</code></pre>
+<pre><code class="language-bash"># Run pre-commits locally before pushing to catch violations
+pre-commit run --all-files
+</code></pre>
+<blockquote>
+<p><em>&quot;Perhaps <code>submit_date</code> is a better name? Not sure how <code>date_submit</code> passes our name contract in the pre-commits.&quot;</em></p>
+</blockquote>
+<hr>
+<h3 id="rule-exposure-names-must-be-distinct-from-and-more-descriptive-than-the-model-they-expose">RULE: Exposure names must be distinct from and more descriptive than the model they expose</h3>
+<p>An exposure represents a downstream consumer or system — name it after the business concept, not the dbt model.</p>
+<p><strong>How to execute:</strong></p>
+<pre><code class="language-yaml"># ❌ Mirrors the model name — not useful
+exposures:
+  - name: name_of_the_model
+
+# ✅ Describes the downstream use case
+exposures:
+  - name: name_of_model_in_exposure
+    type: application
+    maturity: high
+    depends_on:
+      - ref(&#39;name_of_the_model&#39;)
+</code></pre>
+<hr>
+<h2 id="8-🔗-migration-prs">8. 🔗 Migration PRs</h2>
+<h3 id="rule-migration-prs-must-link-the-source-code-being-deprecated">RULE: Migration PRs must link the source code being deprecated</h3>
+<p>When a PR migrates or replaces logic from another repo or script, the PR description must include a direct link to the original source so reviewers can verify parity.</p>
+
+      </article>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

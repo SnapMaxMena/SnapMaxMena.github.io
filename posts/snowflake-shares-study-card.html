@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An article about Snowflake, Data Engineering by Max Mena.">
+  <title>Snowflake Secure Data Sharing | Max Mena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❄️</text></svg>">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <div class="post-container">
+    <header class="post-nav-header">
+      <nav><a href="../projects.html">← Back to Projects</a></nav>
+    </header>
+    <main>
+      <div class="post-card-content">
+        
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1rem 0; font-family: var(--font-sans); }
+.section-title { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: var(--color-text-secondary); margin: 1.25rem 0 .65rem; }
+.hl { border-left: 3px solid #29B5E8; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: var(--color-background-secondary); padding: 10px 14px; font-size: 13px; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 8px; }
+.hl strong { font-weight: 500; }
+.trap { border-left: 3px solid #E24B4A; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: #FCEBEB; padding: 10px 14px; font-size: 13px; color: #501313; line-height: 1.6; margin-bottom: 8px; }
+.trap .lbl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: #A32D2D; margin-bottom: 3px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; background: var(--color-background-primary); }
+.card h4 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+.card ul { font-size: 13px; color: var(--color-text-secondary); padding-left: 1rem; line-height: 1.8; }
+.card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.full { grid-column: 1/-1; }
+.badge { display:inline-block; font-size:11px; font-weight:500; padding:2px 10px; border-radius:20px; margin-right:4px; }
+.b-blue { background:var(--color-background-info); color:var(--color-text-info); }
+.b-red  { background:#FCEBEB; color:#A32D2D; }
+.b-green{ background:#EAF3DE; color:#3B6D11; }
+.b-amber{ background:#FAEEDA; color:#854F0B; }
+code { font-family:var(--font-mono); font-size:12px; background:var(--color-background-secondary); padding:1px 6px; border-radius:4px; border:0.5px solid var(--color-border-secondary); }
+/* quiz */
+.quiz-q { border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; margin-bottom:.875rem; background:var(--color-background-primary); }
+.question { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:12px; line-height:1.5; }
+.options { display:flex; flex-direction:column; gap:7px; }
+.opt { padding:8px 12px; border:0.5px solid var(--color-border-secondary); border-radius:var(--border-radius-md); font-size:13px; cursor:pointer; transition:all .15s; color:var(--color-text-primary); background:transparent; text-align:left; }
+.opt:hover:not([disabled]) { background:var(--color-background-secondary); }
+.opt.correct { background:#EAF3DE; border-color:#3B6D11; color:#173404; }
+.opt.wrong { background:#FCEBEB; border-color:#A32D2D; color:#501313; }
+.opt.reveal-correct { background:#EAF3DE; border-color:#3B6D11; color:#173404; }
+.exp { margin-top:10px; font-size:13px; color:var(--color-text-secondary); padding:8px 12px; border-left:3px solid var(--color-border-info); border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; background:var(--color-background-secondary); display:none; line-height:1.5; }
+.exp.show { display:block; }
+.score-bar { display:flex; align-items:center; gap:10px; padding:8px 14px; border-radius:var(--border-radius-md); background:var(--color-background-secondary); margin-bottom:1rem; font-size:13px; color:var(--color-text-secondary); }
+.score-val { font-size:15px; font-weight:500; color:var(--color-text-primary); }
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Snowflake Secure Data Sharing — Shares study card for SnowPro Core</h2>
+
+<!-- CORE CONCEPT -->
+<div class="section-title">The one thing to never forget</div>
+<div class="hl"><strong>No data is copied or transferred.</strong> Sharing works through Snowflake's services layer and metadata store. The consumer queries the provider's data in place — zero storage cost to the consumer, compute cost only.</div>
+
+<!-- DIAGRAM -->
+<svg width="100%" viewBox="0 0 680 130" role="img" style="margin-bottom:1rem">
+  <title>Share flow: provider creates share, consumer creates read-only DB from share</title>
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+  <!-- Provider -->
+  <g class="c-blue">
+    <rect x="20" y="20" width="140" height="90" rx="10" stroke-width="0.5"/>
+    <text class="th" x="90" y="48" text-anchor="middle" dominant-baseline="central">Provider</text>
+    <text class="ts" x="90" y="68" text-anchor="middle" dominant-baseline="central">account</text>
+    <text class="ts" x="90" y="86" text-anchor="middle" dominant-baseline="central">Creates SHARE</text>
+    <text class="ts" x="90" y="101" text-anchor="middle" dominant-baseline="central">grants objects</text>
+  </g>
+  <!-- Share object -->
+  <g class="c-amber">
+    <rect x="260" y="35" width="160" height="60" rx="10" stroke-width="0.5"/>
+    <text class="th" x="340" y="58" text-anchor="middle" dominant-baseline="central">SHARE object</text>
+    <text class="ts" x="340" y="78" text-anchor="middle" dominant-baseline="central">metadata only — no data copy</text>
+  </g>
+  <line x1="162" y1="65" x2="258" y2="65" stroke="var(--t)" stroke-width="1" marker-end="url(#ar)" fill="none"/>
+  <line x1="422" y1="65" x2="478" y2="65" stroke="var(--t)" stroke-width="1" marker-end="url(#ar)" fill="none"/>
+  <!-- Consumer -->
+  <g class="c-teal">
+    <rect x="480" y="20" width="180" height="90" rx="10" stroke-width="0.5"/>
+    <text class="th" x="570" y="45" text-anchor="middle" dominant-baseline="central">Consumer</text>
+    <text class="ts" x="570" y="63" text-anchor="middle" dominant-baseline="central">account</text>
+    <text class="ts" x="570" y="80" text-anchor="middle" dominant-baseline="central">Creates read-only DB</text>
+    <text class="ts" x="570" y="97" text-anchor="middle" dominant-baseline="central">pays compute only</text>
+  </g>
+</svg>
+
+<!-- KEY RULES -->
+<div class="section-title">Rules every exam question tests</div>
+<div class="grid2">
+  <div class="card">
+    <h4>Provider rules</h4>
+    <ul>
+      <li>Can create <strong>unlimited shares</strong></li>
+      <li>Can add <strong>unlimited accounts</strong> to a share</li>
+      <li>Can share from <strong>multiple DBs</strong> — but must be same account</li>
+      <li>New/updated objects available <strong>immediately</strong></li>
+      <li>Can <strong>revoke access</strong> at any time</li>
+      <li>Must use <strong>ACCOUNTADMIN</strong> role</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Consumer rules</h4>
+    <ul>
+      <li>Can consume <strong>unlimited shares</strong></li>
+      <li><strong>One database per share</strong> — hard limit</li>
+      <li>Shared objects are <strong>read-only</strong> — no DML</li>
+      <li><strong>No storage cost</strong> — data lives in provider's account</li>
+      <li>Pays only for <strong>compute (virtual warehouse)</strong></li>
+      <li>Access controlled via standard <strong>RBAC</strong></li>
+    </ul>
+  </div>
+  <div class="card full">
+    <h4>Shareable objects</h4>
+    <p style="margin-bottom:6px">Tables · Dynamic tables · External tables · Iceberg tables · Regular views · <strong>Secure views</strong> · Secure materialized views · Semantic views · UDFs · Cortex Search services</p>
+    <p><span class="badge b-red">Key point</span> Secure views are preferred over regular views when sharing — they hide the underlying query definition from consumers.</p>
+  </div>
+</div>
+
+<!-- SHARING OPTIONS -->
+<div class="section-title">4 sharing methods</div>
+<div class="grid2">
+  <div class="card"><h4><span class="badge b-blue">1</span> Direct Share</h4><p>Share specific DB objects directly to another account <strong>in the same region</strong>.</p></div>
+  <div class="card"><h4><span class="badge b-blue">2</span> Listing</h4><p>Share + metadata offered as a data product. Can be private or on the Snowflake Marketplace.</p></div>
+  <div class="card"><h4><span class="badge b-blue">3</span> Data Exchange</h4><p>Managed group of accounts — share within that group.</p></div>
+  <div class="card"><h4><span class="badge b-blue">4</span> Clean Room</h4><p>Share data AND control which queries the consumer can run against it.</p></div>
+</div>
+
+<!-- READER ACCOUNTS -->
+<div class="section-title">Reader accounts (exam favourite)</div>
+<div class="hl"><strong>Purpose:</strong> Share data with a consumer who has <strong>no Snowflake account</strong>. Provider creates and owns the reader account. Reader account can only consume from its <strong>one provider</strong> — not from others. Users in reader accounts can <strong>query only</strong> — no DML (no INSERT, UPDATE, DELETE, data loading).</div>
+
+<!-- EXAM TRAPS -->
+<div class="section-title">Exam traps</div>
+<div class="trap"><div class="lbl">Trap 1 — data is copied</div>False. Zero data is copied. Sharing is metadata-only. Consumer storage cost = $0.</div>
+<div class="trap"><div class="lbl">Trap 2 — consumer can create multiple DBs from one share</div>False. Exactly <strong>one database per share</strong> per consumer account.</div>
+<div class="trap"><div class="lbl">Trap 3 — cross-region direct share works natively</div>False. Direct Share requires accounts to be in the <strong>same region</strong>. Cross-region requires replication or listings.</div>
+<div class="trap"><div class="lbl">Trap 4 — consumer pays storage</div>False. Consumer pays only for compute. Storage stays in and is billed to the provider.</div>
+<div class="trap"><div class="lbl">Trap 5 — reader account can access other providers</div>False. Reader accounts are locked to the <strong>single provider that created them</strong>.</div>
+
+<!-- QUIZ -->
+<div class="section-title">Practice questions</div>
+<div class="score-bar"><span>Score:</span><span class="score-val" id="sc">0 / 0</span><span style="flex:1"></span><button onclick="reset()" style="font-size:12px;padding:4px 12px">Reset</button></div>
+
+<div class="quiz-q" id="q1">
+  <div class="question">1. A data consumer creates a database from a share. What is TRUE about storage costs?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q1',false)">A. Consumer pays for a copy of the data stored in their account</button>
+    <button class="opt" onclick="ans(this,'q1',true)">B. Consumer pays zero storage — data remains in the provider's account</button>
+    <button class="opt" onclick="ans(this,'q1',false)">C. Both provider and consumer split storage costs equally</button>
+    <button class="opt" onclick="ans(this,'q1',false)">D. Consumer pays storage only after 30 days</button>
+  </div>
+  <div class="exp" id="exp-q1">No data is copied. Sharing uses Snowflake's services layer and metadata. The consumer's only charge is for compute (virtual warehouse) used to query the imported data.</div>
+</div>
+
+<div class="quiz-q" id="q2">
+  <div class="question">2. How many databases can a consumer create from a single share?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q2',false)">A. Unlimited</button>
+    <button class="opt" onclick="ans(this,'q2',false)">B. Up to 5</button>
+    <button class="opt" onclick="ans(this,'q2',true)">C. Exactly one</button>
+    <button class="opt" onclick="ans(this,'q2',false)">D. One per schema in the share</button>
+  </div>
+  <div class="exp" id="exp-q2">Hard rule: one database per share per consumer account. However, a consumer can consume unlimited shares and create one DB from each.</div>
+</div>
+
+<div class="quiz-q" id="q3">
+  <div class="question">3. A provider wants to share data with a partner who has no Snowflake account. What is the correct approach?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q3',false)">A. Export data to S3 and give the partner credentials</button>
+    <button class="opt" onclick="ans(this,'q3',true)">B. Create a reader account for the partner under the provider's account</button>
+    <button class="opt" onclick="ans(this,'q3',false)">C. Use a Data Exchange — it supports non-Snowflake consumers</button>
+    <button class="opt" onclick="ans(this,'q3',false)">D. This is not possible — both parties must be Snowflake customers</button>
+  </div>
+  <div class="exp" id="exp-q3">Reader accounts let providers share data with non-Snowflake consumers. The provider creates and owns the reader account. Users in it can only query — no DML allowed. The reader account can only consume data from its one provider.</div>
+</div>
+
+<div class="quiz-q" id="q4">
+  <div class="question">4. A provider shares a table via a SHARE object and adds new rows to it. When do consumers see the new data?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q4',false)">A. After the consumer refreshes the imported database manually</button>
+    <button class="opt" onclick="ans(this,'q4',false)">B. Within 24 hours via background sync</button>
+    <button class="opt" onclick="ans(this,'q4',true)">C. Immediately — updates are available in near real-time</button>
+    <button class="opt" onclick="ans(this,'q4',false)">D. After the provider re-grants privileges on the table</button>
+  </div>
+  <div class="exp" id="exp-q4">Because no data is copied, updates to existing objects in a share are immediately visible to consumers. There is no sync lag — the consumer queries the live provider data directly.</div>
+</div>
+
+<div class="quiz-q" id="q5">
+  <div class="question">5. Which role is required to create and manage shares?</div>
+  <div class="options">
+    <button class="opt" onclick="ans(this,'q5',false)">A. SYSADMIN</button>
+    <button class="opt" onclick="ans(this,'q5',false)">B. SECURITYADMIN</button>
+    <button class="opt" onclick="ans(this,'q5',true)">C. ACCOUNTADMIN</button>
+    <button class="opt" onclick="ans(this,'q5',false)">D. Any role with CREATE SHARE privilege</button>
+  </div>
+  <div class="exp" id="exp-q5">Creating and managing shares requires the ACCOUNTADMIN role — the highest level role in a Snowflake account hierarchy.</div>
+</div>
+</div>
+
+<script>
+let a=0,c=0;
+function ans(btn,qid,ok){
+  const q=document.getElementById(qid);
+  if(q.dataset.done)return;
+  q.dataset.done='1';a++;
+  q.querySelectorAll('.opt').forEach(o=>{o.disabled=true;});
+  if(ok){btn.classList.add('correct');c++;}
+  else{btn.classList.add('wrong');q.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('onclick').includes('true'))o.classList.add('reveal-correct');});}
+  document.getElementById('exp-'+qid).classList.add('show');
+  document.getElementById('sc').textContent=c+' / '+a;
+}
+function reset(){
+  a=0;c=0;document.getElementById('sc').textContent='0 / 0';
+  document.querySelectorAll('.quiz-q').forEach(q=>{
+    delete q.dataset.done;
+    q.querySelectorAll('.opt').forEach(o=>{o.className='opt';o.disabled=false;});
+    const e=q.querySelector('.exp');if(e)e.classList.remove('show');
+  });
+}
+</script>
+
+      </div>
+    </main>
+    <footer class="post-footer">
+      <a href="../projects.html">← Back to Projects</a>
+    </footer>
+  </div>
+</body>
+</html>

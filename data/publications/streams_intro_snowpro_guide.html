@@ -1,0 +1,218 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1.25rem 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);font-weight:500}
+.panel{display:none}.panel.active{display:block}
+.sec{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin:1rem 0 .5rem}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:9px 12px;font-weight:500;font-size:12px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.tbl td{padding:9px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top;font-size:13px;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.rh{font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px}
+.chk{color:var(--color-text-success)}.x{color:var(--color-text-danger)}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.pb{background:#E6F1FB;color:#0C447C}.pg{background:#E1F5EE;color:#085041}.pp{background:#EEEDFE;color:#3C3489}.pa{background:#FAEEDA;color:#633806}.pr{background:#FCEBEB;color:#A32D2D}
+@media(prefers-color-scheme:dark){.pb{background:#042C53;color:#B5D4F4}.pg{background:#085041;color:#9FE1CB}.pp{background:#26215C;color:#CECBF6}.pa{background:#412402;color:#FAC775}.pr{background:#501313;color:#F7C1C1}}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.875rem 1rem;background:var(--color-background-primary);font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:8px}
+.card strong{color:var(--color-text-primary)}
+.card code{font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px}
+.card.warn{border-left:3px solid var(--color-border-danger);border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.fc{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;background:var(--color-background-primary);margin-bottom:8px}
+.fc-front{padding:.875rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fc-q{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.fc-hint{font-size:12px;color:var(--color-text-tertiary);white-space:nowrap}
+.fc-back{display:none;padding:.875rem 1.25rem;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.fc-back strong{color:var(--color-text-primary)}
+.fc.open .fc-back{display:block}
+.fc.open .fc-hint{color:var(--color-text-info)}
+</style>
+
+<div class="wrap">
+  <h1>Stream Object</h1>
+<div class="tabs">
+  <button class="tab active" onclick="show('matrix',this)">Comparison matrix</button>
+  <button class="tab" onclick="show('venn',this)">Venn diagram</button>
+  <button class="tab" onclick="show('flash',this)">Flashcards</button>
+</div>
+
+<!-- MATRIX -->
+<div id="matrix" class="panel active">
+  <div class="sec">Stream types</div>
+  <table class="tbl" style="margin-bottom:1rem">
+    <thead>
+      <tr>
+        <th style="width:22%"></th>
+        <th><span class="pill pb">Standard</span></th>
+        <th><span class="pill pg">Append-only</span></th>
+        <th><span class="pill pa">Insert-only</span></th>
+        <th><span class="pill pr">CHANGES clause</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="rh">Tracks inserts</td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Tracks updates</td><td><span class="chk">✓</span></td><td><span class="x">✗</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Tracks deletes</td><td><span class="chk">✓</span></td><td><span class="x">✗</span></td><td><span class="x">✗ no-op</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Advances offset?</td><td><span class="chk">✓ on DML consume</span></td><td><span class="chk">✓ on DML consume</span></td><td><span class="chk">✓ on DML consume</span></td><td><span class="x">✗ read-only</span></td></tr>
+      <tr><td class="rh">External tables</td><td><span class="x">✗</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td><td>—</td></tr>
+      <tr><td class="rh">Geospatial data</td><td><span class="x">✗ not supported</span></td><td><span class="chk">✓ recommended</span></td><td><span class="chk">✓</span></td><td>—</td></tr>
+      <tr><td class="rh">Views supported</td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Iceberg (external catalog)</td><td><span class="x">✗</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td><td>—</td></tr>
+      <tr><td class="rh">Performance</td><td>Standard</td><td>Higher (ELT optimized)</td><td>—</td><td>—</td></tr>
+      <tr><td class="rh">Best for</td><td>Full CDC pipelines</td><td>Insert-heavy / ELT</td><td>External / cloud files</td><td>Ad-hoc CDC queries</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec">Metadata columns (on every stream)</div>
+  <table class="tbl" style="margin-bottom:1rem">
+    <thead><tr><th style="width:32%">Column</th><th>Values</th><th>Key trap</th></tr></thead>
+    <tbody>
+      <tr><td><code>METADATA$ACTION</code></td><td><code>INSERT</code> or <code>DELETE</code></td><td>No UPDATE value — updates = DELETE+INSERT pair</td></tr>
+      <tr><td><code>METADATA$ISUPDATE</code></td><td><code>TRUE</code> / <code>FALSE</code></td><td>If row inserted then updated in same offset → net INSERT, ISUPDATE=FALSE</td></tr>
+      <tr><td><code>METADATA$ROW_ID</code></td><td>Unique immutable row ID</td><td>Same for streams on same table/clone/replica. May differ for stream on view vs table.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec">Staleness — consume within X days</div>
+  <table class="tbl" style="margin-bottom:1rem">
+    <thead><tr><th>DATA_RETENTION_TIME_IN_DAYS</th><th>MAX_DATA_EXTENSION_TIME_IN_DAYS</th><th>Must consume within</th></tr></thead>
+    <tbody>
+      <tr><td>14</td><td>0</td><td><strong>14 days</strong></td></tr>
+      <tr><td>1</td><td>14</td><td><strong>14 days</strong></td></tr>
+      <tr><td>0</td><td>90</td><td><strong>90 days</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec">Views — allowed vs not allowed</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem">
+    <div class="card"><strong style="color:var(--color-text-success)">Allowed</strong><br>Projections · filters · inner/cross joins · UNION ALL · nested views in FROM · subqueries in FROM</div>
+    <div class="card warn"><strong>Not allowed</strong><br>GROUP BY · QUALIFY · DISTINCT · LIMIT · subqueries outside FROM · correlated subqueries · materialized views</div>
+  </div>
+
+  <div class="sec">Access privileges required to query a stream</div>
+  <table class="tbl">
+    <thead><tr><th>Object</th><th>Privilege</th></tr></thead>
+    <tbody>
+      <tr><td>Database</td><td>USAGE</td></tr>
+      <tr><td>Schema</td><td>USAGE</td></tr>
+      <tr><td>Stream</td><td>SELECT</td></tr>
+      <tr><td>Source table / view</td><td>SELECT</td></tr>
+      <tr><td>External stage (directory)</td><td>USAGE</td></tr>
+      <tr><td>Internal stage (directory)</td><td>READ</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- VENN -->
+<div id="venn" class="panel">
+  <div class="sec">Which sources each stream type supports</div>
+  <svg width="100%" viewBox="0 0 680 520" role="img">
+    <title>Venn diagram — stream type source support</title>
+    <desc>Three overlapping circles showing which source objects each stream type (Standard, Append-only, Insert-only) supports, with shared sources in the overlaps.</desc>
+    <defs>
+      <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- Standard circle (left) -->
+    <ellipse cx="250" cy="240" rx="185" ry="165" fill="#E6F1FB" fill-opacity="0.55" stroke="#378ADD" stroke-width="1"/>
+    <!-- Append-only circle (right) -->
+    <ellipse cx="430" cy="240" rx="185" ry="165" fill="#E1F5EE" fill-opacity="0.55" stroke="#1D9E75" stroke-width="1"/>
+    <!-- Insert-only circle (bottom center) -->
+    <ellipse cx="340" cy="370" rx="140" ry="120" fill="#FAEEDA" fill-opacity="0.65" stroke="#BA7517" stroke-width="1"/>
+
+    <!-- Labels for circles -->
+    <text class="th" x="148" y="140" text-anchor="middle" fill="#0C447C">Standard</text>
+    <text class="ts" x="148" y="157" text-anchor="middle" fill="#185FA5">INSERT+UPDATE+DELETE</text>
+
+    <text class="th" x="530" y="140" text-anchor="middle" fill="#085041">Append-only</text>
+    <text class="ts" x="530" y="157" text-anchor="middle" fill="#0F6E56">INSERT only</text>
+
+    <text class="th" x="340" y="476" text-anchor="middle" fill="#633806">Insert-only</text>
+    <text class="ts" x="340" y="492" text-anchor="middle" fill="#854F0B">external / Iceberg ext.</text>
+
+    <!-- Standard only (left exclusive) -->
+    <text class="ts" x="155" y="220" text-anchor="middle" fill="#185FA5">Directory tables</text>
+    <text class="ts" x="155" y="237" text-anchor="middle" fill="#185FA5">Event tables</text>
+    <text class="ts" x="155" y="254" text-anchor="middle" fill="#185FA5">Shared tables</text>
+
+    <!-- Append-only only (right exclusive) -->
+    <text class="ts" x="520" y="228" text-anchor="middle" fill="#0F6E56">(higher perf.)</text>
+    <text class="ts" x="520" y="245" text-anchor="middle" fill="#0F6E56">geospatial data</text>
+    <text class="ts" x="520" y="262" text-anchor="middle" fill="#0F6E56">recommended</text>
+
+    <!-- Standard ∩ Append-only (top overlap, not insert-only) -->
+    <text class="ts" x="340" y="200" text-anchor="middle" fill="#085041">Standard tables</text>
+    <text class="ts" x="340" y="216" text-anchor="middle" fill="#085041">Dynamic tables</text>
+    <text class="ts" x="340" y="232" text-anchor="middle" fill="#085041">Snowflake-managed</text>
+    <text class="ts" x="340" y="248" text-anchor="middle" fill="#085041">Iceberg tables</text>
+    <text class="ts" x="340" y="264" text-anchor="middle" fill="#085041">Views (incl. secure)</text>
+
+    <!-- Insert-only only (bottom exclusive) -->
+    <text class="ts" x="340" y="415" text-anchor="middle" fill="#854F0B">External tables</text>
+    <text class="ts" x="340" y="431" text-anchor="middle" fill="#854F0B">Externally managed</text>
+    <text class="ts" x="340" y="447" text-anchor="middle" fill="#854F0B">Iceberg (ext. catalog)</text>
+
+    <!-- NOT supported label -->
+    <rect x="44" y="430" width="160" height="44" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="0.5"/>
+    <text class="th" x="124" y="448" text-anchor="middle" fill="#A32D2D">Not supported (any)</text>
+    <text class="ts" x="124" y="465" text-anchor="middle" fill="#A32D2D">Partitioned ext. tables</text>
+    <text class="ts" x="124" y="479" text-anchor="middle" fill="#A32D2D">Materialized views</text>
+
+    <!-- Legend -->
+    <rect x="44" y="40" width="12" height="12" rx="2" fill="#378ADD" fill-opacity="0.55" stroke="#378ADD" stroke-width="0.5"/>
+    <text class="ts" x="62" y="51" fill="var(--color-text-secondary)">Standard</text>
+    <rect x="130" y="40" width="12" height="12" rx="2" fill="#1D9E75" fill-opacity="0.55" stroke="#1D9E75" stroke-width="0.5"/>
+    <text class="ts" x="148" y="51" fill="var(--color-text-secondary)">Append-only</text>
+    <rect x="244" y="40" width="12" height="12" rx="2" fill="#BA7517" fill-opacity="0.65" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="ts" x="262" y="51" fill="var(--color-text-secondary)">Insert-only</text>
+  </svg>
+
+  <div class="card warn" style="margin-top:.5rem"><strong>Key exam trap:</strong> Views are supported by Standard and Append-only — but NOT Insert-only. External tables are Insert-only only. Standard streams do NOT support geospatial data — use Append-only.</div>
+</div>
+
+<!-- FLASHCARDS -->
+<div id="flash" class="panel">
+  <div class="sec">Tap to reveal</div>
+  <div id="fc-list"></div>
+</div>
+</div>
+
+<script>
+function show(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+const cards=[
+  {q:"Does a stream store actual table data?",a:"<strong>No.</strong> A stream stores only an <strong>offset</strong> (a transactional bookmark). CDC records are generated by combining the offset with the change tracking metadata hidden in the source table."},
+  {q:"What advances a stream's offset?",a:"Only a <strong>DML transaction that consumes the stream</strong>: INSERT, UPDATE, MERGE, CTAS, COPY INTO location. A plain SELECT does NOT advance the offset."},
+  {q:"What isolation level do streams use?",a:"<strong>Repeatable read.</strong> All queries to a stream within the same transaction see the same snapshot — not read committed like tables."},
+  {q:"How is an UPDATE represented in a stream?",a:"As a <strong>DELETE + INSERT pair</strong>, both with <code>METADATA$ISUPDATE = TRUE</code>. There is no UPDATE value in METADATA$ACTION."},
+  {q:"If a row is inserted then updated before the offset advances, what does the stream show?",a:"A net <strong>INSERT with METADATA$ISUPDATE = FALSE</strong>. The stream shows the delta, not individual operations."},
+  {q:"What happens if you use CREATE OR REPLACE TABLE on a stream's source?",a:"The table history is dropped → the stream becomes <strong>immediately stale</strong>. You must recreate the stream."},
+  {q:"What is METADATA$ROW_ID guaranteed to be the same for?",a:"Streams on the <strong>same table</strong>, and streams on a table's <strong>clone or replica</strong>. NOT guaranteed to match a stream on a view of that table."},
+  {q:"How do you prevent a stream from going stale without consuming its records?",a:"Call <code>SYSTEM$STREAM_HAS_DATA()</code> on an empty stream (returns FALSE). Or use <code>CREATE OR REPLACE STREAM</code> to reset the offset to now."},
+  {q:"How do multiple teams each consume the same CDC data independently?",a:"Create a <strong>separate stream per consumer</strong>. Once DML consumes a stream, its offset advances and old records are gone. Streams store only an offset so creating many is near zero cost."},
+  {q:"What is the CHANGES clause and how does it differ from a stream?",a:"A <strong>read-only alternative</strong> to streams. It queries CDC between any two points in time without creating a stream or advancing any offset. No persistent object is created."},
+  {q:"Which stream type is best for ELT / insert-heavy workloads and why?",a:"<strong>Append-only.</strong> It only tracks inserts so it skips processing delete/update records — making it more performant. Source table can be truncated after consumption without overhead on next query."},
+  {q:"Can you create a stream on a view with GROUP BY?",a:"<strong>No.</strong> Views with GROUP BY, QUALIFY, DISTINCT, LIMIT, or subqueries outside FROM are not supported for streams."},
+  {q:"What must be enabled before creating a stream on a view?",a:"<strong>Change tracking on the view AND all underlying tables.</strong> Use <code>ALTER TABLE … CHANGE_TRACKING = TRUE</code>."},
+  {q:"What is the billing cost of a stream?",a:"<strong>Main cost:</strong> VW compute credits when querying the stream.<br><strong>Storage cost:</strong> hidden columns on source table + extended retention period storage if stream is unconsumed past DATA_RETENTION_TIME_IN_DAYS."},
+  {q:"Are streams supported on partitioned external tables?",a:"<strong>No.</strong> Partitioned external tables are not supported. Regular (non-partitioned) external tables support insert-only streams only."},
+];
+
+const list=document.getElementById('fc-list');
+cards.forEach(c=>{
+  const el=document.createElement('div');
+  el.className='fc';
+  el.innerHTML=`<div class="fc-front"><span class="fc-q">${c.q}</span><span class="fc-hint">tap to reveal</span></div><div class="fc-back">${c.a}</div>`;
+  el.onclick=()=>{el.classList.toggle('open');el.querySelector('.fc-hint').textContent=el.classList.contains('open')?'tap to hide':'tap to reveal'};
+  list.appendChild(el);
+});
+</script>

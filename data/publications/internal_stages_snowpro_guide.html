@@ -1,0 +1,182 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:1.25rem 0 1rem}
+.tab{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);font-weight:500}
+.panel{display:none}.panel.active{display:block}
+.sec{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin:1rem 0 .5rem}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:9px 12px;font-weight:500;font-size:12px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.tbl td{padding:9px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top;font-size:13px;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.rh{font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px}
+.chk{color:var(--color-text-success)}.x{color:var(--color-text-danger)}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.pu{background:#EEEDFE;color:#3C3489}.tu{background:#E1F5EE;color:#085041}.au{background:#FAEEDA;color:#633806}
+@media(prefers-color-scheme:dark){.pu{background:#26215C;color:#CECBF6}.tu{background:#085041;color:#9FE1CB}.au{background:#412402;color:#FAC775}}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.875rem 1rem;background:var(--color-background-primary);font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:8px}
+.card strong{color:var(--color-text-primary)}
+.card code{font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px}
+.card.warn{border-left:3px solid var(--color-border-danger);border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.fc{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;background:var(--color-background-primary);margin-bottom:8px}
+.fc-front{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fc-q{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.fc-hint{font-size:12px;color:var(--color-text-tertiary);white-space:nowrap}
+.fc-back{display:none;padding:.875rem 1.25rem;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.fc-back strong{color:var(--color-text-primary)}
+.fc.open .fc-back{display:block}
+.fc.open .fc-hint{color:var(--color-text-info)}
+</style>
+
+<h1>Internal Stages</h1>
+<div class="tabs">
+  <button class="tab active" onclick="show('matrix',this)">Comparison matrix</button>
+  <button class="tab" onclick="show('tree',this)">Decision tree</button>
+  <button class="tab" onclick="show('flash',this)">Flashcards</button>
+</div>
+
+<div id="matrix" class="panel active">
+  <div class="sec">3 internal stage types — side by side</div>
+  <table class="tbl" style="margin-bottom:1rem">
+    <thead>
+      <tr>
+        <th style="width:26%"></th>
+        <th><span class="pill pu">User stage</span></th>
+        <th><span class="pill tu">Table stage</span></th>
+        <th><span class="pill au">Named stage</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="rh">Reference syntax</td><td><code>@~</code></td><td><code>@%table_name</code></td><td><code>@stage_name</code></td></tr>
+      <tr><td class="rh">Auto-created?</td><td><span class="chk">✓</span> per user</td><td><span class="chk">✓</span> per table</td><td><span class="x">✗</span> must CREATE</td></tr>
+      <tr><td class="rh">Separate DB object?</td><td><span class="x">✗</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Can ALTER / DROP?</td><td><span class="x">✗</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">File format options on stage?</td><td><span class="x">✗</span> (set in COPY cmd)</td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Multiple users access?</td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Load into multiple tables?</td><td><span class="chk">✓</span></td><td><span class="x">✗</span> (single table only)</td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Transform on load?</td><td><span class="chk">✓</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Grantable privileges?</td><td><span class="x">✗</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Iceberg table support?</td><td><span class="chk">✓</span></td><td><span class="x">✗</span></td><td><span class="chk">✓</span></td></tr>
+      <tr><td class="rh">Best for</td><td>1 user → many tables</td><td>Many users → 1 table</td><td>Many users → many tables</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec">Load process — both steps always required</div>
+  <div style="display:grid;grid-template-columns:1fr 24px 1fr;gap:0;align-items:center;margin-bottom:1rem">
+    <div class="card" style="margin:0;text-align:center"><code>PUT</code><br><span style="font-size:12px;color:var(--color-text-tertiary)">upload file → stage</span></div>
+    <div style="text-align:center;font-size:18px;color:var(--color-text-tertiary)">→</div>
+    <div class="card" style="margin:0;text-align:center"><code>COPY INTO &lt;table&gt;</code><br><span style="font-size:12px;color:var(--color-text-tertiary)">stage → table</span></div>
+  </div>
+
+  <div class="sec">Named stage — create syntax</div>
+  <div class="card"><code>CREATE STAGE my_int_stage ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE');</code><br>
+  Encryption type <strong>cannot be changed</strong> after creation. Use <code>SNOWFLAKE_SSE</code> for server-side (enables data access); default is client-side (files unreadable when downloaded).</div>
+
+  <div class="card warn"><strong>Table stage gotcha:</strong> no grantable privileges of its own — access = OWNERSHIP on the table. Cannot transform data on load.</div>
+  <div class="card warn"><strong>User stage gotcha:</strong> if current user lacks INSERT on the target table, this stage is <strong>not appropriate</strong>.</div>
+</div>
+
+<div id="tree" class="panel">
+  <div class="sec">Which stage should I use?</div>
+  <svg width="100%" viewBox="0 0 680 480" role="img">
+    <title>Internal stage decision tree</title>
+    <desc>A decision tree guiding the user to the correct stage type based on whether multiple users and multiple tables are involved.</desc>
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <g class="c-gray">
+      <rect x="240" y="24" width="200" height="44" rx="22" stroke-width="0.5"/>
+      <text class="th" x="340" y="46" text-anchor="middle" dominant-baseline="central">I need a stage</text>
+    </g>
+
+    <line x1="340" y1="68" x2="340" y2="110" stroke="#888780" stroke-width="1" marker-end="url(#ar)"/>
+
+    <g class="c-blue">
+      <rect x="174" y="110" width="332" height="54" rx="8" stroke-width="0.5"/>
+      <text class="th" x="340" y="130" text-anchor="middle" dominant-baseline="central">Multiple users need access?</text>
+      <text class="ts" x="340" y="150" text-anchor="middle" dominant-baseline="central">other than just me</text>
+    </g>
+
+    <line x1="200" y1="137" x2="110" y2="220" stroke="#888780" stroke-width="1" marker-end="url(#ar)"/>
+    <text class="ts" x="128" y="185" text-anchor="middle" fill="#085041">NO</text>
+
+    <line x1="480" y1="137" x2="560" y2="220" stroke="#888780" stroke-width="1" marker-end="url(#ar)"/>
+    <text class="ts" x="542" y="185" text-anchor="middle" fill="#085041">YES</text>
+
+    <g class="c-purple">
+      <rect x="40" y="220" width="160" height="54" rx="8" stroke-width="0.5"/>
+      <text class="th" x="120" y="240" text-anchor="middle" dominant-baseline="central">User stage</text>
+      <text class="ts" x="120" y="260" text-anchor="middle" dominant-baseline="central">@~</text>
+    </g>
+
+    <g class="c-blue">
+      <rect x="450" y="220" width="200" height="54" rx="8" stroke-width="0.5"/>
+      <text class="th" x="550" y="240" text-anchor="middle" dominant-baseline="central">Multiple tables?</text>
+      <text class="ts" x="550" y="260" text-anchor="middle" dominant-baseline="central">load into &gt;1 table</text>
+    </g>
+
+    <line x1="510" y1="274" x2="400" y2="360" stroke="#888780" stroke-width="1" marker-end="url(#ar)"/>
+    <text class="ts" x="432" y="325" text-anchor="middle" fill="#085041">NO</text>
+
+    <line x1="590" y1="274" x2="590" y2="358" stroke="#888780" stroke-width="1" marker-end="url(#ar)"/>
+    <text class="ts" x="618" y="320" text-anchor="start" fill="#085041">YES</text>
+
+    <g class="c-teal">
+      <rect x="280" y="360" width="160" height="54" rx="8" stroke-width="0.5"/>
+      <text class="th" x="360" y="380" text-anchor="middle" dominant-baseline="central">Table stage</text>
+      <text class="ts" x="360" y="400" text-anchor="middle" dominant-baseline="central">@%table_name</text>
+    </g>
+
+    <g class="c-amber">
+      <rect x="490" y="360" width="160" height="54" rx="8" stroke-width="0.5"/>
+      <text class="th" x="570" y="380" text-anchor="middle" dominant-baseline="central">Named stage</text>
+      <text class="ts" x="570" y="400" text-anchor="middle" dominant-baseline="central">@stage_name</text>
+    </g>
+
+    <text class="ts" x="120" y="295" text-anchor="middle" dominant-baseline="central" fill="var(--color-text-secondary)">1 user → many tables</text>
+    <text class="ts" x="360" y="432" text-anchor="middle" dominant-baseline="central" fill="var(--color-text-secondary)">many users → 1 table</text>
+    <text class="ts" x="570" y="432" text-anchor="middle" dominant-baseline="central" fill="var(--color-text-secondary)">many users → many tables</text>
+
+    <text class="ts" x="120" y="310" text-anchor="middle" dominant-baseline="central" fill="var(--color-text-secondary)">recommended</text>
+    <text class="ts" x="570" y="447" text-anchor="middle" dominant-baseline="central" fill="var(--color-text-secondary)">recommended</text>
+  </svg>
+
+  <div class="card" style="margin-top:.5rem"><strong>Always recommended:</strong> Named stage for any regular, multi-user, or multi-table data load. It is the most flexible and the only type with grantable privileges.</div>
+</div>
+
+<div id="flash" class="panel">
+  <div class="sec">Tap to reveal</div>
+  <div id="fc-list"></div>
+</div>
+
+<script>
+function show(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active')}
+
+const cards=[
+  {q:"What syntax references a user stage?",a:"<code>@~</code> — e.g. <code>LIST @~</code>"},
+  {q:"What syntax references a table stage?",a:"<code>@%table_name</code> — same name as the table."},
+  {q:"Can you ALTER or DROP a user stage?",a:"<strong>No.</strong> Neither user nor table stages can be altered or dropped. Only named stages can."},
+  {q:"Can you set file format options on a user stage?",a:"<strong>No.</strong> File format options must be specified in the <code>COPY INTO</code> command instead."},
+  {q:"Can a table stage load into multiple tables?",a:"<strong>No.</strong> A table stage is tied to one table only. Use a named stage for multiple targets."},
+  {q:"Does a table stage support transforming data on load?",a:"<strong>No.</strong> Table stages cannot use a query as the source for COPY. Named or user stages support this."},
+  {q:"Who can access files on a table stage?",a:"Only the table <strong>owner</strong> (role with OWNERSHIP privilege on the table). No separate grantable privileges."},
+  {q:"Do Iceberg tables support table stages?",a:"<strong>No.</strong> Apache Iceberg tables in Snowflake do not support table stages."},
+  {q:"What two commands are always required to load data from a local file?",a:"1. <code>PUT</code> — upload file to stage.<br>2. <code>COPY INTO &lt;table&gt;</code> — load from stage into table."},
+  {q:"What encryption types exist for named stages, and what's the gotcha?",a:"Default = client-side (files <strong>unreadable</strong> when downloaded). Use <code>SNOWFLAKE_SSE</code> for server-side. <strong>Cannot be changed after creation.</strong>"},
+  {q:"Which stage type is a separate database object with grantable privileges?",a:"<strong>Named stage only.</strong> User and table stages are not separate DB objects and have no grantable privileges."},
+  {q:"When is a user stage NOT appropriate?",a:"When multiple users need access, or when the current user lacks <code>INSERT</code> privileges on the target table."},
+];
+
+const list=document.getElementById('fc-list');
+cards.forEach(c=>{
+  const el=document.createElement('div');
+  el.className='fc';
+  el.innerHTML=`<div class="fc-front"><span class="fc-q">${c.q}</span><span class="fc-hint">tap to reveal</span></div><div class="fc-back">${c.a}</div>`;
+  el.onclick=()=>{el.classList.toggle('open');el.querySelector('.fc-hint').textContent=el.classList.contains('open')?'tap to hide':'tap to reveal'};
+  list.appendChild(el);
+});
+</script>

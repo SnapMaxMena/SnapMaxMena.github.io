@@ -229,5 +229,26 @@
     "date": "2026-05-25",
     "tags": ["Snowflake", "Data Engineering", "Warehouse"],
     "content_html": "snowpro_warehouse_considerations.html"
+  },
+  {
+    "id": "internal_stages_snowpro_guide",
+    "title": "Internal Stages Guide",
+    "date": "2026-05-26",
+    "tags": ["Snowflake", "Data Engineering", "Stage"],
+    "content_html": "internal_stages_snowpro_guide.html"
+  },
+  {
+    "id": "data_loading_overview_snowpro",
+    "title": "Data Loading Overview",
+    "date": "2026-05-26",
+    "tags": ["Snowflake", "Data Engineering", "Stage"],
+    "content_html": "data_loading_overview_snowpro.html"
+  },
+  {
+    "id": "streams_intro_snowpro_guide",
+    "title": "Stream Intro",
+    "date": "2026-05-26",
+    "tags": ["Snowflake", "Data Engineering", "Stage"],
+    "content_html": "streams_intro_snowpro_guide.html"
   }
 ]

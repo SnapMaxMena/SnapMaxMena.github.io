@@ -1,0 +1,254 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1.25rem 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:20px;font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);font-weight:500}
+.panel{display:none}.panel.active{display:block}
+.sec{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin:1rem 0 .5rem}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:9px 12px;font-weight:500;font-size:12px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;background:var(--color-background-secondary)}
+.tbl td{padding:9px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top;font-size:13px;line-height:1.5}
+.tbl tr:last-child td{border-bottom:none}
+.rh{font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px;white-space:nowrap}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.pb{background:#E6F1FB;color:#0C447C}.pg{background:#E1F5EE;color:#085041}.pp{background:#EEEDFE;color:#3C3489}.pa{background:#FAEEDA;color:#633806}.pr{background:#FCEBEB;color:#A32D2D}
+@media(prefers-color-scheme:dark){.pb{background:#042C53;color:#B5D4F4}.pg{background:#085041;color:#9FE1CB}.pp{background:#26215C;color:#CECBF6}.pa{background:#412402;color:#FAC775}.pr{background:#501313;color:#F7C1C1}}
+.chk{color:var(--color-text-success)}.x{color:var(--color-text-danger)}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.875rem 1rem;background:var(--color-background-primary);font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:8px}
+.card strong{color:var(--color-text-primary)}
+.card code{font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px}
+.card.warn{border-left:3px solid var(--color-border-danger);border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.card.ok{border-left:3px solid var(--color-border-success);border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.fc{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;background:var(--color-background-primary);margin-bottom:8px}
+.fc-front{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fc-q{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.fc-hint{font-size:12px;color:var(--color-text-tertiary);white-space:nowrap}
+.fc-back{display:none;padding:.875rem 1.25rem;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.fc-back strong{color:var(--color-text-primary)}
+.fc.open .fc-back{display:block}
+.fc.open .fc-hint{color:var(--color-text-info)}
+</style>
+
+<div class="wrap">
+  <h1>Data Loading Overview</h1>
+<div class="tabs">
+  <button class="tab active" onclick="show('mindmap',this)">Mind map</button>
+  <button class="tab" onclick="show('matrix',this)">Comparison matrix</button>
+  <button class="tab" onclick="show('flash',this)">Flashcards</button>
+</div>
+
+<div id="mindmap" class="panel active">
+<svg width="100%" viewBox="0 0 680 700" role="img">
+  <title>Snowflake data loading — mind map</title>
+  <desc>Mind map showing all data loading concepts branching from a central node: stages, loading methods, DML error logging, schema detection, and alternatives.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Central node -->
+  <g class="c-gray">
+    <rect x="255" y="310" width="170" height="44" rx="22" stroke-width="0.5"/>
+    <text class="th" x="340" y="332" text-anchor="middle" dominant-baseline="central">Data loading</text>
+  </g>
+
+  <!-- ── BRANCH 1: Stages (top-left) ── -->
+  <path d="M270 316 Q180 240 130 210" fill="none" stroke="#5DCAA5" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-teal">
+    <rect x="40" y="185" width="105" height="36" rx="8" stroke-width="0.5"/>
+    <text class="th" x="92" y="203" text-anchor="middle" dominant-baseline="central">Stages</text>
+  </g>
+
+  <!-- Stage children -->
+  <line x1="40" y1="200" x2="14" y2="150" stroke="#1D9E75" stroke-width="0.8" marker-end="url(#ar)"/>
+  <g class="c-teal"><rect x="15" y="126" width="0" height="0" rx="0" stroke-width="0"/></g>
+  <text class="ts" x="12" y="148" text-anchor="start" fill="#085041">Internal</text>
+
+  <line x1="40" y1="200" x2="14" y2="185" stroke="#1D9E75" stroke-width="0.8" marker-end="url(#ar)"/>
+  <text class="ts" x="12" y="184" text-anchor="start" fill="#085041">• User  @~</text>
+
+  <line x1="40" y1="203" x2="14" y2="203" stroke="#1D9E75" stroke-width="0.8" marker-end="url(#ar)"/>
+  <text class="ts" x="12" y="202" text-anchor="start" fill="#085041">• Table  @%t</text>
+
+  <line x1="40" y1="207" x2="14" y2="220" stroke="#1D9E75" stroke-width="0.8" marker-end="url(#ar)"/>
+  <text class="ts" x="12" y="219" text-anchor="start" fill="#085041">• Named  @s</text>
+
+  <line x1="145" y1="200" x2="168" y2="150" stroke="#1D9E75" stroke-width="0.8" marker-end="url(#ar)"/>
+  <text class="ts" x="170" y="148" text-anchor="start" fill="#085041">External</text>
+  <text class="ts" x="170" y="162" text-anchor="start" fill="#085041">S3 · GCS · Azure</text>
+
+  <!-- ── BRANCH 2: Bulk loading (top-right) ── -->
+  <path d="M400 318 Q470 250 510 220" fill="none" stroke="#7F77DD" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-purple">
+    <rect x="505" y="196" width="140" height="36" rx="8" stroke-width="0.5"/>
+    <text class="th" x="575" y="214" text-anchor="middle" dominant-baseline="central">Bulk  (COPY INTO)</text>
+  </g>
+  <text class="ts" x="510" y="244" text-anchor="start" fill="#534AB7">User VW (you size it)</text>
+  <text class="ts" x="510" y="258" text-anchor="start" fill="#534AB7">Transforms: reorder,</text>
+  <text class="ts" x="510" y="271" text-anchor="start" fill="#534AB7">omit, cast, truncate</text>
+
+  <!-- ── BRANCH 3: Snowpipe (right) ── -->
+  <path d="M425 332 Q500 332 530 332" fill="none" stroke="#7F77DD" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-purple">
+    <rect x="530" y="308" width="130" height="48" rx="8" stroke-width="0.5"/>
+    <text class="th" x="595" y="326" text-anchor="middle" dominant-baseline="central">Snowpipe</text>
+    <text class="ts" x="595" y="346" text-anchor="middle" dominant-baseline="central">continuous · micro-batch</text>
+  </g>
+  <text class="ts" x="535" y="370" text-anchor="start" fill="#534AB7">Serverless compute</text>
+  <text class="ts" x="535" y="384" text-anchor="start" fill="#534AB7">Per-second billing</text>
+  <text class="ts" x="535" y="398" text-anchor="start" fill="#534AB7">Files ready in minutes</text>
+
+  <!-- ── BRANCH 4: Snowpipe Streaming (lower-right) ── -->
+  <path d="M415 354 Q460 430 500 450" fill="none" stroke="#7F77DD" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-purple">
+    <rect x="498" y="430" width="166" height="48" rx="8" stroke-width="0.5"/>
+    <text class="th" x="581" y="448" text-anchor="middle" dominant-baseline="central">Snowpipe Streaming</text>
+    <text class="ts" x="581" y="468" text-anchor="middle" dominant-baseline="central">row API · no staging files</text>
+  </g>
+  <text class="ts" x="503" y="492" text-anchor="start" fill="#534AB7">Lowest latency + cost</text>
+  <text class="ts" x="503" y="506" text-anchor="start" fill="#534AB7">Kafka connector support</text>
+
+  <!-- ── BRANCH 5: DML error logging (bottom) ── -->
+  <path d="M340 354 Q340 430 340 470" fill="none" stroke="#BA7517" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-amber">
+    <rect x="230" y="470" width="220" height="48" rx="8" stroke-width="0.5"/>
+    <text class="th" x="340" y="488" text-anchor="middle" dominant-baseline="central">DML error logging</text>
+    <text class="ts" x="340" y="508" text-anchor="middle" dominant-baseline="central">ERROR_LOGGING = TRUE on table</text>
+  </g>
+  <text class="ts" x="235" y="532" text-anchor="start" fill="#633806">INSERT · UPDATE · MERGE</text>
+  <text class="ts" x="235" y="546" text-anchor="start" fill="#633806">Query: ERROR_TABLE(tbl)</text>
+  <text class="ts" x="235" y="560" text-anchor="start" fill="#633806">COPY INTO not supported</text>
+
+  <!-- ── BRANCH 6: Schema detection (lower-left) ── -->
+  <path d="M270 354 Q200 430 165 460" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-coral">
+    <rect x="44" y="440" width="160" height="48" rx="8" stroke-width="0.5"/>
+    <text class="th" x="124" y="458" text-anchor="middle" dominant-baseline="central">Schema detection</text>
+    <text class="ts" x="124" y="478" text-anchor="middle" dominant-baseline="central">INFER_SCHEMA</text>
+  </g>
+  <text class="ts" x="48" y="502" text-anchor="start" fill="#712B13">Parquet,Avro,ORC,</text>
+  <text class="ts" x="48" y="516" text-anchor="start" fill="#712B13">JSON, CSV</text>
+  <text class="ts" x="48" y="530" text-anchor="start" fill="#712B13">GENERATE_COLUMN_DESC</text>
+  <text class="ts" x="48" y="544" text-anchor="start" fill="#712B13">CREATE TABLE … USING TEMPLATE</text>
+
+  <!-- ── BRANCH 7: Kafka (top) ── -->
+  <path d="M340 310 Q340 190 340 160" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-gray">
+    <rect x="230" y="118" width="220" height="44" rx="8" stroke-width="0.5"/>
+    <text class="th" x="340" y="136" text-anchor="middle" dominant-baseline="central">Kafka connector</text>
+    <text class="ts" x="340" y="154" text-anchor="middle" dominant-baseline="central">reads topics → Snowflake tables</text>
+  </g>
+  <text class="ts" x="340" y="86" text-anchor="middle" fill="var(--color-text-tertiary)">Uses Snowpipe Streaming internally</text>
+
+  <!-- ── BRANCH 8: Alternatives (left) ── -->
+  <path d="M255 332 Q175 332 148 332" fill="none" stroke="#639922" stroke-width="1.5" marker-end="url(#ar)"/>
+  <g class="c-green">
+    <rect x="44" y="308" width="108" height="48" rx="8" stroke-width="0.5"/>
+    <text class="th" x="98" y="326" text-anchor="middle" dominant-baseline="central">Alternatives</text>
+    <text class="ts" x="98" y="346" text-anchor="middle" dominant-baseline="central">no loading needed</text>
+  </g>
+  <text class="ts" x="48" y="372" text-anchor="start" fill="#3B6D11">External tables</text>
+  <text class="ts" x="48" y="386" text-anchor="start" fill="#3B6D11">S3-compatible storage</text>
+  <text class="ts" x="48" y="400" text-anchor="start" fill="#3B6D11">query in-place</text>
+
+  <!-- Legend -->
+  <g class="c-purple"><rect x="44" y="620" width="14" height="14" rx="3" stroke-width="0.5"/></g>
+  <text class="ts" x="64" y="631" fill="var(--color-text-secondary)">Loading methods</text>
+  <g class="c-teal"><rect x="175" y="620" width="14" height="14" rx="3" stroke-width="0.5"/></g>
+  <text class="ts" x="195" y="631" fill="var(--color-text-secondary)">Stages</text>
+  <g class="c-amber"><rect x="254" y="620" width="14" height="14" rx="3" stroke-width="0.5"/></g>
+  <text class="ts" x="274" y="631" fill="var(--color-text-secondary)">Error handling</text>
+  <g class="c-coral"><rect x="377" y="620" width="14" height="14" rx="3" stroke-width="0.5"/></g>
+  <text class="ts" x="397" y="631" fill="var(--color-text-secondary)">Schema tools</text>
+  <g class="c-green"><rect x="483" y="620" width="14" height="14" rx="3" stroke-width="0.5"/></g>
+  <text class="ts" x="503" y="631" fill="var(--color-text-secondary)">Alternatives</text>
+</svg>
+</div>
+
+<div id="matrix" class="panel">
+  <div class="sec">Loading method comparison</div>
+  <table class="tbl" style="margin-bottom:1rem">
+    <thead>
+      <tr>
+        <th style="width:22%"></th>
+        <th><span class="pill pb">Bulk (COPY INTO)</span></th>
+        <th><span class="pill pp">Snowpipe</span></th>
+        <th><span class="pill pg">Snowpipe Streaming</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="rh">Pattern</td><td>Batch</td><td>Continuous micro-batch</td><td>Near real-time rows</td></tr>
+      <tr><td class="rh">Compute</td><td>User VW (you size it)</td><td>Serverless (Snowflake)</td><td>Serverless (Snowflake)</td></tr>
+      <tr><td class="rh">Billing</td><td>VW credits</td><td>Per-second / workload</td><td>Per-second / workload</td></tr>
+      <tr><td class="rh">Staging files required?</td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="x">✗ — rows via API</span></td></tr>
+      <tr><td class="rh">Latency</td><td>On-demand / scheduled</td><td>Minutes after file lands</td><td>Lowest (near real-time)</td></tr>
+      <tr><td class="rh">Transforms supported?</td><td><span class="chk">✓ reorder, omit, cast, truncate</span></td><td><span class="chk">✓ same as bulk</span></td><td>—</td></tr>
+      <tr><td class="rh">Kafka support?</td><td><span class="x">✗</span></td><td>Legacy path</td><td><span class="chk">✓ preferred path</span></td></tr>
+      <tr><td class="rh">Best for</td><td>Large batches, scheduled loads</td><td>Event-driven file drops</td><td>Streaming / CDC / Kafka</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec">DML error logging — quick ref</div>
+  <table class="tbl" style="margin-bottom:1rem">
+    <thead><tr><th style="width:35%">Property</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td class="rh">Enable on table</td><td><code>ERROR_LOGGING = TRUE</code> via CREATE/ALTER TABLE</td></tr>
+      <tr><td class="rh">DML statements logged</td><td>Single-table INSERT · UPDATE · MERGE</td></tr>
+      <tr><td class="rh">NOT logged</td><td>COPY INTO · multi-table INSERT · CTAS · compilation errors</td></tr>
+      <tr><td class="rh">Query error table</td><td><code>SELECT * FROM ERROR_TABLE(my_table)</code></td></tr>
+      <tr><td class="rh">Clear error table</td><td><code>TRUNCATE ERROR_TABLE(my_table)</code></td></tr>
+      <tr><td class="rh">Access</td><td>Table owner OR role with <code>SELECT ERROR TABLE</code> privilege</td></tr>
+      <tr><td class="rh">Streams on error table?</td><td><span class="x">✗ Direct not supported</span> — create VIEW on error table, then stream on view</td></tr>
+      <tr><td class="rh">Clone behavior</td><td>Base table cloned; error table content NOT cloned; new empty error table auto-created</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec">Schema detection tools</div>
+  <div class="card"><strong>INFER_SCHEMA</strong> — auto-detects column names, types, order from staged files (Parquet, Avro, ORC, JSON, CSV).</div>
+  <div class="card"><strong>GENERATE_COLUMN_DESCRIPTION</strong> — generates column list from INFER_SCHEMA output.</div>
+  <div class="card"><strong>CREATE TABLE … USING TEMPLATE</strong> — creates table directly from INFER_SCHEMA output. Then use <code>COPY … MATCH_BY_COLUMN_NAME</code> to load.</div>
+</div>
+
+<div id="flash" class="panel">
+  <div class="sec">Tap to reveal</div>
+  <div id="fc-list"></div>
+</div>
+</div>
+
+<script>
+function show(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+const cards=[
+  {q:"What compute does Snowpipe use vs bulk loading?",a:"<strong>Snowpipe:</strong> serverless (Snowflake-managed, per-second billing).<br><strong>Bulk COPY:</strong> user-provided virtual warehouse (you size it, VW credits)."},
+  {q:"Does Snowpipe Streaming require staging files?",a:"<strong>No.</strong> It writes rows directly to Snowflake tables via an API — no PUT + COPY steps needed."},
+  {q:"What transforms are supported in COPY INTO?",a:"Column reordering · column omission · casts · truncating text strings. No requirement for files to match table column order/count."},
+  {q:"Can you use COPY INTO on a table with DML error logging enabled?",a:"<strong>No.</strong> COPY INTO returns a compilation error if ERROR_LOGGING = TRUE. Error logging is not supported in COPY INTO."},
+  {q:"Which DML statements are logged by DML error logging?",a:"<strong>Logged:</strong> single-table INSERT, UPDATE, MERGE.<br><strong>NOT logged:</strong> COPY INTO, multi-table INSERT, CTAS, Snowpipe failures, compilation errors."},
+  {q:"How do you query and clear an error table?",a:"Query: <code>SELECT * FROM ERROR_TABLE(my_table)</code><br>Clear: <code>TRUNCATE ERROR_TABLE(my_table)</code><br>Direct INSERT into error tables is not allowed."},
+  {q:"Can you create a stream directly on an error table?",a:"<strong>No.</strong> Create a VIEW on the error table first, then create a stream on the view."},
+  {q:"What happens to an error table when a base table is cloned?",a:"Base table schema + data is cloned. Error table <strong>content is NOT cloned</strong>. The cloned base table has ERROR_LOGGING = TRUE and gets a new, empty error table auto-created."},
+  {q:"Which file formats does INFER_SCHEMA support?",a:"Apache Parquet · Apache Avro · ORC · JSON · CSV"},
+  {q:"What is an external table used for?",a:"Querying data in external cloud storage (S3, GCS, Azure) <strong>without loading it</strong> into Snowflake. Source of truth stays external. Materialized views on subsets are read-only."},
+  {q:"Which cloud storage services are NOT supported as external stages?",a:"Archival classes: <strong>Amazon S3 Glacier Flexible Retrieval, Glacier Deep Archive, Microsoft Azure Archive Storage</strong> — require restoration before retrieval."},
+  {q:"What are both conditions required to ENABLE DML error logging?",a:"<strong>Both must be true:</strong><br>1. <code>ERROR_LOGGING = TRUE</code> on the table.<br>2. <code>OPT_OUT_ERROR_LOGGING = FALSE</code> for the session.<br>Either condition alone being false disables it."},
+  {q:"What is the Snowflake Connector for Kafka's preferred loading path?",a:"<strong>Snowpipe Streaming</strong> (lower latency, lower cost). The legacy path used Snowpipe."},
+  {q:"How do you create a table from auto-detected schema?",a:"<code>CREATE TABLE … USING TEMPLATE (SELECT ARRAY_AGG(…) FROM TABLE(INFER_SCHEMA(…)))</code> then load with <code>COPY … MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE</code>."},
+];
+
+const list=document.getElementById('fc-list');
+cards.forEach(c=>{
+  const el=document.createElement('div');
+  el.className='fc';
+  el.innerHTML=`<div class="fc-front"><span class="fc-q">${c.q}</span><span class="fc-hint">tap to reveal</span></div><div class="fc-back">${c.a}</div>`;
+  el.onclick=()=>{el.classList.toggle('open');el.querySelector('.fc-hint').textContent=el.classList.contains('open')?'tap to hide':'tap to reveal'};
+  list.appendChild(el);
+});
+</script>
